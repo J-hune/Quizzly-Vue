@@ -16,6 +16,7 @@
                     ref="firstname"
                     type="text"
                     id="prenom"
+                    maxlength="50"
                     placeholder="Prénom"
                     class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   />
@@ -25,6 +26,7 @@
                     ref="surname"
                     type="text"
                     id="nom"
+                    maxlength="50"
                     placeholder="Nom de Famille"
                     class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   />
@@ -34,6 +36,7 @@
                     ref="password"
                     type="password"
                     id="password"
+                    maxlength="100"
                     placeholder="Mot de passe"
                     class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   />
@@ -52,7 +55,7 @@
                 <div class="flex items-center justify-between pb-6">
                   <p class="mb-0 mr-2">
                     Vous êtes déjà inscrits ?
-                    <a class="text-blue-500" href="/login">Connectez vous !</a>
+                    <a class="text-blue-500" href="/signin">Connectez vous !</a>
                   </p>
                 </div>
               </form>
