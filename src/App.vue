@@ -1,9 +1,7 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view />
+  <div class="gradient-form bg-sky-200 md:h-screen grid h-screen place-items-center">
+    <router-view />
+  </div>
 </template>
 
 <style>
