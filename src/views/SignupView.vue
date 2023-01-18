@@ -3,7 +3,7 @@
     <div class="xl:w-10/12 m-auto">
       <div class="block bg-white shadow-lg rounded-lg">
         <div class="flex flex-wrap g-0">
-          <div class="w-6/12 px-4 px-0">
+          <div class="lg:w-6/12 w-full px-4 px-0">
             <div class="p-12 mx-6">
               <div class="text-center">
                 <h4 class="text-5xl font-semibold mt-1 mb-12">
