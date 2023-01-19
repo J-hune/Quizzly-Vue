@@ -37,7 +37,7 @@ export default {
    },
    methods: {
       redirect: function(event, label) {
-         router.push("/questions/" + label);
+         router.push("/label/" + label);
       }
    },
    async created() {
