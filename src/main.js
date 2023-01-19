@@ -1,10 +1,13 @@
 import { createApp } from "vue";
+import VueCookies from "vue-cookies";
+
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
 import App from "./App.vue";
 import router from "./router";
-import "./assets/tailwind.css";
+import "./assets/tailwind.css"
+
 
 const options = {
   position: "top-right",
@@ -24,6 +27,8 @@ const options = {
 
 const app = createApp(App);
 app.use(router);
+app.use(VueCookies);
+
 app.mount("#app");
 app.use(Toast, options);
 
