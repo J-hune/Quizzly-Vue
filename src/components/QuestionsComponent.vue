@@ -1,5 +1,5 @@
 <template>
-   <redirect-back back="Liste des Etiquettes"/>
+   <redirect-back back="Liste des Etiquettes" />
    <div class="px-16 pt-10 pb-14 w-full">
       <div class="flex flex-col w-full mb-12 py-1">
          <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Vos Questions</h1>
@@ -18,11 +18,11 @@
                <div class="pb-4 border-b border-gray-200 grid-label">
                   <a v-for="(label, labelIndex) in question.etiquette" :key="label.nom"
                      class="px-3 py-1 rounded-md mx-0.5"
-                     :style="{backgroundColor: `#${label.couleur}`}"
+                     :style="{backgroundColor: `#${label.couleur}`, color: getConstrast(`#${label.couleur}`)}"
                      :class="{ 'ml-0': labelIndex === 0,  'mr-0': labelIndex === question.etiquette.length -1 }">
                      {{ label.nom }}</a>
                </div>
-               <p class="text-xs text-gray-500 mt-3 text-right">{{ question.reponses?.length }} réponse(s)</p>
+               <p class="text-xs text-gray-500 mt-3 text-right">{{ question.reponses.length }} réponse(s)</p>
             </div>
          </div>
          <div class="w-full">
@@ -53,6 +53,15 @@ export default {
       },
       redirectEdit: function(id) {
          router.push(`/question/${id}/edit`);
+      },
+      getConstrast: function(hexcolor) {
+         // Fonction de Brian Suda trouvée sur cet article :
+         // https://24ways.org/2010/calculating-color-contrast
+         let red = parseInt(hexcolor.substring(1, 3), 16);
+         let green = parseInt(hexcolor.substring(3, 5), 16);
+         let blue = parseInt(hexcolor.substring(5, 7), 16);
+         let yiq = ((red * 299) + (green * 587) + (blue * 114)) / 1000;
+         return (yiq >= 128) ? "black" : "white";
       }
    },
    data: function() {
