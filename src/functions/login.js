@@ -1,5 +1,11 @@
 import router from "@/router";
 
+/**
+ * Fetch l'api pour enregistrer l'utilisateur puis appelle le callback
+ * @param {Object} user
+ * @param {function} callback
+ * @return {Promise<void>}
+ */
 export async function registerUser(user, callback) {
    const response = await fetch(process.env.VUE_APP_API_URL + "/login/signup", {
       method: "POST",
@@ -16,6 +22,12 @@ export async function registerUser(user, callback) {
    callback(data);
 }
 
+/**
+ * Fetch l'api pour login l'utilisateur puis appelle le callback
+ * @param {Object} user
+ * @param {function} callback
+ * @return {Promise<void>}
+ */
 export async function logUser(user, callback) {
    const response = await fetch(process.env.VUE_APP_API_URL + "/login/signin", {
       method: "POST",
@@ -32,6 +44,13 @@ export async function logUser(user, callback) {
    callback(data);
 }
 
+/**
+ * Fetch l'api pour vérifier si l'utilisateur existe
+ * Si non, il est redirigé vers la page de login
+ * Si oui, callback()
+ * @param {function} callback
+ * @return {Promise<void>}
+ */
 export async function checkUserLogged(callback) {
    const response = await fetch(process.env.VUE_APP_API_URL + "/login/logged", {
       method: "GET",
@@ -44,6 +63,8 @@ export async function checkUserLogged(callback) {
    });
 
    const data = await response.json();
+
+   // Si l'utilisateur existe
    if (data.firstname && data.surname) {
       callback(data);
    } else {
