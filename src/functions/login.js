@@ -44,7 +44,7 @@ export async function checkUserLogged(callback) {
    });
 
    const data = await response.json();
-   if (data.firstname && data.surname && data.type) {
+   if (data.firstname && data.surname) {
       callback(data);
    } else {
       await router.push("/signin")
