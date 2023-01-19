@@ -1,13 +1,5 @@
 <template>
-   <div class="mt-7 ml-6 flex items-center back-container" @click="redirectBack">
-      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="svg-back">
-         <g id="chevron-left">
-            <line class="cls-1" x1="11" x2="20" y1="16" y2="7" />
-            <line class="cls-1" x1="20" x2="11" y1="25" y2="16" />
-         </g>
-      </svg>
-      <p class="pr-5">Liste des Etiquettes</p>
-   </div>
+   <redirect-back back="Liste des Etiquettes"/>
    <div class="px-16 pt-10 pb-14 w-full">
       <div class="flex flex-col w-full mb-12 py-1">
          <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Vos Questions</h1>
@@ -50,20 +42,17 @@
 import router from "@/router";
 import { fetchData } from "@/functions/fetch";
 import { useRoute } from "vue-router";
+import RedirectBack from "@/components/redirectBack";
 
 export default {
    name: "QuestionsView",
+   components: { RedirectBack },
    methods: {
-      redirectBack: function() {
-         router.push("/");
-      },
       redirectQuestionCreation: function() {
          router.push("/newQuestion");
       },
       redirectEdit: function(id) {
-         const route = useRoute();
-         console.log(route)
-         router.push(`/questions/${route.params.label}/${id}/edit`);
+         router.push(`/question/${id}/edit`);
       }
    },
    data: function() {
@@ -82,22 +71,6 @@ export default {
 </script>
 
 <style scoped>
-.back-container {
-   padding: 1px;
-   cursor: pointer;
-   background-color: #DFE0F4;
-   border-radius: 6px;
-}
-
-.svg-back {
-   width: 40px;
-   stroke: #6366f1;
-   fill: none;
-   stroke-linecap: round;
-   stroke-linejoin: round;
-   stroke-width: 2px;
-}
-
 .new-question {
    border-color: #9698F6;
    border-style: dashed;
