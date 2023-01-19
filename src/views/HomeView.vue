@@ -1,21 +1,27 @@
 <template>
    <navbar-component :firstname="firstname" :surname="surname" />
-   <div class="grid h-screen custom-background">
-      <LabelsComponent :auth="firstname" />
+   <div class="grid h-screen custom-background-color">
+      <div class="custom-background">
+         <div class="custom-container mt-16">
+            <div class="block bg-white shadow-lg rounded-lg">
+               <div class="flex flex-wrap g-0">
+                  <router-view/>
+               </div>
+            </div>
+         </div>
+      </div>
    </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import LabelsComponent from "@/components/LabelsComponent.vue";
 import { checkUserLogged } from "@/functions/login";
 import NavbarComponent from "@/components/NavbarComponent";
 
 export default {
    name: "HomeView",
    components: {
-      NavbarComponent,
-      LabelsComponent
+      NavbarComponent
    },
    data() {
       return {
@@ -36,7 +42,18 @@ export default {
 </script>
 
 <style>
-.custom-background {
+.custom-background-color {
    background-color: #eeebf3;
 }
+
+.custom-background {
+   margin-top: 84px;
+   display: flex;
+   justify-content: center;
+}
+
+.custom-container {
+   width: 80%;
+}
+
 </style>
