@@ -5,6 +5,7 @@ import SigninView from "@/views/SigninView";
 import LabelsComponent from "@/components/LabelsComponent";
 import QuestionsComponent from "@/components/QuestionsComponent";
 import EditQuestionComponent from "@/components/EditQuestionComponent";
+import AddQuestionComponent from "@/components/AddQuestionComponent";
 
 const routes = [
   {
@@ -26,6 +27,11 @@ const routes = [
         path: "/question/:id/edit",
         name: "editQuestion",
         component: EditQuestionComponent
+      },
+      {
+        path: "/newQuestion",
+        name: "newQuestion",
+        component: AddQuestionComponent
       }
     ]
 
