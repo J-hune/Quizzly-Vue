@@ -1,7 +1,11 @@
 <template>
    <header class="text-gray-600 body-font bg-white w-full fixed top-0">
       <div class="container mx-auto flex flex-wrap flex-col md:flex-row items-center justify-between">
+
+         <!-- Partie gauche de la navbar -->
          <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+
+            <!-- Logo Créé par une IA -->
             <svg xmlns="http://www.w3.org/2000/svg" width="183" height="37.6" viewBox="0 0 366.41368078175896 94"
                  class="cursor-pointer" @click="home">
                <g transform="matrix(6.407754898071289,0,0,6.407754898071289,1.7961234519371727,-34.28325814906235)"
@@ -16,6 +20,8 @@
                </g>
             </svg>
          </a>
+
+         <!-- Partie droite de la navbar -->
          <div class="md:ml-auto flex flex-wrap items-center text-base justify-center">
             <nav>
                <router-link to="/"><a class="mr-5 hover:text-black">Accueil</a></router-link>
@@ -46,6 +52,7 @@ export default {
    },
    methods: {
       logout() {
+         // Suppression du cookie de session et push "/"
          this.$cookies.remove("session");
          router.push("/signin");
          this.toast.info("Vous venez d'être déconnecté");

@@ -1,14 +1,18 @@
 <template>
    <redirect-back back="Liste des Etiquettes" />
+
    <div class="px-16 pt-10 pb-14 w-full">
+
+      <!-- Titre et description Composant -->
       <div class="flex flex-col w-full mb-12 py-1">
          <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Vos Questions</h1>
          <p class="leading-relaxed text-base">Les questions que vous avez déjà créées sont affichées ci-dessous.<br>
             Cliquez sur une question pour la modifier et/ou modifier les réponses qui lui sont associées.</p>
       </div>
 
-
       <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 lg:gap-5">
+
+         <!-- Pour chaque question -->
          <div class="w-full" v-for="question in questions" :key="question.id">
             <div
               class="h-full p-6 pb-4 rounded-lg border-2 border-gray-300 flex flex-col relative overflow-hidden cursor-pointer"
@@ -25,6 +29,8 @@
                <p class="text-xs text-gray-500 mt-3 text-right">{{ question.reponses.length }} réponse(s)</p>
             </div>
          </div>
+
+         <!-- Div button permettant d'ajouter une question (push router) -->
          <div class="w-full">
             <div class="new-question h-full p-6 pb-4 rounded-lg flex flex-col relative cursor-pointer"
                  @click="redirectQuestionCreation">
@@ -72,9 +78,7 @@ export default {
    async created() {
       const route = useRoute();
       const { data } = await fetchData("/questions/getQuestions/" + route.params.label);
-      for (let question of data) {
-         this.questions.push(question);
-      }
+      this.questions = data;
    }
 };
 </script>

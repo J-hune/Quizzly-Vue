@@ -3,24 +3,24 @@ import showdown from "showdown";
 import showdownKatex from "showdown-katex";
 import mermaid from "mermaid";
 
-/*
-* pré-requis : "text" est une chaîne de caractères
-* action : converti une chaîne de caractères typée en markdown vers un format html,
-*          avec la couleur dans le code et les formules mathématiques en LaTeX
-* résultat : une chaîne de caractères
-*
-* /!\ <link rel="stylesheet" href="https://unpkg.com/katex@0.12.0/dist/katex.min.css" /> à mettre dans le html pour le LaTeX
-*
-*/
-
-
+/**
+ * Conversion d'un string en markdown vers un format html,
+ * (avec la couleur dans le code et le LaTeX)
+ * @param {String} text
+ * @return {*}
+ */
 function MarkdownToHtml(text) {
   let converter = new showdown.Converter({
-    extensions: [showdownHighlight({ //extension pour mettre les couleurs dans le code
-      auto_detection: true //true pour détecter automatiquement le langage, sinon false
+
+    // Extension qui ajoute les classes des couleurs
+    extensions: [showdownHighlight({
+      auto_detection: true
     }),
-      showdownKatex({ //extension pour détecter le LaTeX
-        delimiters: [ //ajoute le délimiteur "$" en plus de celui de base "$$", comme demandé dans le sujet
+      // Extension qui ajoute le LaTeX
+      showdownKatex({
+
+        // On ajoute deux délimiteurs conformément au sujet : "$" et "$$"
+        delimiters: [
           { left: "$$", right: "$$", display: false },
           { left: "$", right: "$", display: false }
         ]
@@ -30,15 +30,12 @@ function MarkdownToHtml(text) {
 }
 
 
-/*
-* pré-requis : "text" une chaîne de caractères
-* action : sépare dans le texte en paramètre, les parties markdown des parties mermaid,
-           pour ensuite transformer ces parties en leur équivalents en html
-* résultat : une chaîne de caractères
-*
-* /!\ <script src="https://unpkg.com/mermaid@8.5.2/dist/mermaid.min.js"></script> à mettre dans le head du html pour le mermaid
-*
-*/
+/**
+ * Prend en paramètre un string et retourne un tableau de string
+ * La fonction split "text" avec un regex pour dissocier les cas
+ * @param {String} text
+ * @return {Object}
+ */
 export function QuestionToHtml(text) {
 
   //Séparation des blocs mermaid, des blocs markdown => [markdown, mermaid, markdown, etc.]

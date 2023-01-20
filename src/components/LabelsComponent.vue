@@ -1,11 +1,15 @@
 <template>
    <div class="px-16 py-14 w-full">
+
+      <!-- Titre et explications -->
       <div class="flex flex-col w-full py-1 mb-6">
          <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Vos Etiquettes</h1>
          <p class="leading-relaxed text-base">Les étiquettes que vous avez créées ou associées à vos
             questions sont affichées ci-dessous.<br>
             Cliquez sur une étiquette pour accéder aux questions qui lui sont associées.</p>
       </div>
+
+      <!-- Si l'utilisateur a au moins une étiquette -->
       <div class="label-flex" v-if="labels[0]">
          <div v-for="label in labels" :key="label.nom"
               class="cursor-pointer" @click.prevent="redirect($event, label[0])">
@@ -17,6 +21,8 @@
             </div>
          </div>
       </div>
+
+      <!-- Si l'utilisateur n'a pas créé d'étiquette -->
       <div v-else>
          Vous n'avez pas encore créé de question, allez dans <a href="/nouvelleQuestion" class="font-bold">Ajouter
          une Question</a> pour en créer une !
@@ -41,17 +47,14 @@ export default {
       }
    },
    async created() {
+      // Récupération des étiquettes et stockage dans data
       const { data } = await fetchData("/labels/getLabels");
-      for (let etiquette of data) {
-         this.labels.push(etiquette);
-      }
+      this.labels = data;
    }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 a {
    color: #6366F1;
 }
