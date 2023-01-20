@@ -1,8 +1,11 @@
 <template>
+   <!-- Router push back -->
    <redirect-back back="Liste des Questions" />
-   <div class="px-16 pt-10 pb-14 w-full">
+
+   <!-- Block Principal -->
+   <div class="px-16 pt-10 w-full">
       <div class="flex flex-col xl:flex-row w-full mb-12 py-1">
-         <div class="w-full xl:w-1/2 pr-10">
+         <div class="w-full xl:w-1/2 pr-10 pb-14">
             <div class="mb-6">
 
                <!-- Titre et textArea (Question) -->
@@ -57,12 +60,23 @@
             </template>
          </modal-component>
 
-         <div class="w-full xl:w-1/2 pl-10">
-            {{ question }}
+         <div class="w-full xl:w-1/2 pl-10 markdown-body">
+            <div v-for="(objectToRender, key) in html" :key="key">
+               <div v-html="objectToRender" />
+            </div>
          </div>
 
       </div>
 
+   </div>
+
+   <!-- Bouton sauvegarde -->
+   <div class="save">
+      <button
+        class="relative ml-auto mt-5 mr-6 mb-5 bg-blue-500 hover:bg-blue-700 text-white
+        font-bold py-2 px-7 rounded-lg disabled:opacity-25 right-0" @click="save">
+         Enregistrer
+      </button>
    </div>
 </template>
 
@@ -73,6 +87,8 @@ import RedirectBack from "@/components/redirectBack";
 import { toRaw } from "vue";
 import ModalComponent from "@/components/ModalComponent";
 import AddLabelsComponent from "@/components/AddLabelsComponent";
+import { QuestionToHtml } from "@/functions/textTohtml";
+import mermaid from "mermaid"
 
 export default {
    name: "QuestionsView",
@@ -81,8 +97,12 @@ export default {
       return {
          question: Object,
          labels: [],
-         show: false
+         show: false,
+         html: []
       };
+   },
+   mounted() {
+      mermaid.initialize({});
    },
    methods: {
       getConstrast: function(hexcolor) {
@@ -106,6 +126,11 @@ export default {
          }
 
          this.show = false;
+      },
+      save: function() {
+         const question = toRaw(this.question);
+         console.log(question);
+         //TODO
       }
    },
    watch: {
@@ -113,6 +138,9 @@ export default {
          // On met en place un watcher sur question pour ajouter ou supprimer des réponses
          handler: function(newQuestion) {
             const question = toRaw(newQuestion);
+
+            // On met à jour html
+            this.html = QuestionToHtml(question.enonce);
 
             // Si aucun contenu de réponse n'est vide
             if (!question?.reponses.find(e => !e.reponse.trim())) {
@@ -155,5 +183,11 @@ export default {
    gap: 8px 5px;
    user-select: none;
    align-items: center;
+}
+
+.save {
+   width: 100%;
+   display: inline-flex;
+   border-top: solid 1px #eaeaea;
 }
 </style>

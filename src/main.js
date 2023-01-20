@@ -8,6 +8,8 @@ import { vfmPlugin } from "vue-final-modal";
 import App from "./App.vue";
 import router from "./router";
 import "./assets/tailwind.css";
+import "./assets/markdown.css"
+import 'highlight.js/styles/default.css';
 
 
 const options = {

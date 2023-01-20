@@ -1,6 +1,6 @@
 <template>
    <div class="px-16 py-14 w-full">
-      <div class="flex flex-col w-full mb-12 py-1">
+      <div class="flex flex-col w-full py-1">
          <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Vos Etiquettes</h1>
          <p class="leading-relaxed text-base">Les étiquettes que vous avez créées ou associées à vos
             questions sont affichées ci-dessous.<br>
