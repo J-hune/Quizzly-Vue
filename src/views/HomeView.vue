@@ -1,6 +1,6 @@
 <template>
    <navbar-component :firstname="firstname" :surname="surname" />
-   <div class="grid h-screen custom-background-color">
+   <div class="grid h-screen">
       <div class="custom-background">
          <div class="custom-container mt-16">
             <div class="block bg-white shadow-lg rounded-lg">
@@ -42,10 +42,6 @@ export default {
 </script>
 
 <style>
-.custom-background-color {
-   background-color: #eeebf3;
-}
-
 .custom-background {
    margin-top: 84px;
    display: flex;
