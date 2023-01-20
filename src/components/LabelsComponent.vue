@@ -1,15 +1,15 @@
 <template>
    <div class="px-16 py-14 w-full">
-      <div class="flex flex-col w-full py-1">
+      <div class="flex flex-col w-full py-1 mb-6">
          <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Vos Etiquettes</h1>
          <p class="leading-relaxed text-base">Les étiquettes que vous avez créées ou associées à vos
             questions sont affichées ci-dessous.<br>
             Cliquez sur une étiquette pour accéder aux questions qui lui sont associées.</p>
       </div>
-      <div class="flex flex-wrap -m-2" v-if="labels[0]">
+      <div class="label-flex" v-if="labels[0]">
          <div v-for="label in labels" :key="label.nom"
-              class="p-2 lg:w-1/5 md:w-1/2 w-full cursor-pointer" @click.prevent="redirect($event, label[0])">
-            <div class="h-full flex items-center border-l-8 border-2 p-3 rounded-lg"
+              class="cursor-pointer" @click.prevent="redirect($event, label[0])">
+            <div class="h-full flex items-center border-l-8 border-2 py-2 px-10 rounded-lg"
                  :style="{borderColor: `#${label[1]}`}">
                <div class="flex-grow">
                   <h2 class="text-gray-900 title-font text-xl text-center">{{ label[0] }}</h2>
@@ -54,5 +54,15 @@ export default {
 
 a {
    color: #6366F1;
+}
+
+.label-flex {
+   display: flex;
+   flex-flow: row wrap;
+   gap: 8px 8px;
+   -webkit-user-select: none;
+   -moz-user-select: none;
+   user-select: none;
+   align-items: center;
 }
 </style>

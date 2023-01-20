@@ -46,7 +46,7 @@ export default {
       return {
          allowCreate: false,
          search: "",
-         color: "#6366f1",
+         color: "#a56cc1",
          allLabels: [],
          labels: []
       };
@@ -124,7 +124,7 @@ export default {
    position: relative;
    overflow: hidden;
    width: 50px;
-   border: solid 2px #d1d5db;
+   border: solid 2px #e5e7f9;
    border-radius: 10px;
 }
 

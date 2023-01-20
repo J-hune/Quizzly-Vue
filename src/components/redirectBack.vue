@@ -31,14 +31,14 @@ export default {
 .back-container {
    padding: 1px;
    cursor: pointer;
-   background-color: #DFE0F4;
+   background-color: #E0E2F8;
    border-radius: 6px;
    user-select: none;
 }
 
 .svg-back {
    width: 40px;
-   stroke: #6366f1;
+   stroke: #a56cc1;
    fill: none;
    stroke-linecap: round;
    stroke-linejoin: round;

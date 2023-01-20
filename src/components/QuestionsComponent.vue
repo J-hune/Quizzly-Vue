@@ -15,7 +15,7 @@
               @click="redirectEdit(question.id)">
                <h2 class="text-2xl text-gray-900 mb-4 leading-none overflow-clip text-ellipsis whitespace-nowrap">
                   {{ question.enonce }}</h2>
-               <div class="pb-4 border-b border-gray-200 grid-label">
+               <div class="pb-4 border-b border-gray-200 flex-label">
                   <a v-for="(label, labelIndex) in question.etiquette" :key="label.nom"
                      class="px-3 py-1 rounded-md mx-0.5"
                      :style="{backgroundColor: `#${label.couleur}`, color: getConstrast(`#${label.couleur}`)}"
@@ -81,7 +81,7 @@ export default {
 
 <style scoped>
 .new-question {
-   border-color: #9698F6;
+   border-color: #a6acec;
    border-style: dashed;
    border-width: 2px;
    place-content: center;
@@ -90,11 +90,16 @@ export default {
 
 .new-question svg {
    width: 60px;
-   fill: #9698f6;
+   fill: #a6acec;
 }
 
-.grid-label {
-   display: grid;
-   grid-template-columns: fit-content(100%) fit-content(100%) 1fr;
+.flex-label {
+   display: flex;
+   flex-flow: row wrap;
+   gap: 8px 1px;
+   -webkit-user-select: none;
+   -moz-user-select: none;
+   user-select: none;
+   align-items: center;
 }
 </style>
