@@ -3,10 +3,11 @@ import VueCookies from "vue-cookies";
 
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
+import { vfmPlugin } from "vue-final-modal";
 
 import App from "./App.vue";
 import router from "./router";
-import "./assets/tailwind.css"
+import "./assets/tailwind.css";
 
 
 const options = {
@@ -31,4 +32,8 @@ app.use(VueCookies);
 
 app.mount("#app");
 app.use(Toast, options);
-
+app.use(vfmPlugin({
+  key: "$vfm",
+  componentName: "VueFinalModal",
+  dynamicContainerName: "ModalsContainer"
+}));

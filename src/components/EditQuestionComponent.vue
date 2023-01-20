@@ -1,0 +1,159 @@
+<template>
+   <redirect-back back="Liste des Questions" />
+   <div class="px-16 pt-10 pb-14 w-full">
+      <div class="flex flex-col xl:flex-row w-full mb-12 py-1">
+         <div class="w-full xl:w-1/2 pr-10">
+            <div class="mb-6">
+
+               <!-- Titre et textArea (Question) -->
+               <h2 class="mb-2 text-xl font-medium text-gray-900">Votre question :</h2>
+               <textarea v-model="question.enonce" id="question" rows="3"
+                         class="enonce p-2.5 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300
+                         focus:ring-indigo-200 focus:border-blue-500 focus:ring-2 outline-none
+                         transition-colors duration-150 ease-in-out"
+                         placeholder="Écrivez l'énoncé de la question..." />
+            </div>
+
+            <!-- Titre et Liste d'inputs (Réponses) -->
+            <div class="mb-6">
+               <h2 class="text-xl font-medium text-gray-900">Vos réponses :</h2>
+
+               <!-- Génération des questions avec un v-bind for -->
+               <div class="flex flex-row mt-2" v-for="reponse in question.reponses" :key="reponse.id">
+                  <div class="self-center mr-3">
+                     <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" value="" class="sr-only peer outline-none"
+                               v-model="reponse.reponseJuste">
+                        <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-['']
+                             after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5
+                             after:transition-all peer-checked:bg-blue-600" />
+                     </label>
+                  </div>
+                  <input type="text" v-model="reponse.reponse"
+                         class="w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300
+                   focus:ring-indigo-200 focus:border-indigo-500 focus:ring-2 outline-none
+                   text-gray-900 py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
+                         placeholder="Écrivez une des réponses possibles..." />
+               </div>
+            </div>
+
+            <h2 class="text-xl font-medium text-gray-900 mb-2">Associer des étiquettes :</h2>
+
+            <!-- Génération des étiquettes avec un v-bind for -->
+            <div class="custom-flex">
+               <a v-for="label in question.etiquette" :key="label.nom"
+                  class="px-4 py-0.5 rounded-md cursor-no-drop border-2"
+                  :style="{backgroundColor: `#${label.couleur}`, borderColor: `#${label.couleur}`, color: getConstrast(`#${label.couleur}`)}">
+                  {{ label.nom }}</a>
+               <a class="px-3 py-0.5 rounded-md ajouter-etiquette cursor-pointer" @click="show = true">
+                  Nouvelle Etiquette</a>
+            </div>
+         </div>
+
+         <!-- "Popup" Modal permettant de selectionner et de créer des étiquettes -->
+         <modal-component v-model="show" @cancel="cancel">
+            <template v-slot:content>
+               <add-labels-component @add-label="addLabel" />
+            </template>
+         </modal-component>
+
+         <div class="w-full xl:w-1/2 pl-10">
+            {{ question }}
+         </div>
+
+      </div>
+
+   </div>
+</template>
+
+<script>
+import { fetchData } from "@/functions/fetch";
+import { useRoute } from "vue-router";
+import RedirectBack from "@/components/redirectBack";
+import { toRaw } from "vue";
+import ModalComponent from "@/components/ModalComponent";
+import AddLabelsComponent from "@/components/AddLabelsComponent";
+
+export default {
+   name: "QuestionsView",
+   components: { AddLabelsComponent, ModalComponent, RedirectBack },
+   data: function() {
+      return {
+         question: Object,
+         labels: [],
+         show: false
+      };
+   },
+   methods: {
+      getConstrast: function(hexcolor) {
+         // Fonction de Brian Suda trouvée sur cet article :
+         // https://24ways.org/2010/calculating-color-contrast
+         let red = parseInt(hexcolor.substring(1, 3), 16);
+         let green = parseInt(hexcolor.substring(3, 5), 16);
+         let blue = parseInt(hexcolor.substring(5, 7), 16);
+         let yiq = ((red * 299) + (green * 587) + (blue * 114)) / 1000;
+         return (yiq >= 128) ? "black" : "white";
+      },
+      cancel: function(close) {
+         close();
+      },
+      addLabel: function(label) {
+
+         // Verification doublons et push
+         let labels = toRaw(this.question.etiquette);
+         if (!labels.find(e => e.nom === label[0])) {
+            this.question.etiquette.push({ couleur: label[1], nom: label[0] });
+         }
+
+         this.show = false;
+      }
+   },
+   watch: {
+      "question": {
+         // On met en place un watcher sur question pour ajouter ou supprimer des réponses
+         handler: function(newQuestion) {
+            const question = toRaw(newQuestion);
+
+            // Si aucun contenu de réponse n'est vide
+            if (!question?.reponses.find(e => !e.reponse.trim())) {
+               this.question.reponses.push(
+                 { "reponse": "", "reponseJuste": false }
+               );
+            } else {
+               //S'il y a plus d'une réponse sans contenu
+               if (question?.reponses.filter(e => !e.reponse.trim()).length > 1) {
+                  let emptyRes = question.reponses.findIndex(e => !e.reponse);
+                  this.question.reponses.splice(emptyRes, 1);
+               }
+            }
+         },
+         deep: true
+      }
+   },
+   async created() {
+      const route = useRoute();
+      const { data } = await fetchData("/questions/getQuestion/" + route.params.id);
+      const { data: allLabels } = await fetchData("/labels/getAllLabels");
+      this.labels = allLabels;
+      this.question = data;
+   }
+};
+</script>
+
+<style scoped>
+.enonce {
+   min-height: 50px;
+}
+
+.ajouter-etiquette {
+   border: solid 2px #6366f1;
+}
+
+.custom-flex {
+   display: flex;
+   flex-flow: row wrap;
+   gap: 8px 5px;
+   user-select: none;
+   align-items: center;
+}
+</style>
