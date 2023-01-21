@@ -54,7 +54,7 @@
          </div>
 
          <!-- "Popup" Modal permettant de selectionner et de créer des étiquettes -->
-         <modal-component v-model="show" @cancel="cancel">
+         <modal-component v-model="show">
             <template v-slot:content>
                <add-labels @add-label="addLabel" />
             </template>
@@ -125,9 +125,6 @@ export default {
          let blue = parseInt(hexcolor.substring(5, 7), 16);
          let yiq = ((red * 299) + (green * 587) + (blue * 114)) / 1000;
          return (yiq >= 128) ? "black" : "white";
-      },
-      cancel: function(close) {
-         close();
       },
       addLabel: function(label) {
 
