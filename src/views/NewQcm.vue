@@ -33,26 +33,35 @@
          Imprimer le QCM
       </button>
    </div>
+
+   <!-- "Popup" Modal permettant de selectionner et de créer des étiquettes -->
+   <modal-component v-model="show" width="60%">
+      <template v-slot:content>
+         <render-questions :title="title" :questions="selectedQuestions" />
+      </template>
+   </modal-component>
 </template>
 
 <script>
 import DraggableQuestions from "@/components/draggableQuestions.vue";
-import { toRaw } from "vue";
 import { fetchData } from "@/functions/fetch";
+import RenderQuestions from "@/components/RenderQuestions.vue";
+import ModalComponent from "@/components/ModalComponent.vue";
 
 export default {
    name: "NewQcm",
-   components: { DraggableQuestions },
+   components: { ModalComponent, RenderQuestions, DraggableQuestions },
    data() {
       return {
          title: "",
          selectedQuestions: [],
-         allQuestions: []
+         allQuestions: [],
+         show: false
       };
    },
    methods: {
       print: function() {
-         console.log(toRaw(this.selectedQuestions));
+         this.show = true;
       }
    },
    async created() {
@@ -62,7 +71,11 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+.markdown-body {
+   padding: 0 30px 5px 30px;
+}
+
 .save {
    width: 100%;
    display: inline-flex;
