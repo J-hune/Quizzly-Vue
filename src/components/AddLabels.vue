@@ -112,7 +112,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .custom-flex {
    display: flex;
    flex-flow: row wrap;
