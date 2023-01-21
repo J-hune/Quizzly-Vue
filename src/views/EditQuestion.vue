@@ -133,6 +133,12 @@ export default {
 
          this.show = false;
       },
+      removeLabel: function(label) {
+
+         // On supprime label de this.question.etiquettes
+         const labels = toRaw(this.question.etiquettes);
+         this.question.etiquettes = labels.filter(e => e.nom !== label);
+      },
       save: function() {
          const question = toRaw(this.question);
          editQuestion(question, (data) => {
