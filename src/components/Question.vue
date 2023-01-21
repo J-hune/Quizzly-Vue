@@ -2,7 +2,7 @@
    <div
      class="p-6 pb-4 rounded-lg border-2 border-gray-300 bg-white flex flex-col relative overflow-hidden cursor-pointer">
       <h2 class="text-2xl text-gray-900 mb-4 overflow-clip text-ellipsis whitespace-nowrap">
-         {{ question.enonce.substring(0,40).trim() + "..." }}</h2>
+         {{ question.enonce.trim() }}</h2>
       <div class="pb-4 border-b border-gray-200 flex-label">
          <a v-for="(label, labelIndex) in question.etiquettes" :key="label.nom"
             class="px-3 py-1 rounded-md mx-0.5"

@@ -1,10 +1,9 @@
 <template>
    <!-- Affichage des questions -->
-   <div class="flex flex-col xl:flex-row w-full mb-12 py-1 gap-6">
-
+   <div class="grid grid-cols-1 lg:grid-cols-2 w-full mb-12 py-1 gap-6">
 
       <!-- Questions Sélectionnées -->
-      <div class="w-full xl:w-1/2 pb-14 card-list">
+      <div class="w-full pb-14 card-list">
          <draggable
            class="list-group"
            :list="selectedQuestions"
@@ -21,7 +20,7 @@
       </div>
 
       <!-- Container Questions Disponibles -->
-      <div class="w-full xl:w-1/2 pb-14">
+      <div class="w-full pb-14">
 
          <!-- input Search -->
          <input type="text" v-model="search"
@@ -70,8 +69,8 @@ export default {
    components: { QuestionCard, draggable },
    computed: {
       searchQuestions: function() {
-         const allQuestions = toRaw(this.allQuestions)
-         return allQuestions.filter(e => e.etiquettes.find(f => f.nom.includes(this.search)))
+         const allQuestions = toRaw(this.allQuestions);
+         return allQuestions.filter(e => e.etiquettes.find(f => f.nom.includes(this.search)));
       },
       dragOptions() {
          return {
@@ -102,12 +101,5 @@ export default {
 .ghost-card {
    opacity: 0.5;
    border-color: #a6acec;
-}
-
-.flip-list-move {
-   transition: transform 0.5s;
-}
-.no-move {
-   transition: transform 0s;
 }
 </style>
