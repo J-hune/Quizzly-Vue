@@ -21,14 +21,15 @@
                 placeholder="Écrivez le titre du Sujet..." />
       </div>
 
-      <draggable-questions :selected-questions="selectedQuestions" :all-questions="allQuestions"/>
+      <draggable-questions :selected-questions="selectedQuestions" :all-questions="allQuestions" />
    </div>
 
    <!-- Bouton Impression -->
    <div class="save">
       <button
         class="relative ml-auto mt-5 mr-6 mb-5 bg-blue-500 hover:bg-blue-700 text-white
-        font-bold py-2 px-7 rounded-lg disabled:opacity-25 right-0" @click="print" :disabled="!title || selectedQuestions.length <= 0">
+        font-bold py-2 px-7 rounded-lg disabled:opacity-25 right-0" @click="print"
+        :disabled="!title || selectedQuestions.length <= 0">
          Imprimer le QCM
       </button>
    </div>
@@ -37,6 +38,7 @@
 <script>
 import DraggableQuestions from "@/components/draggableQuestions.vue";
 import { toRaw } from "vue";
+import { fetchData } from "@/functions/fetch";
 
 export default {
    name: "NewQcm",
@@ -45,49 +47,17 @@ export default {
       return {
          title: "",
          selectedQuestions: [],
-         allQuestions: [
-            {
-               "enonce": "Question de test",
-               "etiquettes": [
-                  {
-                     "couleur": "000000",
-                     "nom": "algo"
-                  },
-                  {
-                     "couleur": "FF2342",
-                     "nom": "php"
-                  }
-               ],
-               "id": 7,
-               "reponses": [
-                  {
-                     "id": 13,
-                     "question": 7,
-                     "reponse": "Ceci est une réponse",
-                     "reponseJuste": true
-                  }
-               ],
-               "user": 5
-            },
-            {
-               "enonce": "Ceci est une question de test avec beaucoup de mots",
-               "etiquettes": [
-                  {
-                     "couleur": "000000",
-                     "nom": "algo"
-                  }
-               ],
-               "id": 8,
-               "reponses": [],
-               "user": 5
-            }
-         ]
+         allQuestions: []
       };
    },
    methods: {
-      print : function() {
-         console.log(toRaw(this.selectedQuestions))
+      print: function() {
+         console.log(toRaw(this.selectedQuestions));
       }
+   },
+   async created() {
+      const { data } = await fetchData("/questions/getQuestions/");
+      this.allQuestions = data;
    }
 };
 </script>
