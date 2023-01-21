@@ -24,8 +24,8 @@
 
       <!-- Si l'utilisateur n'a pas créé d'étiquette -->
       <div v-else>
-         Vous n'avez pas encore créé de question, allez dans <a href="/nouvelleQuestion" class="font-bold">Ajouter
-         une Question</a> pour en créer une !
+         Vous n'avez pas encore créé de question, allez dans <router-link to="/newQuestion"><a class="font-bold">Ajouter
+         une Question</a></router-link> pour en créer une !
       </div>
    </div>
 </template>
