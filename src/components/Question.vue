@@ -1,6 +1,6 @@
 <template>
    <div
-     class="h-full p-6 pb-4 rounded-lg border-2 border-gray-300 flex flex-col relative overflow-hidden cursor-pointer">
+     class="p-6 pb-4 rounded-lg border-2 border-gray-300 bg-white flex flex-col relative overflow-hidden cursor-pointer">
       <h2 class="text-2xl text-gray-900 mb-4 leading-none overflow-clip text-ellipsis whitespace-nowrap">
          {{ question.enonce }}</h2>
       <div class="pb-4 border-b border-gray-200 flex-label">
