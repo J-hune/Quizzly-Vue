@@ -11,7 +11,7 @@
                 class="w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300
                    focus:ring-indigo-200 focus:border-indigo-500 focus:ring-2 outline-none
                    text-gray-900 py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
-                placeholder="Créer une étiquette ou en chercher une..." />
+                placeholder="Rerchercher ou créer une étiquette..." />
 
          <!-- Input de Couleur (avec vmodel) -->
          <div class="ml-1 input-color-container">
