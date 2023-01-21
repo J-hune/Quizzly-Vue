@@ -67,14 +67,14 @@
          </div>
 
       </div>
-
    </div>
 
    <!-- Bouton sauvegarde -->
    <div class="save">
       <button
         class="relative ml-auto mt-5 mr-6 mb-5 bg-blue-500 hover:bg-blue-700 text-white
-        font-bold py-2 px-7 rounded-lg disabled:opacity-25 right-0" @click="save">
+        font-bold py-2 px-7 rounded-lg disabled:opacity-25 right-0" @click="save"
+        :disabled="!question.enonce || !question.reponses.find(e => e.reponse)">
          Ajouter la question
       </button>
    </div>
@@ -88,6 +88,8 @@ import ModalComponent from "@/components/ModalComponent";
 import AddLabels from "@/components/AddLabels.vue";
 import { QuestionToHtml } from "@/functions/textTohtml";
 import mermaid from "mermaid";
+import { addQuestion } from "@/functions/questions";
+import { useToast } from "vue-toastification";
 
 export default {
    name: "AddQuestion",
@@ -109,6 +111,10 @@ export default {
    },
    mounted() {
       mermaid.initialize({});
+   },
+   setup() {
+      const toast = useToast();
+      return { toast };
    },
    methods: {
       getConstrast: function(hexcolor) {
@@ -135,8 +141,10 @@ export default {
       },
       save: function() {
          const question = toRaw(this.question);
-         console.log(question);
-         //TODO
+         addQuestion(question, (data) => {
+            if (data.success) this.toast.success("La question a été ajoutée");
+            else this.toast.error("Une erreur a eu lieu lors de l'ajout de la question");
+         });
       }
    },
    watch: {

@@ -88,7 +88,9 @@ import { toRaw } from "vue";
 import ModalComponent from "@/components/ModalComponent";
 import AddLabelsComponent from "@/components/AddLabels.vue";
 import { QuestionToHtml } from "@/functions/textTohtml";
-import mermaid from "mermaid"
+import mermaid from "mermaid";
+import { useToast } from "vue-toastification";
+import { editQuestion } from "@/functions/questions";
 
 export default {
    name: "EditQuestion",
@@ -103,6 +105,10 @@ export default {
    },
    mounted() {
       mermaid.initialize({});
+   },
+   setup() {
+      const toast = useToast();
+      return { toast };
    },
    methods: {
       getConstrast: function(hexcolor) {
@@ -129,8 +135,10 @@ export default {
       },
       save: function() {
          const question = toRaw(this.question);
-         console.log(question);
-         //TODO
+         editQuestion(question, (data) => {
+            if (data.success) this.toast.success("La question a été Modifiée");
+            else this.toast.error("Une erreur a eu lieu lors de la modification de la question");
+         });
       }
    },
    watch: {
