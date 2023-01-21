@@ -4,10 +4,10 @@
       <h2 class="text-2xl text-gray-900 mb-4 leading-none overflow-clip text-ellipsis whitespace-nowrap">
          {{ question.enonce }}</h2>
       <div class="pb-4 border-b border-gray-200 flex-label">
-         <a v-for="(label, labelIndex) in question.etiquette" :key="label.nom"
+         <a v-for="(label, labelIndex) in question.etiquettes" :key="label.nom"
             class="px-3 py-1 rounded-md mx-0.5"
             :style="{backgroundColor: `#${label.couleur}`, color: getConstrast(`#${label.couleur}`)}"
-            :class="{ 'ml-0': labelIndex === 0,  'mr-0': labelIndex === question.etiquette.length -1 }">
+            :class="{ 'ml-0': labelIndex === 0,  'mr-0': labelIndex === question.etiquettes.length -1 }">
             {{ label.nom }}</a>
       </div>
       <p class="text-xs text-gray-500 mt-3 text-right">{{ question.reponses.length }} réponse(s)</p>

@@ -44,7 +44,7 @@
 
             <!-- Génération des étiquettes avec un v-bind for -->
             <div class="custom-flex">
-               <a v-for="label in question.etiquette" :key="label.nom"
+               <a v-for="label in question.etiquettes" :key="label.nom" @click="removeLabel(label.nom)"
                   class="px-4 py-0.5 rounded-md cursor-no-drop border-2"
                   :style="{backgroundColor: `#${label.couleur}`, borderColor: `#${label.couleur}`, color: getConstrast(`#${label.couleur}`)}">
                   {{ label.nom }}</a>
@@ -96,7 +96,7 @@ export default {
       return {
          question: {
             enonce: "",
-            etiquette: [],
+            etiquettes: [],
             reponses: [{
                reponse: "",
                reponseJuste: false
@@ -126,9 +126,9 @@ export default {
       addLabel: function(label) {
 
          // Verification doublons et push
-         let labels = toRaw(this.question.etiquette);
+         let labels = toRaw(this.question.etiquettes);
          if (!labels.find(e => e.nom === label[0])) {
-            this.question.etiquette.push({ couleur: label[1], nom: label[0] });
+            this.question.etiquettes.push({ couleur: label[1], nom: label[0] });
          }
 
          this.show = false;
