@@ -2,10 +2,10 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import SignupView from "@/views/SignupView";
 import SigninView from "@/views/SigninView";
-import LabelsComponent from "@/components/LabelsComponent";
-import QuestionsComponent from "@/components/QuestionsComponent";
-import EditQuestionComponent from "@/components/EditQuestionComponent";
-import AddQuestionComponent from "@/components/AddQuestionComponent";
+import ListeLabels from "@/views/ListeLabels.vue";
+import ListeQuestions from "@/views/ListeQuestions.vue";
+import AddQuestion from "@/views/AddQuestion.vue";
+import EditQuestion from "@/views/EditQuestion.vue";
 
 const routes = [
   {
@@ -16,22 +16,22 @@ const routes = [
       {
         path: "",
         name: "Labels",
-        component: LabelsComponent
+        component: ListeLabels
       },
       {
         path: "/label/:label",
         name: "label",
-        component: QuestionsComponent
+        component: ListeQuestions
       },
       {
         path: "/question/:id/edit",
         name: "editQuestion",
-        component: EditQuestionComponent
+        component: EditQuestion
       },
       {
         path: "/newQuestion",
         name: "newQuestion",
-        component: AddQuestionComponent
+        component: AddQuestion
       }
     ]
 

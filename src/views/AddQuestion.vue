@@ -56,7 +56,7 @@
          <!-- "Popup" Modal permettant de selectionner et de créer des étiquettes -->
          <modal-component v-model="show" @cancel="cancel">
             <template v-slot:content>
-               <add-labels-component @add-label="addLabel" />
+               <add-labels @add-label="addLabel" />
             </template>
          </modal-component>
 
@@ -75,27 +75,33 @@
       <button
         class="relative ml-auto mt-5 mr-6 mb-5 bg-blue-500 hover:bg-blue-700 text-white
         font-bold py-2 px-7 rounded-lg disabled:opacity-25 right-0" @click="save">
-         Enregistrer
+         Ajouter la question
       </button>
    </div>
 </template>
 
 <script>
 import { fetchData } from "@/functions/fetch";
-import { useRoute } from "vue-router";
 import RedirectBack from "@/components/redirectBack";
 import { toRaw } from "vue";
 import ModalComponent from "@/components/ModalComponent";
-import AddLabelsComponent from "@/components/AddLabelsComponent";
+import AddLabels from "@/components/AddLabels.vue";
 import { QuestionToHtml } from "@/functions/textTohtml";
-import mermaid from "mermaid"
+import mermaid from "mermaid";
 
 export default {
-   name: "QuestionsView",
-   components: { AddLabelsComponent, ModalComponent, RedirectBack },
+   name: "AddQuestion",
+   components: { AddLabels, ModalComponent, RedirectBack },
    data: function() {
       return {
-         question: Object,
+         question: {
+            enonce: "",
+            etiquette: [],
+            reponses: [{
+               reponse: "",
+               reponseJuste: false
+            }]
+         },
          labels: [],
          show: false,
          html: []
@@ -159,11 +165,8 @@ export default {
       }
    },
    async created() {
-      const route = useRoute();
-      const { data } = await fetchData("/questions/getQuestion/" + route.params.id);
       const { data: allLabels } = await fetchData("/labels/getAllLabels");
       this.labels = allLabels;
-      this.question = data;
    }
 };
 </script>

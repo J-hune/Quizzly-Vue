@@ -51,7 +51,7 @@ import { useRoute } from "vue-router";
 import RedirectBack from "@/components/redirectBack";
 
 export default {
-   name: "QuestionsView",
+   name: "ListeQuestions",
    components: { RedirectBack },
    methods: {
       redirectQuestionCreation: function() {
