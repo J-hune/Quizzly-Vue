@@ -14,20 +14,7 @@
 
          <!-- Pour chaque question -->
          <div class="w-full" v-for="question in questions" :key="question.id">
-            <div
-              class="h-full p-6 pb-4 rounded-lg border-2 border-gray-300 flex flex-col relative overflow-hidden cursor-pointer"
-              @click="redirectEdit(question.id)">
-               <h2 class="text-2xl text-gray-900 mb-4 leading-none overflow-clip text-ellipsis whitespace-nowrap">
-                  {{ question.enonce }}</h2>
-               <div class="pb-4 border-b border-gray-200 flex-label">
-                  <a v-for="(label, labelIndex) in question.etiquette" :key="label.nom"
-                     class="px-3 py-1 rounded-md mx-0.5"
-                     :style="{backgroundColor: `#${label.couleur}`, color: getConstrast(`#${label.couleur}`)}"
-                     :class="{ 'ml-0': labelIndex === 0,  'mr-0': labelIndex === question.etiquette.length -1 }">
-                     {{ label.nom }}</a>
-               </div>
-               <p class="text-xs text-gray-500 mt-3 text-right">{{ question.reponses.length }} réponse(s)</p>
-            </div>
+            <question-card @click="redirectEdit(question.id)" :question="question" />
          </div>
 
          <!-- Div button permettant d'ajouter une question (push router) -->
@@ -49,25 +36,17 @@ import router from "@/router";
 import { fetchData } from "@/functions/fetch";
 import { useRoute } from "vue-router";
 import RedirectBack from "@/components/redirectBack";
+import QuestionCard from "@/components/Question.vue";
 
 export default {
    name: "ListeQuestions",
-   components: { RedirectBack },
+   components: { QuestionCard, RedirectBack },
    methods: {
       redirectQuestionCreation: function() {
          router.push("/newQuestion");
       },
       redirectEdit: function(id) {
          router.push(`/question/${id}/edit`);
-      },
-      getConstrast: function(hexcolor) {
-         // Fonction de Brian Suda trouvée sur cet article :
-         // https://24ways.org/2010/calculating-color-contrast
-         let red = parseInt(hexcolor.substring(1, 3), 16);
-         let green = parseInt(hexcolor.substring(3, 5), 16);
-         let blue = parseInt(hexcolor.substring(5, 7), 16);
-         let yiq = ((red * 299) + (green * 587) + (blue * 114)) / 1000;
-         return (yiq >= 128) ? "black" : "white";
       }
    },
    data: function() {
@@ -95,15 +74,5 @@ export default {
 .new-question svg {
    width: 60px;
    fill: #a6acec;
-}
-
-.flex-label {
-   display: flex;
-   flex-flow: row wrap;
-   gap: 8px 1px;
-   -webkit-user-select: none;
-   -moz-user-select: none;
-   user-select: none;
-   align-items: center;
 }
 </style>
