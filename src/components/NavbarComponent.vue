@@ -25,7 +25,8 @@
          <div class="md:ml-auto flex flex-wrap items-center text-base justify-center">
             <nav>
                <router-link to="/"><a class="mr-5 hover:text-black">Accueil</a></router-link>
-               <router-link to="/"><a class="mr-5 hover:text-black">Nouveau QCM</a></router-link>
+               <router-link to="/newQuestion"><a class="mr-5 hover:text-black">Nouvelle Question</a></router-link>
+               <router-link to="/newQCM"><a class="mr-5 hover:text-black">Nouveau QCM</a></router-link>
             </nav>
             <button
               class="inline-flex items-center bg-gray-100 border-0 py-1.5 px-3.5 focus:outline-none hover:bg-gray-200 rounded-lg text-base mt-4 md:mt-0"
@@ -58,7 +59,7 @@ export default {
          this.toast.info("Vous venez d'être déconnecté");
       },
       home() {
-         router.push("/")
+         router.push("/");
       }
    }
 };
