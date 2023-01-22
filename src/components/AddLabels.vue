@@ -99,7 +99,7 @@ export default {
             const allLabels = toRaw(this.allLabels);
 
             // On récupère tous les labels qui correspondent à la recherche
-            const correspondLabels = allLabels.filter(e => e[0].includes(searchString.trim()));
+            const correspondLabels = allLabels.filter(e => e[0].toLowerCase().includes(searchString.trim().toLowerCase()));
 
             // On met à jour labels
             this.labels = correspondLabels;
