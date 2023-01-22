@@ -37,7 +37,7 @@
    <!-- "Popup" Modal permettant de selectionner et de créer des étiquettes -->
    <modal-component v-model="show" width="60%">
       <template v-slot:content>
-         <render-questions :title="title" :questions="selectedQuestions" />
+         <render-questions :title="renderTitle" :questions="renderQuestions" />
       </template>
    </modal-component>
 </template>
@@ -47,6 +47,7 @@ import DraggableQuestions from "@/components/draggableQuestions.vue";
 import { fetchData } from "@/functions/fetch";
 import RenderQuestions from "@/components/RenderQuestions.vue";
 import ModalComponent from "@/components/ModalComponent.vue";
+import { toRaw } from "vue";
 
 export default {
    name: "NewQcm",
@@ -56,12 +57,16 @@ export default {
          title: "",
          selectedQuestions: [],
          allQuestions: [],
-         show: false
+         show: false,
+         renderTitle: "",
+         renderQuestions: []
       };
    },
    methods: {
       print: function() {
          this.show = true;
+         this.renderQuestions = toRaw(this.selectedQuestions);
+         this.title = toRaw(this.title);
       }
    },
    async created() {
