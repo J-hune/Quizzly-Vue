@@ -1,5 +1,5 @@
 <template>
-   <header class="text-gray-600 body-font bg-white w-full fixed top-0">
+   <header class="custom-nav text-gray-600 body-font bg-white w-full fixed top-0">
       <div class="container mx-auto flex flex-wrap flex-col md:flex-row items-center justify-between">
 
          <!-- Partie gauche de la navbar -->
@@ -64,3 +64,10 @@ export default {
    }
 };
 </script>
+
+<style scoped>
+.custom-nav {
+   z-index: 5;
+   box-shadow: 0 6px 2px -2px #bfbfbf1c;
+}
+</style>
