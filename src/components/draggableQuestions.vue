@@ -70,7 +70,7 @@ export default {
    computed: {
       searchQuestions: function() {
          const allQuestions = toRaw(this.allQuestions);
-         return allQuestions.filter(e => e.etiquettes.find(f => f.nom.includes(this.search)));
+         return allQuestions.filter(e => e.etiquettes.find(f => f.nom.toLowerCase().includes(this.search.toLowerCase())));
       },
       dragOptions() {
          return {
