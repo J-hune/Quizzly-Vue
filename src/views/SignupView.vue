@@ -67,10 +67,10 @@
                     style="background: linear-gradient(to right, #1645be, #1364ba)"
                   >
                      <div class="text-white px-4 py-6 md:p-12 md:mx-6">
-                        <h4 class="text-4xl font-semibold mb-6">Titre temporaire</h4>
+                        <h4 class="text-4xl font-semibold mb-6">Quizzly</h4>
                         <p class="text-sm">
-                           Se site permet la création de QCM, de manière facile,
-                           intuitive et efficace pour vos élèves quelque soit le thèmes
+                           Ce site permet la création de QCM, de manière facile,
+                           intuitive et efficace pour vos élèves quels que soient les thèmes
                            étudiés (Python, C, C++, Java, Latex, Markdown, Graphe)
                         </p>
                      </div>
