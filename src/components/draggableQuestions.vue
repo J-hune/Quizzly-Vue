@@ -20,7 +20,7 @@
       </div>
 
       <!-- Container Questions Disponibles -->
-      <div class="w-full pb-14">
+      <div class="w-full flex flex-col">
 
          <!-- input Search -->
          <input type="text" v-model="search"
@@ -30,7 +30,7 @@
                 placeholder="Filter par étiquette... (ex: javascript)" />
 
          <!-- Questions Disponibles -->
-         <div class="h-full w-full card-list">
+         <div class="w-full h-full card-list">
             <div v-if="searchQuestions.length ===0">
                Aucune Question ne correspond à votre recherche
             </div>
