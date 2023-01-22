@@ -4,7 +4,7 @@
       <div v-for="(question, index) in questions" :key="index" class="mt-6">
 
          <!-- Énoncé de la question (rendu html) -->
-         <div v-for="(htmlElement, index) in QuestionToHtml(question.enonce)" :key="index">
+         <div v-for="(htmlElement, index) in TextToHtml(question.enonce)" :key="index">
             <div v-html="htmlElement" />
          </div>
 
@@ -14,7 +14,9 @@
             <div v-for="(reponse, indexR) in question.reponses" :key="indexR">
                <div class="w-full flex pb-1" v-if="reponse.reponse">
                   <input type="checkbox" class="mr-2">
-                  {{ reponse.reponse }}
+                  <div v-for="(reponseHTML, indexRH) in TextToHtmMarkdownOnly(reponse.reponse)" :key="indexRH">
+                     <div class="reponse-html" v-html="reponseHTML" />
+                  </div>
                </div>
             </div>
          </div>
@@ -27,12 +29,13 @@
 
 <script>
 
-import { QuestionToHtml } from "@/functions/textTohtml";
+import { TextToHtml, TextToHtmMarkdownOnly } from "@/functions/textTohtml";
 
 export default {
    name: "RenderQuestions",
    methods: {
-      QuestionToHtml
+      TextToHtmMarkdownOnly,
+      TextToHtml
    },
    props: ["title", "questions"],
    data: function() {
@@ -43,7 +46,7 @@ export default {
    watch: {
       selectedQuestions: {
          handler: function() {
-            this.html = this.selectedQuestions.map(e => QuestionToHtml(e.enonce));
+            this.html = this.selectedQuestions.map(e => TextToHtml(e.enonce));
          }
       }
    }
@@ -51,10 +54,14 @@ export default {
 ;
 </script>
 
-<style scoped>
+<style>
 .save {
    width: 100%;
    display: inline-flex;
    border-top: solid 1px #eaeaea;
+}
+
+.markdown-body .reponse-html p {
+   margin: 5px 0 5px 0;
 }
 </style>

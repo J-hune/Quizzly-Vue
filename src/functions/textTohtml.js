@@ -36,7 +36,7 @@ function MarkdownToHtml(text) {
  * @param {String} text
  * @return {Object}
  */
-export function QuestionToHtml(text) {
+export function TextToHtml(text) {
 
   //Séparation des blocs mermaid, des blocs markdown => [markdown, mermaid, markdown, etc.]
   let tab = text.split(/```mermaid\s*([\s\S]*?)```/);
@@ -50,5 +50,24 @@ export function QuestionToHtml(text) {
         return "<div class='mermaid-error'>" + e + "</div>";
       }
     } else return MarkdownToHtml(e);
+  });
+}
+
+
+/**
+ * Prend en paramètre un string et retourne un tableau de string
+ * La fonction split "text" avec un regex pour dissocier les cas
+ * @param {String} text
+ * @return {Object}
+ */
+export function TextToHtmMarkdownOnly(text) {
+
+  //Séparation des blocs mermaid, des blocs markdown => [markdown, mermaid, markdown, etc.]
+  let tab = text.split(/```mermaid\s*([\s\S]*?)```/);
+
+  //On change le format pour simplifier l'affichage
+  return tab.map((e, i) => {
+    if (i % 2 !== 0) return "Il est impossible d'utiliser des graphs mermaid dans les réponses"
+    else return MarkdownToHtml(e);
   });
 }

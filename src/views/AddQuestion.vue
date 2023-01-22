@@ -86,7 +86,7 @@ import RedirectBack from "@/components/redirectBack";
 import { toRaw } from "vue";
 import ModalComponent from "@/components/ModalComponent";
 import AddLabels from "@/components/AddLabels.vue";
-import { QuestionToHtml } from "@/functions/textTohtml";
+import { TextToHtml } from "@/functions/textTohtml";
 import mermaid from "mermaid";
 import { addQuestion } from "@/functions/questions";
 import { useToast } from "vue-toastification";
@@ -157,7 +157,7 @@ export default {
             const question = toRaw(newQuestion);
 
             // On met à jour html
-            this.html = QuestionToHtml(question.enonce);
+            this.html = TextToHtml(question.enonce);
 
             // Si aucun contenu de réponse n'est vide
             if (!question?.reponses.find(e => !e.reponse.trim())) {
