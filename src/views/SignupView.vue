@@ -111,7 +111,7 @@ export default {
 
          // Vérification que les champs ne contiennent ni caractère spécial, ni chiffre
          if (!onlyAlphabetAndAccents(userData.firstname)) return this.toast.error("Le prénom doit être uniquement constitué de lettres");
-         if (!onlyAlphabetAndAccents(userData.surname)) return this.toast.error("Le npm de famille doit être uniquement constitué de lettres");
+         if (!onlyAlphabetAndAccents(userData.surname)) return this.toast.error("Le nom de famille doit être uniquement constitué de lettres");
 
          // Fetch de l'API /api/login/signup
          registerUser(userData, data => {
