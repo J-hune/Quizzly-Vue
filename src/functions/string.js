@@ -4,6 +4,6 @@
  * @return {boolean}
  */
 export function onlyAlphabetAndAccents(string) {
-  const format = /^[a-zA-Z\u00C0-\u00FF]*$/;
-  return format.test(string)
+  const regex = new RegExp("^[a-zA-ZÀ-ÿ-]*$");
+  return regex.test(string)
 }
