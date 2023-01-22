@@ -45,7 +45,7 @@ export function TextToHtml(text) {
   return tab.map((e, i) => {
     if (i % 2 !== 0) {
       try {
-        return mermaid.render("diagramId", e);
+        return mermaid.render("diagramId" + i, e);
       } catch (e) {
         return "<div class='mermaid-error'>" + e + "</div>";
       }
