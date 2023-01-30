@@ -10,10 +10,17 @@
             Cliquez sur une question pour la modifier et/ou modifier les réponses qui lui sont associées.</p>
       </div>
 
+      <!-- input Search -->
+      <input type="text" v-model="search"
+             class="w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 mb-5
+                   focus:ring-indigo-200 focus:border-indigo-500 focus:ring-2 outline-none
+                   text-gray-900 py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
+             placeholder="Filtrer par énoncé... (ex: Quelle est...)" />
+
       <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 lg:gap-5">
 
          <!-- Pour chaque question -->
-         <div class="w-full" v-for="question in questions" :key="question.id">
+         <div class="w-full" v-for="question in matchingQuestions" :key="question.id">
             <question-card @click="redirectEdit(question.id)" :question="question" />
          </div>
 
@@ -51,13 +58,19 @@ export default {
    },
    data: function() {
       return {
-         questions: []
+         questions: [],
+         search: ""
       };
    },
    async created() {
       const route = useRoute();
       const { data } = await fetchData("/questions/getQuestions/" + route.params.label);
       this.questions = data;
+   },
+   computed: {
+      matchingQuestions() {
+         return this.questions.filter(e => e.enonce.toLowerCase().includes(this.search.trim().toLowerCase()));
+      }
    }
 };
 </script>
