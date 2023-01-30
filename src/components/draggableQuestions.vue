@@ -2,23 +2,6 @@
    <!-- Affichage des questions -->
    <div class="grid grid-cols-1 lg:grid-cols-2 w-full mb-12 py-1 gap-6">
 
-      <!-- Questions Sélectionnées -->
-      <div class="w-full pb-14 card-list">
-         <draggable
-           class="list-group"
-           :list="selectedQuestions"
-           group="questions"
-           itemKey="selectedQuestions"
-           v-bind="dragOptions"
-           @start="drag = true"
-           @end="drag = false"
-         >
-            <template #item="{ element }">
-               <question-card :question="element" />
-            </template>
-         </draggable>
-      </div>
-
       <!-- Container Questions Disponibles -->
       <div class="w-full flex flex-col">
 
@@ -48,6 +31,23 @@
                </template>
             </draggable>
          </div>
+      </div>
+
+      <!-- Questions Sélectionnées -->
+      <div class="w-full pb-14 card-list">
+         <draggable
+           class="list-group"
+           :list="selectedQuestions"
+           group="questions"
+           itemKey="selectedQuestions"
+           v-bind="dragOptions"
+           @start="drag = true"
+           @end="drag = false"
+         >
+            <template #item="{ element }">
+               <question-card :question="element" />
+            </template>
+         </draggable>
       </div>
    </div>
 </template>
