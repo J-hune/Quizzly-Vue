@@ -1,5 +1,5 @@
 <template>
-   <div class="px-16 py-14 w-full">
+   <div class="px-7 md:px-16 py-14 w-full">
 
       <!-- Titre et explications -->
       <div class="flex flex-col w-full py-1 mb-6">

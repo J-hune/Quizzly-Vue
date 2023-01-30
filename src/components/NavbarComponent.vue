@@ -1,6 +1,6 @@
 <template>
    <header class="custom-nav text-gray-600 body-font bg-white w-full fixed top-0">
-      <div class="container mx-auto flex flex-wrap flex-col md:flex-row items-center justify-between">
+      <div class="container mx-auto flex flex-wrap items-center justify-between">
 
          <!-- Partie gauche de la navbar -->
          <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
@@ -22,7 +22,7 @@
          </a>
 
          <!-- Partie droite de la navbar -->
-         <div class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+         <div class="md:flex hidden md:ml-auto flex flex-wrap items-center text-base justify-center">
             <nav>
                <router-link to="/"><a class="mr-5 hover:text-black">Accueil</a></router-link>
                <router-link to="/newQuestion"><a class="mr-5 hover:text-black">Nouvelle Question</a></router-link>
@@ -34,6 +34,54 @@
             </button>
          </div>
       </div>
+
+      <!-- Bouton Burger (format md) -->
+      <div class="block md:hidden navbar-burger" @click="navbarOpen = !navbarOpen">
+         <button class="navbar-burger flex items-center text-blue-600 p-3">
+            <svg class="block h-4 w-4" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+               <title>Mobile menu</title>
+               <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+            </svg>
+         </button>
+      </div>
+   </header>
+
+   <!-- Navbar phone format md -->
+   <header :style="{display: navbarOpen ? 'block' : 'none'}" class="hide-content md:none"
+           @click.prevent="navbarOpen = false">
+      <nav class="phone-navbar flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
+
+         <!-- Liste des Liens de la navbar -->
+         <ul>
+            <li class="mb-1">
+               <router-link to="/">
+                  <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded">Accueil</a>
+               </router-link>
+            </li>
+            <li class="mb-1">
+               <router-link to="/newQuestion">
+                  <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded">Nouvelle
+                     Question</a>
+               </router-link>
+            </li>
+            <li class="mb-1">
+               <router-link to="/newQCM">
+                  <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded">Nouveau
+                     QCM</a>
+               </router-link>
+            </li>
+         </ul>
+
+         <!-- Bouton en bas (logout) -->
+         <div class="mt-auto">
+            <div class="pt-6">
+               <button @click.prevent="logout"
+                       class="bg-gray-100 block px-4 py-3 w-full mb-2 leading-loose text-sm text-center font-semibold hover:bg-gray-200 rounded-xl">
+                  Logout
+               </button>
+            </div>
+         </div>
+      </nav>
    </header>
 </template>
 
@@ -45,6 +93,11 @@ export default {
    setup() {
       const toast = useToast();
       return { toast };
+   },
+   data: function() {
+      return {
+         navbarOpen: false
+      };
    },
    name: "NavbarComponent",
    props: {
@@ -67,7 +120,35 @@ export default {
 
 <style scoped>
 .custom-nav {
+   display: flex;
+   align-items: center;
    z-index: 5;
    box-shadow: 0 6px 2px -2px #bfbfbf1c;
+   height: 84px;
+}
+
+.navbar-burger {
+   margin-right: 10px;
+}
+
+.navbar-burger svg {
+   fill: #A56CC1;
+}
+
+.hide-content {
+   z-index: 4;
+   display: block;
+   position: fixed;
+   background-color: #00000017;
+   height: 100%;
+   width: 100%;
+}
+
+.phone-navbar {
+   position: fixed;
+   top: 84px;
+   bottom: 0;
+   left: 0;
+   box-shadow: 6px 0 2px -2px #bfbfbf1c;
 }
 </style>

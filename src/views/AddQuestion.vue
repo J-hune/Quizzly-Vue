@@ -3,9 +3,9 @@
    <redirect-back back="Liste des Questions" />
 
    <!-- Block Principal -->
-   <div class="px-16 pt-10 w-full">
+   <div class="px-7 md:px-16 pt-10 w-full">
       <div class="flex flex-col xl:flex-row w-full mb-12 py-1">
-         <div class="w-full xl:w-1/2 pr-10 pb-14">
+         <div class="w-full xl:w-1/2 xl:pr-10 pb-14">
             <div class="mb-6">
 
                <!-- Titre et textArea (Question) -->

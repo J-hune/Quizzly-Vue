@@ -1,6 +1,6 @@
 <template>
    <!-- Block Principal -->
-   <div class="px-16 pt-10 w-full">
+   <div class="px-7 md:px-16 pt-10 w-full">
       <div class="mb-6">
 
          <!-- Titre de la page -->
@@ -79,6 +79,12 @@ export default {
 <style>
 .markdown-body {
    padding: 0 30px 5px 30px;
+}
+
+@media (max-width:1280px) {
+   .markdown-body {
+      min-height: 72px;
+   }
 }
 
 .save {
