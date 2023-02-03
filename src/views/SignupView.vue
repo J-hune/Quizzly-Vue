@@ -5,7 +5,7 @@
             <div class="block bg-white shadow-lg rounded-lg">
                <div class="flex flex-wrap g-0">
                   <div class="lg:w-6/12 w-full px-4 px-0">
-                     <div class="p-12 mx-6">
+                     <div class="px-4 py-8 sm:p-12 mx-6">
                         <div class="text-center">
                            <h4 class="text-5xl font-semibold mt-1 mb-12">
                               Register
@@ -66,7 +66,7 @@
                     class="lg:w-6/12 flex items-center lg:rounded-r-lg rounded-b-lg lg:rounded-bl-none"
                     style="background: linear-gradient(to right, #1645be, #1364ba)"
                   >
-                     <div class="text-white px-4 py-6 md:p-12 md:mx-6">
+                     <div class="text-white px-8 py-10 md:p-12 md:mx-6">
                         <h4 class="text-4xl font-semibold mb-6">Quizzly</h4>
                         <p class="text-sm">
                            Ce site permet la création de QCM, de manière facile,
