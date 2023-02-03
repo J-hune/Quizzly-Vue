@@ -132,6 +132,8 @@ export default {
 }
 
 .navbar-burger svg {
+   height: 25px;
+   width: 25px;
    fill: #A56CC1;
 }
 
