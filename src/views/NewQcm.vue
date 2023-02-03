@@ -66,7 +66,7 @@ export default {
       print: function() {
          this.show = true;
          this.renderQuestions = toRaw(this.selectedQuestions);
-         this.title = toRaw(this.title);
+         this.renderTitle = toRaw(this.title);
       }
    },
    async created() {
