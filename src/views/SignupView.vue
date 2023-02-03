@@ -56,7 +56,7 @@
                            <div class="flex items-center justify-between pb-6">
                               <p class="mb-0 mr-2">
                                  Vous êtes déjà inscrits ?
-                                 <a class="text-blue-500" href="/signin">Connectez vous !</a>
+                                 <router-link class="text-blue-500" to="/signin">Connectez vous !</router-link>
                               </p>
                            </div>
                         </form>
