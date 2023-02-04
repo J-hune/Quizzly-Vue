@@ -45,8 +45,8 @@
 </template>
 
 <script>
-import TeacherPortal from "@/components/TeacherPortal.vue";
-import StudentPortal from "@/components/StudentPortal.vue";
+import TeacherPortal from "@/components/Login/TeacherPortal.vue";
+import StudentPortal from "@/components/Login/StudentPortal.vue";
 
 export default {
    name: "RegisterView",

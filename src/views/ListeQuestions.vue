@@ -43,7 +43,7 @@ import router from "@/router";
 import { fetchData } from "@/functions/fetch";
 import { useRoute } from "vue-router";
 import RedirectBack from "@/components/redirectBack";
-import QuestionCard from "@/components/Question.vue";
+import QuestionCard from "@/components/Questions/Question.vue";
 
 export default {
    name: "ListeQuestions",

@@ -43,9 +43,9 @@
 </template>
 
 <script>
-import DraggableQuestions from "@/components/draggableQuestions.vue";
+import DraggableQuestions from "@/components/Questions/draggableQuestions.vue";
 import { fetchData } from "@/functions/fetch";
-import RenderQuestions from "@/components/RenderQuestions.vue";
+import RenderQuestions from "@/components/Questions/RenderQuestions.vue";
 import ModalComponent from "@/components/ModalComponent.vue";
 import { toRaw } from "vue";
 

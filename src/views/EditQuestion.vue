@@ -87,7 +87,7 @@ import { useRoute } from "vue-router";
 import RedirectBack from "@/components/redirectBack";
 import { toRaw } from "vue";
 import ModalComponent from "@/components/ModalComponent";
-import AddLabelsComponent from "@/components/AddLabels.vue";
+import AddLabelsComponent from "@/components/Labels/AddLabels.vue";
 import { TextToHtml } from "@/functions/textTohtml";
 import mermaid from "mermaid";
 import { useToast } from "vue-toastification";

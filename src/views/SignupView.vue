@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import TeacherPortal from "@/components/TeacherPortal.vue";
+import TeacherPortal from "@/components/Login/TeacherPortal.vue";
 
 export default {
    name: "RegisterView",

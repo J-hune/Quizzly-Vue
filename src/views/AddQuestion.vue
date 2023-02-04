@@ -81,15 +81,17 @@
 </template>
 
 <script>
-import { fetchData } from "@/functions/fetch";
-import RedirectBack from "@/components/redirectBack";
-import { toRaw } from "vue";
-import ModalComponent from "@/components/ModalComponent";
-import AddLabels from "@/components/AddLabels.vue";
-import { TextToHtml } from "@/functions/textTohtml";
 import mermaid from "mermaid";
-import { addQuestion } from "@/functions/questions";
+import { toRaw } from "vue";
 import { useToast } from "vue-toastification";
+
+import { TextToHtml } from "@/functions/textTohtml";
+import { addQuestion } from "@/functions/questions";
+import { fetchData } from "@/functions/fetch";
+
+import RedirectBack from "@/components/redirectBack";
+import ModalComponent from "@/components/ModalComponent";
+import AddLabels from "@/components/Labels/AddLabels.vue";
 
 export default {
    name: "AddQuestion",
