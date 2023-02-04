@@ -186,7 +186,7 @@ export default {
 }
 
 .ajouter-etiquette {
-   border: solid 2px #6366f1;
+   border: solid 2px #a56cc1;
 }
 
 .custom-flex {
