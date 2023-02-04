@@ -28,7 +28,7 @@
       <div class="custom-flex">
          <a v-for="(label, labelIndex) in labels" :key="labelIndex"
             class="px-4 py-1 rounded-md cursor-pointer" @click="emitEvent(label)"
-            :style="{backgroundColor: `#${label[1]}`, color: getConstrast(`#${label[1]}`)}">
+            :style="{backgroundColor: `#${label[1]}`, color: getContrast(`#${label[1]}`)}">
             {{ label[0] }}</a>
       </div>
    </div>
@@ -61,7 +61,7 @@ export default {
       this.allLabels = data;
    },
    methods: {
-      getConstrast: function(hexcolor) {
+      getContrast: function(hexcolor) {
          // Fonction de Brian Suda trouvée sur cet article :
          // https://24ways.org/2010/calculating-color-contrast
          let red = parseInt(hexcolor.substring(1, 3), 16);

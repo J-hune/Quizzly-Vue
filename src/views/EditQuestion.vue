@@ -46,7 +46,7 @@
             <div class="custom-flex">
                <a v-for="label in question.etiquettes" :key="label.nom" @click="removeLabel(label.nom)"
                   class="px-4 py-0.5 rounded-md cursor-no-drop border-2"
-                  :style="{backgroundColor: `#${label.couleur}`, borderColor: `#${label.couleur}`, color: getConstrast(`#${label.couleur}`)}">
+                  :style="{backgroundColor: `#${label.couleur}`, borderColor: `#${label.couleur}`, color: getContrast(`#${label.couleur}`)}">
                   {{ label.nom }}</a>
                <a class="px-3 py-0.5 rounded-md ajouter-etiquette cursor-pointer" @click="show = true">
                   Nouvelle Etiquette</a>
@@ -112,7 +112,7 @@ export default {
       return { toast };
    },
    methods: {
-      getConstrast: function(hexcolor) {
+      getContrast: function(hexcolor) {
          // Fonction de Brian Suda trouvée sur cet article :
          // https://24ways.org/2010/calculating-color-contrast
          let red = parseInt(hexcolor.substring(1, 3), 16);

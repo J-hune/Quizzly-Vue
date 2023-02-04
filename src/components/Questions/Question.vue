@@ -6,7 +6,7 @@
       <div class="pb-4 border-b border-gray-200 flex-label">
          <a v-for="(label, labelIndex) in question.etiquettes" :key="label.nom"
             class="px-3 py-1 rounded-md mx-0.5"
-            :style="{backgroundColor: `#${label.couleur}`, color: getConstrast(`#${label.couleur}`)}"
+            :style="{backgroundColor: `#${label.couleur}`, color: getContrast(`#${label.couleur}`)}"
             :class="{ 'ml-0': labelIndex === 0,  'mr-0': labelIndex === question.etiquettes.length -1 }">
             {{ label.nom }}</a>
       </div>
@@ -19,7 +19,7 @@ export default {
    name: "QuestionCard",
    props: ["question"],
    methods: {
-      getConstrast: function(hexcolor) {
+      getContrast: function(hexcolor) {
          // Fonction de Brian Suda trouvée sur cet article :
          // https://24ways.org/2010/calculating-color-contrast
          let red = parseInt(hexcolor.substring(1, 3), 16);
