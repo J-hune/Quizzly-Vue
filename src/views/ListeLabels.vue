@@ -24,8 +24,11 @@
 
       <!-- Si l'utilisateur n'a pas créé d'étiquette -->
       <div v-else>
-         Vous n'avez pas encore créé de question, allez dans <router-link to="/newQuestion"><a class="font-bold">Ajouter
-         une Question</a></router-link> pour en créer une !
+         Vous n'avez pas encore créé de question, allez dans
+         <router-link to="/newQuestion">
+            <a class="font-bold">Ajouter une Question</a>
+         </router-link>
+         pour en créer une !
       </div>
    </div>
 </template>
@@ -33,6 +36,11 @@
 <script>
 import { fetchData } from "@/functions/fetch";
 import router from "@/router";
+
+// Fonction tri en utilisant le tri-rapide de JS
+function sortArray(array) {
+   return array.sort((a, b) => a[0].localeCompare(b[0]));
+}
 
 export default {
    name: "LabelsComponent",
@@ -49,7 +57,7 @@ export default {
    async created() {
       // Récupération des étiquettes et stockage dans data
       const { data } = await fetchData("/labels/getLabels");
-      this.labels = data;
+      this.labels = sortArray(data)
    }
 };
 </script>
