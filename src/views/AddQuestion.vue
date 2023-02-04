@@ -17,27 +17,15 @@
                          placeholder="Écrivez l'énoncé de la question..." />
             </div>
 
+            <hr class="mb-8" />
+            <!-- Switch entre Réponse unique et Réponses Multiples -->
+            <!-- On utilise data: uniqueResponse -->
+            <switch-button class="mb-6" :unique-response="uniqueResponse" @update="onChildUpdate" />
+
             <!-- Titre et Liste d'inputs (Réponses) -->
             <div class="mb-6">
-               <h2 class="text-xl font-medium text-gray-900">Vos réponses :</h2>
-
-               <!-- Génération des questions avec un v-bind for -->
-               <div class="flex flex-row mt-2" v-for="reponse in question.reponses" :key="reponse.id">
-                  <div class="self-center mr-3">
-                     <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" value="" class="sr-only peer outline-none"
-                               v-model="reponse.reponseJuste">
-                        <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-['']
-                             after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5
-                             after:transition-all peer-checked:bg-blue-600" />
-                     </label>
-                  </div>
-                  <input type="text" v-model="reponse.reponse"
-                         class="w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300
-                   focus:ring-indigo-200 focus:border-indigo-500 focus:ring-2 outline-none
-                   text-gray-900 py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
-                         placeholder="Écrivez une des réponses possibles..." />
-               </div>
+               <multiple-responses v-if="!uniqueResponse" :responses="question.reponses" />
+               <unique-response v-else v-model="question.reponse" />
             </div>
 
             <h2 class="text-xl font-medium text-gray-900 mb-2">Associer des étiquettes :</h2>
@@ -74,7 +62,7 @@
       <button
         class="relative ml-auto mt-5 mr-6 mb-5 bg-blue-500 hover:bg-blue-700 text-white
         font-bold py-2 px-7 rounded-lg disabled:opacity-25 right-0" @click="save"
-        :disabled="!question.enonce || !question.etiquettes.length || !question.reponses.find(e => e.reponse)">
+        :disabled="!canSave()">
          Ajouter la question
       </button>
    </div>
@@ -92,10 +80,13 @@ import { fetchData } from "@/functions/fetch";
 import RedirectBack from "@/components/redirectBack";
 import ModalComponent from "@/components/ModalComponent";
 import AddLabels from "@/components/Labels/AddLabels.vue";
+import SwitchButton from "@/components/SwitchButton.vue";
+import MultipleResponses from "@/components/Questions/multipleResponses.vue";
+import UniqueResponse from "@/components/Questions/uniqueResponse.vue";
 
 export default {
    name: "AddQuestion",
-   components: { AddLabels, ModalComponent, RedirectBack },
+   components: { UniqueResponse, MultipleResponses, SwitchButton, AddLabels, ModalComponent, RedirectBack },
    data: function() {
       return {
          question: {
@@ -104,11 +95,13 @@ export default {
             reponses: [{
                reponse: "",
                reponseJuste: false
-            }]
+            }],
+            reponse: ""
          },
          labels: [],
          show: false,
-         html: []
+         html: [],
+         uniqueResponse: false
       };
    },
    mounted() {
@@ -144,12 +137,23 @@ export default {
          const labels = toRaw(this.question.etiquettes);
          this.question.etiquettes = labels.filter(e => e.nom !== label);
       },
+      canSave: function() {
+         const Question = toRaw(this.question);
+
+         if (!Question.enonce || !Question.etiquettes.length) return false;
+         if (!this.uniqueResponse && !Question.reponses.find(e => e.reponse)) return false;
+         if (this.uniqueResponse && (!Question.reponse || isNaN(parseInt(Question.reponse)))) return false;
+         return true;
+      },
       save: function() {
          const question = toRaw(this.question);
          addQuestion(question, (data) => {
             if (data.success) this.toast.success("La question a été ajoutée");
             else this.toast.error("Une erreur a eu lieu lors de l'ajout de la question");
          });
+      },
+      onChildUpdate: function(newValue) {
+         this.uniqueResponse = newValue;
       }
    },
    watch: {
