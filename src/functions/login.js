@@ -9,10 +9,11 @@ import router from "@/router";
  * @return {Promise<void>}
  */
 export async function logUser(user, userType, action, callback) {
+   let url = (userType === "teacher") ?
+      process.env.VUE_APP_API_URL + "/login/enseignants/" + action
+      : process.env.VUE_APP_API_URL + "/login/etudiants/" + action;
 
-   //TODO Différencier les teachers et students (Quand Mateo aura fini sa partie)
-
-   const response = await fetch(process.env.VUE_APP_API_URL + "/login/" + action, {
+   const response = await fetch(url, {
       method: "POST",
       mode: "cors",
       credentials: "include",
@@ -35,7 +36,7 @@ export async function logUser(user, userType, action, callback) {
  * @return {Promise<void>}
  */
 export async function checkUserLogged(callback) {
-   const response = await fetch(process.env.VUE_APP_API_URL + "/login/logged", {
+   const response = await fetch(process.env.VUE_APP_API_URL + "/login/enseignants/logged", {
       method: "GET",
       credentials: "include",
       mode: "cors",
