@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import QuestionCard from "@/components/Questions/Question.vue";
+import QuestionCard from "@/components/Questions/QuestionCard.vue";
 import draggable from "vuedraggable";
 import { toRaw } from "vue";
 
