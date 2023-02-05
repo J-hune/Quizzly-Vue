@@ -37,7 +37,7 @@ export default {
       TextToHtmMarkdownOnly,
       TextToHtml
    },
-   props: ["title", "questions"],
+   props: { title: String, questions: Object },
    data: function() {
       return {
          html: []

@@ -14,7 +14,7 @@
 export default {
    name: "ModalComponent",
    inheritAttrs: false,
-   props: ["width"]
+   props: { width: String }
 };
 </script>
 

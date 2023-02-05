@@ -17,7 +17,7 @@
 <script>
 export default {
    name: "QuestionCard",
-   props: ["question"],
+   props: { question: Object },
    methods: {
       getContrast: function(hexcolor) {
          // Fonction de Brian Suda trouvée sur cet article :

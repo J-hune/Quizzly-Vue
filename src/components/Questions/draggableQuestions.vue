@@ -59,7 +59,7 @@ import { toRaw } from "vue";
 
 export default {
    name: "draggableQuestions",
-   props: ["selectedQuestions", "allQuestions"],
+   props: { selectedQuestions: Object, allQuestions: Object },
    data: function() {
       return {
          search: "",

@@ -12,7 +12,7 @@
 <script>
 export default {
    name: "uniqueResponse",
-   props: ["modelValue"],
+   props: { modelValue: String },
    emits: ["update:modelValue"],
    methods: {
       updateResponseValue(newValue) {
