@@ -25,6 +25,7 @@
          <div class="lg:flex hidden lg:ml-auto flex flex-wrap items-center text-base justify-center">
             <nav>
                <router-link to="/"><a class="mr-5 hover:text-black">Mes Etiquettes</a></router-link>
+               <router-link to="/students"><a class="mr-5 hover:text-black">Mes Eleves</a></router-link>
                <router-link to="/newQuestion"><a class="mr-5 hover:text-black">Nouvelle Question</a></router-link>
                <router-link to="/newQCM"><a class="mr-5 hover:text-black">Nouveau QCM</a></router-link>
             </nav>
@@ -56,6 +57,12 @@
             <li class="mb-1">
                <router-link to="/">
                   <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded">Mes Etiquettes</a>
+               </router-link>
+            </li>
+            <li class="mb-1">
+               <router-link to="/students">
+                  <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded">Mes
+                     Eleves</a>
                </router-link>
             </li>
             <li class="mb-1">

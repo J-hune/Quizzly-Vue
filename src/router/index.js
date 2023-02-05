@@ -7,6 +7,7 @@ import NewQcm from "@/views/NewQcm.vue";
 import ListeQuestions from "@/views/QuestionsList.vue";
 import AddQuestion from "@/views/AddQuestion.vue";
 import EditQuestion from "@/views/EditQuestion.vue";
+import StudentsList from "@/views/StudentsList.vue";
 
 const routes = [
   {
@@ -38,6 +39,11 @@ const routes = [
         path: "/newQCM",
         name: "newQCM",
         component: NewQcm
+      },
+      {
+        path: "/students",
+        name: "students",
+        component: StudentsList
       }
     ]
 
