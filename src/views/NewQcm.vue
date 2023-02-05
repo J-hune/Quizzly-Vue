@@ -21,6 +21,8 @@
                 placeholder="Écrivez le titre du Sujet..." />
       </div>
 
+      <hr class="mt-7 mb-8"/>
+
       <draggable-questions :selected-questions="selectedQuestions" :all-questions="allQuestions" />
    </div>
 
