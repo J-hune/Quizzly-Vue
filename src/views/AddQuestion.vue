@@ -139,10 +139,12 @@ export default {
       },
       canSave: function() {
          const Question = toRaw(this.question);
+         const regex = /^[-+]?\d+(\.\d{0,2}|)$/;
 
          if (!Question.enonce || !Question.etiquettes.length) return false;
          if (!this.uniqueResponse && !Question.reponses.find(e => e.reponse)) return false;
          if (this.uniqueResponse && (!Question.reponse || isNaN(parseInt(Question.reponse)))) return false;
+         if (this.uniqueResponse && !regex.test(Question.reponse)) return false;
          return true;
       },
       save: function() {
