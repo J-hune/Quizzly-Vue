@@ -11,11 +11,11 @@
          <!-- Réponses de la question -->
          <div class="mt-3 mb-5 grid w-full grid-cols-2">
 
-            <div v-for="(reponse, indexR) in question.reponses" :key="indexR">
-               <div class="w-full flex pb-1" v-if="reponse.reponse">
+            <div v-for="(response, indexR) in question.reponses" :key="indexR">
+               <div class="w-full flex pb-1" v-if="response.reponse">
                   <input type="checkbox" class="mr-2">
-                  <div v-for="(reponseHTML, indexRH) in TextToHtmMarkdownOnly(reponse.reponse)" :key="indexRH">
-                     <div class="reponse-html" v-html="reponseHTML" />
+                  <div v-for="(htmlResponse, indexRH) in TextToHtmMarkdownOnly(response.reponse)" :key="indexRH">
+                     <div class="html-response" v-html="htmlResponse" />
                   </div>
                </div>
             </div>
@@ -61,7 +61,7 @@ export default {
    border-top: solid 1px #eaeaea;
 }
 
-.markdown-body .reponse-html p {
+.markdown-body .html-response p {
    margin: 5px 0 5px 0;
 }
 </style>
