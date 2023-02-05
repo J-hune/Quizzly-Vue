@@ -22,9 +22,9 @@
          </a>
 
          <!-- Partie droite de la navbar -->
-         <div class="md:flex hidden md:ml-auto flex flex-wrap items-center text-base justify-center">
+         <div class="lg:flex hidden lg:ml-auto flex flex-wrap items-center text-base justify-center">
             <nav>
-               <router-link to="/"><a class="mr-5 hover:text-black">Accueil</a></router-link>
+               <router-link to="/"><a class="mr-5 hover:text-black">Mes Etiquettes</a></router-link>
                <router-link to="/newQuestion"><a class="mr-5 hover:text-black">Nouvelle Question</a></router-link>
                <router-link to="/newQCM"><a class="mr-5 hover:text-black">Nouveau QCM</a></router-link>
             </nav>
@@ -36,7 +36,7 @@
       </div>
 
       <!-- Bouton Burger (format md) -->
-      <div class="block md:hidden navbar-burger" @click="navbarOpen = !navbarOpen">
+      <div class="block lg:hidden navbar-burger" @click="navbarOpen = !navbarOpen">
          <button class="navbar-burger flex items-center text-blue-600 p-3">
             <svg class="block h-4 w-4" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                <title>Mobile menu</title>
@@ -55,7 +55,7 @@
          <ul>
             <li class="mb-1">
                <router-link to="/">
-                  <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded">Accueil</a>
+                  <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded">Mes Etiquettes</a>
                </router-link>
             </li>
             <li class="mb-1">

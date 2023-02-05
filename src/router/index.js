@@ -2,9 +2,9 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import SignupView from "@/views/SignupView";
 import SigninView from "@/views/SigninView";
-import ListeLabels from "@/views/ListeLabels.vue";
+import ListeLabels from "@/views/LabelsList.vue";
 import NewQcm from "@/views/NewQcm.vue";
-import ListeQuestions from "@/views/ListeQuestions.vue";
+import ListeQuestions from "@/views/QuestionsList.vue";
 import AddQuestion from "@/views/AddQuestion.vue";
 import EditQuestion from "@/views/EditQuestion.vue";
 

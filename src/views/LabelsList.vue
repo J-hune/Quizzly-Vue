@@ -3,7 +3,7 @@
 
       <!-- Titre et explications -->
       <div class="flex flex-col w-full py-1 mb-6">
-         <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Vos Etiquettes</h1>
+         <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Mes Etiquettes</h1>
          <p class="leading-relaxed text-base">Les étiquettes que vous avez créées ou associées à vos
             questions sont affichées ci-dessous.<br>
             Cliquez sur une étiquette pour accéder aux questions qui lui sont associées.</p>

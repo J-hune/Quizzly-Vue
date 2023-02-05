@@ -5,7 +5,7 @@
 
       <!-- Titre et description Composant -->
       <div class="flex flex-col w-full mb-12 py-1">
-         <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Vos Questions</h1>
+         <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Mes Questions</h1>
          <p class="leading-relaxed text-base">Les questions que vous avez déjà créées sont affichées ci-dessous.<br>
             Cliquez sur une question pour la modifier et/ou modifier les réponses qui lui sont associées.</p>
       </div>

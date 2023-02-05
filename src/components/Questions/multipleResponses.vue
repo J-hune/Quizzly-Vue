@@ -1,5 +1,5 @@
 <template>
-   <h2 class="text-xl font-medium text-gray-900">Vos réponses :</h2>
+   <h2 class="text-xl font-medium text-gray-900">Mes réponses :</h2>
 
    <!-- Génération des questions avec un v-bind for -->
    <div class="flex flex-row mt-2" v-for="response in responses" :key="response.id">
