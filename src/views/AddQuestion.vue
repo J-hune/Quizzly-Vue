@@ -60,7 +60,7 @@
    <!-- Bouton sauvegarde -->
    <div class="save">
       <button
-        class="relative ml-auto mt-5 mr-6 mb-5 bg-blue-500 hover:bg-blue-700 text-white
+        class="relative ml-auto mt-5 mr-6 mb-5 bg-blue-500 hover:bg-blue-600 text-white
         font-bold py-2 px-7 rounded-lg disabled:opacity-25 right-0" @click="save"
         :disabled="!canSave()">
          Ajouter la question

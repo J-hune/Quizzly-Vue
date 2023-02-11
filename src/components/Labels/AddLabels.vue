@@ -18,7 +18,7 @@
             <input type="color" class="input-color" v-model="color" />
          </div>
          <button
-           class="ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg disabled:opacity-25"
+           class="ml-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg disabled:opacity-25"
            :disabled="!allowCreate" @click="createLabel">
             Créer
          </button>
