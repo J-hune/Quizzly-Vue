@@ -16,6 +16,7 @@
     "showdown": "^2.1.0",
     "showdown-highlight": "^3.1.0",
     "showdown-katex": "^0.8.0",
+    "sweetalert2": "^11.7.1",
     "tailwindcss": "^3",
     "vue": "^3.2.13",
     "vue-cookies": "^1.8.2",
