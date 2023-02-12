@@ -14,8 +14,24 @@ export async function addStudentsFromCSV(csv, toast) {
       return toast.error("Le Fichier CSV est Invalide");
    }
 
-   console.log("Route pour ajouter les étudiants avec le json")
-   //TODO appel route avec post
+   const response = await fetch(process.env.VUE_APP_API_URL + "/students/insertStudents", {
+      method: "POST",
+      mode: "cors",
+      credentials: "include",
+      headers: {
+         "Accept": "application/json",
+         "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+   });
+
+   const responseData = await response.json();
+   if (responseData.success) {
+      toast.success(responseData.result + " étudiants ont été ajoutés");
+      //TODO reFetch les données
+   } else {
+      toast.error("Une erreur a eu lieu lors de l'ajout des étudiants");
+   }
 }
 
 
