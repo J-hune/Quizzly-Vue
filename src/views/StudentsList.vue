@@ -53,6 +53,7 @@ import { toRaw } from "vue";
 import image from "../assets/img/f2.png";
 import { addStudentsFromCSV } from "@/functions/csv";
 import { useToast } from "vue-toastification";
+import { fetchData } from "@/functions/fetch";
 
 export default {
    name: "StudentsList",
@@ -86,6 +87,9 @@ export default {
          ]
       };
    },
+   async created() {
+      //TODO Fetch les données et modifier data
+   },
    methods: {
       uploadFile() {
          let input = this.$refs.fileInput;
@@ -116,10 +120,18 @@ export default {
             cancelButtonColor: "#d33",
             confirmButtonText: "Supprimer tous les étudiants",
             cancelButtonText: "Annuler"
-         }).then((result) => {
+         }).then(async (result) => {
+            // Si l'utilisateur a confirmé
             if (result.isConfirmed) {
-               console.log("Remove all students");
-               //TODO fonction remove students + fire notif
+
+               // On appelle l'api pour supprimer tous les étudiants
+               const { data } = await fetchData("/students/removeAllStudent/");
+               if (data.success) {
+                  this.toast.success("Tous les étudiants ont été supprimés");
+               } else {
+                  this.toast.error("Les étudiants n'ont pas pu être supprimés");
+               }
+               //TODO reFetch les données
             }
          });
       },
@@ -133,10 +145,18 @@ export default {
             cancelButtonColor: "#d33",
             confirmButtonText: "Supprimer cet étudiant",
             cancelButtonText: "Annuler"
-         }).then((result) => {
+         }).then(async (result) => {
+            // Si l'utilisateur a confirmé
             if (result.isConfirmed) {
-               console.log("Remove student with id: " + student.id);
-               //TODO fonction remove student + fire notif
+
+               // On appelle l'api pour supprimer tous les étudiants
+               const { data } = await fetchData("/students/removeStudent/" + student.id);
+               if (data.success) {
+                  this.toast.success("L'étudiant #" + student.id + " a été supprimé");
+               } else {
+                  this.toast.error("L'étudiant n'a pas pu être supprimé");
+               }
+               //TODO reFetch les données
             }
          });
       }
