@@ -10,8 +10,8 @@ import router from "@/router";
  */
 export async function logUser(user, userType, action, callback) {
    let url = (userType === "teacher") ?
-      process.env.VUE_APP_API_URL + "/login/enseignants/" + action
-      : process.env.VUE_APP_API_URL + "/login/etudiants/" + action;
+      process.env.VUE_APP_API_URL + "/login/teachers/" + action
+      : process.env.VUE_APP_API_URL + "/login/students/" + action;
 
    const response = await fetch(url, {
       method: "POST",
@@ -36,7 +36,7 @@ export async function logUser(user, userType, action, callback) {
  * @return {Promise<void>}
  */
 export async function checkUserLogged(callback) {
-   const response = await fetch(process.env.VUE_APP_API_URL + "/login/enseignants/logged", {
+   const response = await fetch(process.env.VUE_APP_API_URL + "/login/teachers/logged", {
       method: "GET",
       credentials: "include",
       mode: "cors",
