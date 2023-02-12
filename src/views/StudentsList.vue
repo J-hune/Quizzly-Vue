@@ -111,6 +111,8 @@ export default {
          this.$refs.fileInput.click();
       },
       removeAllStudents() {
+
+         // On affiche un popup pour que l'utilisateur confirme la suppression
          Swal.fire({
             title: "Confirmer la suppression ?",
             text: `Voulez vous supprimer tous les étudiants ? Attention, cette action est irréversible`,
@@ -136,6 +138,8 @@ export default {
          });
       },
       removeStudent(student) {
+
+         // On affiche un popup pour que l'utilisateur confirme la suppression
          Swal.fire({
             title: "Confirmer la suppression ?",
             text: `Voulez vous supprimer l'étudiant ${student.id}: ${student.prenom} ${student.nom} ?`,
