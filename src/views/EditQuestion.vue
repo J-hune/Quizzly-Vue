@@ -20,13 +20,13 @@
             <hr class="mb-8" />
             <!-- Switch entre Réponse unique et Réponses Multiples -->
             <!-- On utilise data: uniqueResponse -->
-            <switch-button class="mb-6" :unique-response="uniqueResponse" @update="onChildUpdate" />
+            <switch-button class="mb-6" :unique-response="!!question.type" @update="onChildUpdate" />
 
 
             <!-- Titre et Liste d'inputs (Réponses) -->
             <div class="mb-6">
-               <multiple-responses v-if="!uniqueResponse" :responses="question.reponses" />
-               <unique-response v-else v-model="question.reponse" />
+               <multiple-responses v-if="!question.type" :responses="question.reponses" />
+               <unique-response v-else v-model="question.numerique" />
             </div>
 
             <h2 class="text-xl font-medium text-gray-900 mb-2">Associer des étiquettes :</h2>
@@ -96,7 +96,6 @@ export default {
          labels: [],
          show: false,
          html: [],
-         uniqueResponse: false
       };
    },
    mounted() {
@@ -134,10 +133,12 @@ export default {
       },
       canSave: function() {
          const Question = toRaw(this.question);
+         const regex = /^[-+]?\d+(\.\d{0,2}|)$/;
 
          if (!Question.enonce || !Question.etiquettes.length) return false;
-         if (!this.uniqueResponse && !Question.reponses.find(e => e.reponse)) return false;
-         if (this.uniqueResponse && (!Question.reponse || isNaN(parseInt(Question.reponse)))) return false;
+         if (!Question.type && !Question.reponses.find(e => e.reponse)) return false;
+         if (!!Question.type && (!Question.numerique || isNaN(parseInt(Question.numerique)))) return false;
+         if (!!Question.type && !regex.test(Question.numerique)) return false;
          return true;
       },
       save: function() {
@@ -148,7 +149,7 @@ export default {
          });
       },
       onChildUpdate: function(newValue) {
-         this.uniqueResponse = newValue;
+         this.question.type = !newValue ? 0 : 1
       }
    },
    watch: {
@@ -181,10 +182,7 @@ export default {
       const { data } = await fetchData("/questions/getQuestion/" + route.params.id);
       const { data: allLabels } = await fetchData("/labels/getAllLabels");
       this.labels = allLabels;
-
-      //TODO Remplacer la ligne suivante quand le back sera fait
-      //this.question = data;
-      this.question = { ...data, reponse: "" };
+      this.question = data;
    }
 };
 </script>
