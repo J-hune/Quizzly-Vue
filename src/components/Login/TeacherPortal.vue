@@ -50,8 +50,9 @@
 <script>
 import { onlyAlphabetAndAccents } from "@/functions/string";
 import { logUser } from "@/functions/login";
-import router from "@/router";
 import { useToast } from "vue-toastification";
+import router from "@/router";
+import index from "@/store";
 
 export default {
    name: "TeacherPortal",
@@ -82,7 +83,17 @@ export default {
          // Fetch de l'API /api/login/signup
          logUser(userData, "teacher", this.type === "Login" ? "signin" : "signup", data => {
             if (data.success) {
-               this.toast.info("Bienvenue " + userData.firstname);
+               this.toast.info("Bienvenue " + data.user.firstname);
+
+               // On stocke les données de l'utilisateur
+               index.commit("setUser", {
+                  id: data.user.id,
+                  firstname: data.user.firstname,
+                  surname: data.user.surname,
+                  type: data.user.type
+               });
+
+               index.commit("setLoggedIn", true)
                router.push("/");
             } else {
                this.toast.error("Les Identifiants que vous avez donné sont invalides");

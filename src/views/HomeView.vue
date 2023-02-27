@@ -1,11 +1,11 @@
 <template>
-   <navbar-component :firstname="firstname" :surname="surname" />
+   <navbar-component />
    <div class="grid h-screen">
       <div class="custom-background">
          <div class="custom-container mb-14">
             <div class="block bg-white shadow-lg rounded-lg">
                <div class="flex flex-wrap g-0">
-                  <router-view/>
+                  <router-view />
                </div>
             </div>
          </div>
@@ -15,8 +15,7 @@
 
 <script>
 // @ is an alias to /src
-import { checkUserLogged } from "@/functions/login";
-import NavbarComponent from "@/components/NavbarComponent";
+import NavbarComponent from "@/components/Navbar/NavbarComponent";
 
 export default {
    name: "HomeView",
@@ -29,14 +28,6 @@ export default {
          surname: null,
          type: null
       };
-   },
-   beforeCreate() {
-      const props = this;
-      checkUserLogged((user) => {
-         props.firstname = user.firstname;
-         props.surname = user.surname;
-         props.type = user.type;
-      });
    }
 };
 </script>
@@ -53,14 +44,14 @@ export default {
    margin-top: 4rem;
 }
 
-@media (max-width:1024px) {
+@media (max-width: 1024px) {
    .custom-container {
       width: 90%;
       margin-top: 50px;
    }
 }
 
-@media (max-width:768px) {
+@media (max-width: 768px) {
    .custom-container {
       width: 100%;
       margin-top: 30px;

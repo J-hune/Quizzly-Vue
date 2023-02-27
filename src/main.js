@@ -4,38 +4,45 @@ import VueCookies from "vue-cookies";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import { vfmPlugin } from "vue-final-modal";
+import clickOutside from "@/Methods/click-outside";
+import index from "@/store";
 
 import App from "./App.vue";
 import router from "./router";
+
 import "./assets/tailwind.css";
-import "./assets/markdown.css"
-import 'highlight.js/styles/default.css';
+import "./assets/markdown.css";
+import "highlight.js/styles/default.css";
 
 
 const options = {
-  position: "top-right",
-  timeout: 5000,
-  closeOnClick: true,
-  pauseOnFocusLoss: false,
-  pauseOnHover: true,
-  draggable: true,
-  draggablePercent: 0.6,
-  showCloseButtonOnHover: false,
-  hideProgressBar: false,
-  closeButton: "button",
-  icon: true,
-  rtl: false
+   position: "top-right",
+   timeout: 5000,
+   closeOnClick: true,
+   pauseOnFocusLoss: false,
+   pauseOnHover: true,
+   draggable: true,
+   draggablePercent: 0.6,
+   showCloseButtonOnHover: false,
+   hideProgressBar: false,
+   closeButton: "button",
+   icon: true,
+   rtl: false
 };
 
 
 const app = createApp(App);
 app.use(router);
 app.use(VueCookies);
+app.use(Toast, options);
+app.use(index)
+
+app.use(vfmPlugin({
+   key: "$vfm",
+   componentName: "VueFinalModal",
+   dynamicContainerName: "ModalsContainer"
+}));
+
+app.directive("click-outside", clickOutside);
 
 app.mount("#app");
-app.use(Toast, options);
-app.use(vfmPlugin({
-  key: "$vfm",
-  componentName: "VueFinalModal",
-  dynamicContainerName: "ModalsContainer"
-}));

@@ -1,5 +1,3 @@
-import router from "@/router";
-
 /**
  * Fetch l'api pour login/enregistrer l'utilisateur puis appelle le callback
  * @param {Object} user
@@ -32,10 +30,9 @@ export async function logUser(user, userType, action, callback) {
  * Fetch l'api pour vérifier si l'utilisateur existe
  * Si non, il est redirigé vers la page de login
  * Si oui, callback()
- * @param {function} callback
  * @return {Promise<void>}
  */
-export async function checkUserLogged(callback) {
+export async function checkUserLogged() {
    const response = await fetch(process.env.VUE_APP_API_URL + "/login/teachers/logged", {
       method: "GET",
       credentials: "include",
@@ -46,12 +43,5 @@ export async function checkUserLogged(callback) {
       }
    });
 
-   const data = await response.json();
-
-   // Si l'utilisateur existe
-   if (data.firstname && data.surname) {
-      callback(data);
-   } else {
-      await router.push("/signin");
-   }
+   return await response.json()
 }
