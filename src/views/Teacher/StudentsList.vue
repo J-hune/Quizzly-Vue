@@ -50,7 +50,7 @@
 <script>
 import Swal from "sweetalert2";
 import { toRaw } from "vue";
-import image from "../assets/img/f2.png";
+import image from "../../assets/img/f2.png";
 import { addStudentsFromCSV } from "@/functions/csv";
 import { useToast } from "vue-toastification";
 import { fetchData } from "@/functions/fetch";
