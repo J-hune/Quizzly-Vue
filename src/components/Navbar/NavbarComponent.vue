@@ -21,19 +21,11 @@
             </svg>
          </a>
 
-         <!-- Partie droite de la navbar -->
-         <div class="lg:flex hidden lg:ml-auto flex flex-wrap items-center text-base justify-center">
-            <nav>
-               <router-link to="/"><a class="mr-5 hover:text-black">Mes Etiquettes</a></router-link>
-               <router-link to="/students"><a class="mr-5 hover:text-black">Mes Eleves</a></router-link>
-               <router-link to="/newQuestion"><a class="mr-5 hover:text-black">Nouvelle Question</a></router-link>
-               <router-link to="/newQCM"><a class="mr-5 hover:text-black">Nouveau QCM</a></router-link>
-            </nav>
-            <button
-              class="inline-flex items-center bg-gray-100 border-0 py-1.5 px-3.5 focus:outline-none hover:bg-gray-200 rounded-lg text-base mt-4 md:mt-0"
-              @click="logout">Logout
-            </button>
-         </div>
+         <!-- NavBar Partie droite: Enseignant -->
+         <teacher-navbar v-if="userType === 'Enseignant'" />
+
+         <!-- NavBar Partie droite: Etudiant -->
+         <student-navbar v-else />
       </div>
 
       <!-- Bouton Burger (format md) -->
@@ -54,27 +46,11 @@
 
          <!-- Liste des Liens de la navbar -->
          <ul>
-            <li class="mb-1">
-               <router-link to="/">
-                  <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded">Mes Etiquettes</a>
-               </router-link>
-            </li>
-            <li class="mb-1">
-               <router-link to="/students">
-                  <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded">Mes
-                     Eleves</a>
-               </router-link>
-            </li>
-            <li class="mb-1">
-               <router-link to="/newQuestion">
-                  <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded">Nouvelle
-                     Question</a>
-               </router-link>
-            </li>
-            <li class="mb-1">
-               <router-link to="/newQCM">
-                  <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded">Nouveau
-                     QCM</a>
+            <li v-for="link in links.teacher" :key="link.link" class="mb-1">
+               <router-link :to="link.link">
+                  <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded">
+                     {{ link.label }}
+                  </a>
                </router-link>
             </li>
          </ul>
@@ -95,21 +71,38 @@
 <script>
 import router from "@/router";
 import { useToast } from "vue-toastification";
+import image from "../../assets/img/f2.png";
+import TeacherNavbar from "@/components/Navbar/TeacherNavbar.vue";
+import StudentNavbar from "@/components/Navbar/StudentNavbar.vue";
 
 export default {
+   name: "NavbarComponent",
+   components: { StudentNavbar, TeacherNavbar },
    setup() {
       const toast = useToast();
       return { toast };
    },
    data: function() {
       return {
+         image: image,
+         links: {
+            teacher: [
+               { link: "/", label: "Mes Etiquettes" },
+               { link: "/students", label: "Mes Eleves" },
+               { link: "/newQuestion", label: "Nouvelle Question" },
+               { link: "/newQCM", label: "Nouveau QCM" }
+            ],
+            student: [
+               { link: "/session", label: "Rejoindre une session" }
+            ]
+         },
          navbarOpen: false
       };
    },
-   name: "NavbarComponent",
-   props: {
-      firstname: String,
-      surname: String
+   computed: {
+      userType: function() {
+         return this.$store.getters.getUserType;
+      }
    },
    methods: {
       logout() {
