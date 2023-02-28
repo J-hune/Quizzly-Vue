@@ -46,7 +46,7 @@ export default {
       return {
          image: image,
          links: [
-            { link: "/sequence", label: "Rejoindre une sequence" }
+            { link: "/", label: "Rejoindre une sequence" }
          ],
          displayDropdown: false
       };

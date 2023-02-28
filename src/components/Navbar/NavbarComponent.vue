@@ -94,7 +94,7 @@ export default {
             ],
             student: [
                { link: "/profile", label: "Mon profil" },
-               { link: "/sequence", label: "Rejoindre une séquence" }
+               { link: "/", label: "Rejoindre une séquence" }
             ]
          },
          navbarOpen: false
