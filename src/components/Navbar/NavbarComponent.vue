@@ -93,7 +93,7 @@ export default {
                { link: "/newQCM", label: "Nouveau QCM" }
             ],
             student: [
-               { link: "/session", label: "Rejoindre une session" }
+               { link: "/sequence", label: "Rejoindre une séquence" }
             ]
          },
          navbarOpen: false

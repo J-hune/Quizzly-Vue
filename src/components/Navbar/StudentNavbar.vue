@@ -20,7 +20,7 @@
                   <router-link to="/profil"><span>Mon profil</span></router-link>
                </li>
                <li>
-                  <router-link to="/session"><span>Rejoindre une session</span></router-link>
+                  <router-link to="/sequence"><span>Rejoindre une séquence</span></router-link>
                </li>
                <li>
                   <span @click="logout">Déconnexion</span>
@@ -46,7 +46,7 @@ export default {
       return {
          image: image,
          links: [
-            { link: "/session", label: "Rejoindre une session" }
+            { link: "/sequence", label: "Rejoindre une sequence" }
          ],
          displayDropdown: false
       };
