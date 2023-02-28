@@ -23,8 +23,7 @@ const routes = [
             name: "DefaultPage",
             component: DefaultPage,
             meta: {
-               requiresAuth: true,
-               userType: ["Enseignant", "Etudiant"]
+               requiresAuth: true
             }
          },
          {
