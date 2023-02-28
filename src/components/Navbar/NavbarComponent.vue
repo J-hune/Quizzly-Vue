@@ -46,7 +46,7 @@
 
          <!-- Liste des Liens de la navbar -->
          <ul>
-            <li v-for="link in links.teacher" :key="link.link" class="mb-1">
+            <li v-for="link in userType === 'Enseignant' ? links.teacher : links.student" :key="link.link" class="mb-1">
                <router-link :to="link.link">
                   <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded">
                      {{ link.label }}
@@ -93,6 +93,7 @@ export default {
                { link: "/newQCM", label: "Nouveau QCM" }
             ],
             student: [
+               { link: "/profile", label: "Mon profil" },
                { link: "/sequence", label: "Rejoindre une séquence" }
             ]
          },
