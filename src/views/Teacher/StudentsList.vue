@@ -65,30 +65,12 @@ export default {
       return {
          search: "",
          image: image,
-         students: [
-            {
-               avatar: "https://cdn.discordapp.com/avatars/641642174085070848/80fc91a8a8a59d3ef068fc7fb60246ea.webp?size=320",
-               nom: "Leclere",
-               prenom: "Michel",
-               id: "22102687"
-            },
-            {
-               avatar: "https://cdn.discordapp.com/avatars/429652389256232962/58c40826c30b05f3b4a3ba2f212d439d.webp?size=320",
-               nom: "Zassot",
-               prenom: "Donovann",
-               id: "22102688"
-            },
-            {
-               avatar: "",
-               nom: "Zassot",
-               prenom: "Donovann",
-               id: "22102689"
-            }
-         ]
+         students: []
       };
    },
    async created() {
-      //TODO Fetch les données et modifier data
+      const { data } = await fetchData("/students/getAllStudents");
+      this.students = data;
    },
    methods: {
       uploadFile() {
@@ -102,9 +84,13 @@ export default {
          let reader = new FileReader();
          reader.readAsText(file);
 
-         reader.onload = (e) => {
+         reader.onload = async (e) => {
             let csvData = e.target.result;
-            addStudentsFromCSV(csvData, this.toast);
+            await addStudentsFromCSV(csvData, this.toast);
+
+            // On modifie les données du front à partir d'un appel à l'api
+            const { data } = await fetchData("/students/getAllStudents");
+            this.students = data;
          };
       },
       addStudents() {
@@ -127,13 +113,16 @@ export default {
             if (result.isConfirmed) {
 
                // On appelle l'api pour supprimer tous les étudiants
-               const { data } = await fetchData("/students/removeAllStudent/");
-               if (data.success) {
+               const { data: dataRemove } = await fetchData("/students/removeAllStudent/");
+               if (dataRemove.success) {
                   this.toast.success("Tous les étudiants ont été supprimés");
+
+                  // On modifie les données du front en faisant confiance au back-end
+                  // (On pourrait aussi récupérer les données une nouvelle fois avec un nouvel appel à l'api)
+                  this.students = [];
                } else {
                   this.toast.error("Les étudiants n'ont pas pu être supprimés");
                }
-               //TODO reFetch les données
             }
          });
       },
@@ -157,10 +146,13 @@ export default {
                const { data } = await fetchData("/students/removeStudent/" + student.id);
                if (data.success) {
                   this.toast.success("L'étudiant #" + student.id + " a été supprimé");
+
+                  // On modifie les données du front en faisant confiance au back-end
+                  // (On pourrait aussi récupérer les données une nouvelle fois avec un nouvel appel à l'api)
+                  this.students = this.students.filter(e => e.id !== student.id);
                } else {
                   this.toast.error("L'étudiant n'a pas pu être supprimé");
                }
-               //TODO reFetch les données
             }
          });
       }
@@ -171,7 +163,7 @@ export default {
          return allStudents.filter(e => {
             let nom = e.nom.toLowerCase().includes(this.search.toLowerCase());
             let prenom = e.prenom.toLowerCase().includes(this.search.toLowerCase());
-            let id = e.id.includes(this.search);
+            let id = e.id.toString().includes(this.search);
 
             return nom || prenom || id;
          });
