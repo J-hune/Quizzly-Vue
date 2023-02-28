@@ -5,7 +5,7 @@ import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import { vfmPlugin } from "vue-final-modal";
 import clickOutside from "@/Methods/click-outside";
-import index from "@/store";
+import store from "@/store";
 
 import App from "./App.vue";
 import router from "./router";
@@ -35,7 +35,7 @@ const app = createApp(App);
 app.use(router);
 app.use(VueCookies);
 app.use(Toast, options);
-app.use(index)
+app.use(store)
 
 app.use(vfmPlugin({
    key: "$vfm",

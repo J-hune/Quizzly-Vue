@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import index from "@/store";
+import store from "@/store";
 
 import HomeView from "../views/HomeView.vue";
 import SignupView from "@/views/SignupView";
@@ -94,26 +94,27 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
 
    // Si l'utilisateur doit être auth mais ne l'est pas, il est redirigé
-   if (to.meta.requiresAuth && !index.getters.isLoggedIn) {
+   if (to.meta.requiresAuth && !store.getters.isLoggedIn) {
       const userData = await checkUserLogged();
 
       // On stocke les données de l'utilisateur
       if (userData.firstname) {
-         index.commit("setUser", {
+         store.commit("setUser", {
             id: userData.id,
             firstname: userData.firstname,
             surname: userData.surname,
+            avatar: userData.avatar,
             type: userData.type
          });
 
-         index.commit("setLoggedIn", true);
+         store.commit("setLoggedIn", true);
       } else {
          return next("/signin");
       }
    }
 
    // Si l'utilisateur n'a pas le bon type, on le redirige vers "/"
-   if (to.meta.userType && !to.meta.userType.includes(index.getters.getUserType)) {
+   if (to.meta.userType && !to.meta.userType.includes(store.getters.getUserType)) {
       // Afficher un message d'erreur si l'utilisateur n'a pas les autorisations nécessaires
       alert("Vous n'avez pas les autorisations nécessaires pour accéder à cette page.");
 
