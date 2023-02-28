@@ -9,22 +9,21 @@
 
       <!-- TODO Quand la route "/login/users/logged" aura été modifiée, ajouter un props "avatar" et l'utiliser ici -->
       <!-- <img class="w-12 h-12 rounded-full mr-4" :src="avatar || image" alt="student avatar"> -->
-      <img class="w-10 h-10 avatar" :src="image" alt="student avatar" @click="displayDropdown = !displayDropdown" v-click-outside="() => displayDropdown = false" />
+      <img class="w-10 h-10 avatar" :src="image" alt="student avatar" @click="displayDropdown = !displayDropdown"
+           v-click-outside="() => displayDropdown = false" />
       <div class="dropdown-container" :style="{display: displayDropdown ? 'block': 'none'}">
          <div class="dropdown">
             <div class="user-name">
                <span>{{ userName }}</span>
             </div>
             <ul class="dropdown-list cursor-pointer" aria-labelledby="dropdownDefaultButton">
-               <li>
-                  <router-link to="/profil"><span>Mon profil</span></router-link>
-               </li>
-               <li>
-                  <router-link to="/sequence"><span>Rejoindre une séquence</span></router-link>
-               </li>
-               <li>
-                  <span @click="logout">Déconnexion</span>
-               </li>
+               <router-link to="/profile">
+                  <li>Mon profil</li>
+               </router-link>
+               <router-link to="/">
+                  <li>Rejoindre une séquence</li>
+               </router-link>
+               <li @click="logout">Déconnexion</li>
             </ul>
          </div>
       </div>
@@ -66,7 +65,7 @@ export default {
       userName: function() {
          return this.$store.getters.getUserName;
       }
-   },
+   }
 };
 </script>
 
