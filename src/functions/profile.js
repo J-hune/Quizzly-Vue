@@ -1,5 +1,6 @@
 /**
  * Convertit une image en URL de données base64
+ * @async
  * @param {HTMLImageElement} image - L'élément image à convertir
  * @returns {Promise<string>} - L'URL de données base64 de l'image
  */
@@ -19,6 +20,7 @@ function imageToBase64(image) {
 
 /**
  * Convertit un fichier en URL de données base64
+ * @async
  * @param {File} file - Le fichier image à convertir
  * @returns {string} - L'URL de données base64 de l'image
  */
@@ -101,6 +103,7 @@ export async function getColorFromImage(urlOrBase64) {
 
 /**
  * Édite l'image de profil de l'utilisateur connecté en envoyant l'image au serveur.
+ * @async
  * @param {File} image - Le fichier image à envoyer au serveur.
  * @param {Object} toast - L'objet toast utilisé pour afficher les messages d'erreur/succès.
  * @param {Function} callback - La fonction callback appelée après la mise à jour de l'avatar.
@@ -132,8 +135,17 @@ export async function editImageProfile(image, toast, callback) {
    }
 }
 
-
+/**
+ * Édite le mot de passe de l'utilisateur.
+ * @async
+ * @param {string} password - Le nouveau mot de passe.
+ * @param {object} toast - L'objet toast permettant d'afficher des messages à l'utilisateur.
+ * @param {function} callback - La fonction de rappel à exécuter après la mise à jour réussie du mot de passe.
+ * @returns {void}
+ */
 export async function editPassword(password, toast, callback) {
+
+   // Envoi de la requête au serveur avec la méthode POST
    const response = await fetch(process.env.VUE_APP_API_URL + "/login/students/editPassword", {
       method: "POST",
       mode: "cors",
@@ -145,6 +157,7 @@ export async function editPassword(password, toast, callback) {
       body: JSON.stringify({ password: password })
    });
 
+   // Récupération de la réponse du serveur
    const responseData = await response.json();
    if (responseData.success) {
       toast.success("Le mot de passe a été mis à jour");
