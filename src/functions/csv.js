@@ -28,7 +28,6 @@ export async function addStudentsFromCSV(csv, toast) {
    const responseData = await response.json();
    if (responseData.success) {
       toast.success(responseData.result + " étudiants ont été ajoutés");
-      //TODO reFetch les données
    } else {
       toast.error("Une erreur a eu lieu lors de l'ajout des étudiants");
    }

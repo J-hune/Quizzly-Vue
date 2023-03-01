@@ -1,4 +1,5 @@
 import { createStore } from "vuex";
+import image from "../assets/img/f2.png";
 
 const store = createStore({
    state() {
@@ -22,6 +23,9 @@ const store = createStore({
       },
       setLoggedIn(state, value) {
          state.isLoggedIn = value;
+      },
+      setUserAvatar(state, { avatar }) {
+         state.user.avatar = avatar;
       }
    },
    getters: {
@@ -32,7 +36,7 @@ const store = createStore({
          return state.user.firstname + " " + state.user.surname;
       },
       getUserAvatar(state) {
-         return state.user.avatar;
+         return state.user.avatar || image;
       },
       getUserType(state) {
          return state.user.type;
@@ -40,7 +44,12 @@ const store = createStore({
       isLoggedIn(state) {
          return state.isLoggedIn;
       }
-   }
+   },
+   actions: {
+      updateUserAvatar({ commit }, avatar) {
+         commit('setUserAvatar', { avatar })
+      },
+   },
 });
 
 export default store;

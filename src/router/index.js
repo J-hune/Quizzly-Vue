@@ -11,6 +11,7 @@ import EditQuestion from "@/views/Teacher/EditQuestionView.vue";
 import StudentsList from "@/views/Teacher/StudentsList.vue";
 import DefaultPage from "@/views/DefaultPageView.vue";
 import { checkUserLogged } from "@/functions/login";
+import ProfileView from "@/views/Student/ProfileView.vue";
 
 const routes = [
    {
@@ -69,6 +70,15 @@ const routes = [
             meta: {
                requiresAuth: true,
                userType: ["Enseignant"]
+            }
+         },
+         {
+            path: "/profile",
+            name: "profile",
+            component: ProfileView,
+            meta: {
+               requiresAuth: true,
+               userType: ["Etudiant"]
             }
          }
       ]

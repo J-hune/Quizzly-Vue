@@ -38,7 +38,6 @@
 import { logUser } from "@/functions/login";
 import { useToast } from "vue-toastification";
 import router from "@/router";
-import store from "@/store";
 
 export default {
    name: "StudentPortal",
@@ -68,7 +67,7 @@ export default {
                this.toast.info("Bienvenue " + data.user.firstname);
 
                // On stocke les données de l'utilisateur
-               store.commit("setUser", {
+               this.$store.commit("setUser", {
                   id: data.user.id,
                   firstname: data.user.firstname,
                   surname: data.user.surname,
@@ -76,7 +75,7 @@ export default {
                   type: data.user.type
                });
 
-               store.commit("setLoggedIn", true);
+               this.$store.commit("setLoggedIn", true);
                router.push("/");
             } else {
                this.toast.error("Les Identifiants que vous avez donné sont invalides");

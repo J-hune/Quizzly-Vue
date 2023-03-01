@@ -9,7 +9,7 @@
 
       <!-- TODO Quand la route "/login/users/logged" aura été modifiée, ajouter un props "avatar" et l'utiliser ici -->
       <!-- <img class="w-12 h-12 rounded-full mr-4" :src="avatar || image" alt="student avatar"> -->
-      <img class="w-10 h-10 avatar" :src="image" alt="student avatar" @click="displayDropdown = !displayDropdown"
+      <img class="w-10 h-10 avatar" :src="userAvatar" alt="student avatar" @click="displayDropdown = !displayDropdown"
            v-click-outside="() => displayDropdown = false" />
       <div class="dropdown-container" :style="{display: displayDropdown ? 'block': 'none'}">
          <div class="dropdown">
@@ -31,9 +31,9 @@
 </template>
 
 <script>
-import image from "@/assets/img/f2.png";
 import router from "@/router";
 import { useToast } from "vue-toastification";
+import { mapGetters } from "vuex";
 
 export default {
    name: "StudentNavbar",
@@ -43,7 +43,6 @@ export default {
    },
    data: function() {
       return {
-         image: image,
          links: [
             { link: "/", label: "Rejoindre une sequence" }
          ],
@@ -62,9 +61,14 @@ export default {
       }
    },
    computed: {
-      userName: function() {
-         return this.$store.getters.getUserName;
+      ...mapGetters(["getUserAvatar", "getUserName"]),
+      userAvatar() {
+         return this.getUserAvatar;
+      },
+      userName() {
+         return this.getUserName;
       }
+
    }
 };
 </script>
