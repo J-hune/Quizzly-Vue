@@ -89,8 +89,8 @@ export default {
             teacher: [
                { link: "/", label: "Mes Etiquettes" },
                { link: "/students", label: "Mes Eleves" },
-               { link: "/newQuestion", label: "Nouvelle Question" },
-               { link: "/newQCM", label: "Nouveau QCM" }
+               { link: "/sequences", label: "Mes Séquences" },
+               { link: "/newQCM", label: "Nouveau QCM" },
             ],
             student: [
                { link: "/profile", label: "Mon profil" },

@@ -13,6 +13,7 @@ import DefaultPage from "@/views/DefaultPageView.vue";
 import {checkUserLogged} from "@/functions/login";
 import ProfileView from "@/views/Student/ProfileView.vue";
 import AddSequenceView from "@/views/Teacher/AddSequenceView.vue";
+import SequencesList from "@/views/Teacher/SequencesList.vue";
 import EditSequenceView from "@/views/Teacher/EditSequenceView.vue";
 
 const routes = [
@@ -51,6 +52,15 @@ const routes = [
             path: "/question/:id/edit",
             name: "editQuestion",
             component: EditQuestion,
+            meta: {
+               requiresAuth: true,
+               userType: ["Enseignant"]
+            }
+         },
+         {
+            path: "/sequences",
+            name: "sequences",
+            component: SequencesList,
             meta: {
                requiresAuth: true,
                userType: ["Enseignant"]

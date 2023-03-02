@@ -28,7 +28,7 @@ export default {
          links: [
             { link: "/", label: "Mes Etiquettes" },
             { link: "/students", label: "Mes Eleves" },
-            { link: "/newQuestion", label: "Nouvelle Question" },
+            { link: "/sequences", label: "Mes Séquences" },
             { link: "/newQCM", label: "Nouveau QCM" }
          ],
       };
