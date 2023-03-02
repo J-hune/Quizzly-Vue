@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import {createRouter, createWebHistory} from "vue-router";
 import store from "@/store";
 
 import HomeView from "../views/HomeView.vue";
@@ -13,6 +13,7 @@ import DefaultPage from "@/views/DefaultPageView.vue";
 import {checkUserLogged} from "@/functions/login";
 import ProfileView from "@/views/Student/ProfileView.vue";
 import AddSequenceView from "@/views/Teacher/AddSequenceView.vue";
+import EditSequenceView from "@/views/Teacher/EditSequenceView.vue";
 
 const routes = [
    {
@@ -38,15 +39,6 @@ const routes = [
             }
          },
          {
-            path: "/question/:id/edit",
-            name: "editQuestion",
-            component: EditQuestion,
-            meta: {
-               requiresAuth: true,
-               userType: ["Enseignant"]
-            }
-         },
-         {
             path: "/newQuestion",
             name: "newQuestion",
             component: AddQuestion,
@@ -56,9 +48,9 @@ const routes = [
             }
          },
          {
-            path: "/newQCM",
-            name: "newQCM",
-            component: NewQcm,
+            path: "/question/:id/edit",
+            name: "editQuestion",
+            component: EditQuestion,
             meta: {
                requiresAuth: true,
                userType: ["Enseignant"]
@@ -73,6 +65,25 @@ const routes = [
                userType: ["Enseignant"]
             }
          },
+         {
+            path: "/sequence/:id/edit",
+            name: "editSequence",
+            component: EditSequenceView,
+            meta: {
+               requiresAuth: true,
+               userType: ["Enseignant"]
+            }
+         },
+         {
+            path: "/newQCM",
+            name: "newQCM",
+            component: NewQcm,
+            meta: {
+               requiresAuth: true,
+               userType: ["Enseignant"]
+            }
+         },
+
          {
             path: "/students",
             name: "students",
