@@ -54,10 +54,10 @@ export async function editSequence(sequence, id, callback) {
  * @async
  * @param {String} id
  * @param {*} toast
- * @param {function} deleteCallback
+ * @param {function | undefined} deleteCallback
  * @return {Promise<void>}
  */
-export async function deleteSequence(id, toast, deleteCallback) {
+export async function deleteSequence(id, toast, deleteCallback = Function()) {
    Swal.fire({
       title: "Confirmer la suppression ?",
       text: `Voulez vous supprimer la séquence ${id} ?`,
@@ -95,13 +95,13 @@ export async function deleteSequence(id, toast, deleteCallback) {
 /**
  * Gère l'interaction avec une séquence pédagogique identifiée par son ID.
  * @async
- * @param {number} id - L'identifiant de la séquence pédagogique.
+ * @param {string} id - L'identifiant de la séquence pédagogique.
  * @param {object} router - L'objet routeur de Vue.js pour la navigation.
  * @param {object} toast - L'objet toast pour l'affichage de messages.
- * @param {Function} deleteCallback - La fonction de rappel à appeler après la suppression de la séquence.
+ * @param {Function |undefined} deleteCallback - La fonction de rappel à appeler après la suppression de la séquence.
  * @returns {Promise<void>} Une promesse résolue lorsque l'interaction est terminée.
  */
-export async function sequenceInteraction(id, router, toast, deleteCallback) {
+export async function sequenceInteraction(id, router, toast, deleteCallback = Function()) {
    Swal.fire({
       icon: "question",
       title: "Séquence #" + id,

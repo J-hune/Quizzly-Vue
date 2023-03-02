@@ -22,10 +22,16 @@
    <!-- Bouton Impression -->
    <div class="save">
       <button
-          class="relative ml-auto mt-5 mr-6 mb-5 bg-blue-500 hover:bg-blue-600 text-white
-        font-bold py-2 px-7 rounded-lg disabled:opacity-25 right-0" @click="save"
+          class="relative mt-5 mr-6 mb-5 bg-blue-500 hover:bg-blue-600 text-white
+        font-semibold py-2 px-7 rounded-lg disabled:opacity-25" @click="save"
           :disabled="!title || selectedQuestions.length <= 0">
          Enregistrer les modifications
+      </button>
+
+      <button
+          class="relative mt-5 mr-3 mb-5 bg-red-500 hover:bg-red-600 text-white
+        font-semibold py-2 px-7 rounded-lg" @click="remove">
+         Supprimer la Séquence
       </button>
    </div>
 </template>
@@ -34,7 +40,7 @@
 import DraggableQuestions from "@/components/Questions/draggableQuestions.vue";
 import {fetchData} from "@/functions/fetch";
 import {toRaw} from "vue";
-import {editSequence} from "@/functions/sequences";
+import {deleteSequence, editSequence} from "@/functions/sequences";
 import {useToast} from "vue-toastification";
 import RedirectBack from "@/components/redirectBack.vue";
 import {useRoute} from "vue-router";
@@ -66,6 +72,9 @@ export default {
                this.toast.error("La séquence n'a pas pu être modifiée")
             }
          })
+      },
+      remove: function () {
+         deleteSequence(this.id, this.toast)
       }
    },
    async created() {
@@ -84,10 +93,11 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .save {
-   width: 100%;
-   display: inline-flex;
+   display: flex;
+   flex-direction: row-reverse;
+   margin-top: 5px;
    border-top: solid 1px #eaeaea;
 }
 </style>
