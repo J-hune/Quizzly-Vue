@@ -22,14 +22,14 @@
    <!-- Bouton Impression -->
    <div class="save">
       <button
-          class="relative mt-5 mr-6 mb-5 bg-blue-500 hover:bg-blue-600 text-white
+          class="relative mt-5 mr-5 sm:mr-6 mb-5 bg-blue-500 hover:bg-blue-600 text-white
         font-bold py-2 px-7 rounded-lg disabled:opacity-25" @click="save"
           :disabled="!title || selectedQuestions.length <= 0">
          Enregistrer les modifications
       </button>
 
       <button
-          class="relative mt-5 ml-3 mr-3 mb-5 bg-red-500 hover:bg-red-600 text-white
+          class="relative mt-5 ml-5 sm:ml-6 mr-3 mb-5 bg-red-500 hover:bg-red-600 text-white
         font-bold py-2 px-7 rounded-lg" @click="remove">
          Supprimer la Séquence
       </button>
