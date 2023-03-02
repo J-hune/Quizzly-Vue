@@ -33,7 +33,7 @@ export async function logUser(user, userType, action, callback) {
  * @return {Promise<void>}
  */
 export async function checkUserLogged() {
-   const response = await fetch(process.env.VUE_APP_API_URL + "/login/teachers/logged", {
+   const response = await fetch(process.env.VUE_APP_API_URL + "/login/logged", {
       method: "GET",
       credentials: "include",
       mode: "cors",
