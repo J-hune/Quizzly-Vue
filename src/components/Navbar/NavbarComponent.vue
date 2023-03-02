@@ -48,7 +48,7 @@
          <ul>
             <li v-for="link in userType === 'Enseignant' ? links.teacher : links.student" :key="link.link" class="mb-1">
                <router-link :to="link.link">
-                  <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded">
+                  <a class="block p-4 text-md font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded">
                      {{ link.label }}
                   </a>
                </router-link>

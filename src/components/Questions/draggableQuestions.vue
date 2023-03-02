@@ -89,6 +89,7 @@ export default {
    background-color: #eeebf3;
    border-radius: 10px;
    padding: 14px;
+   min-height: 50px;
 }
 
 .list-group {
