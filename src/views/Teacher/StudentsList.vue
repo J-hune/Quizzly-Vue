@@ -105,7 +105,6 @@ export default {
             icon: "question",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
             confirmButtonText: "Supprimer tous les étudiants",
             cancelButtonText: "Annuler"
          }).then(async (result) => {
@@ -135,7 +134,6 @@ export default {
             icon: "question",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
             confirmButtonText: "Supprimer cet étudiant",
             cancelButtonText: "Annuler"
          }).then(async (result) => {

@@ -144,7 +144,7 @@ export default {
       save: function() {
          const question = toRaw(this.question);
          editQuestion(question, (data) => {
-            if (data.success) this.toast.success("La question a été Modifiée");
+            if (data.success) this.toast.success("La question a été modifiée");
             else this.toast.error("Une erreur a eu lieu lors de la modification de la question");
          });
       },

@@ -84,7 +84,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .save {
    width: 100%;
    display: inline-flex;
