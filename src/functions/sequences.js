@@ -60,7 +60,7 @@ export async function editSequence(sequence, id, callback) {
 export async function deleteSequence(id, toast, deleteCallback = Function()) {
    Swal.fire({
       title: "Confirmer la suppression ?",
-      text: `Voulez vous supprimer la séquence ${id} ?`,
+      text: `Voulez vous supprimer la séquence #${id} ?`,
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -72,7 +72,7 @@ export async function deleteSequence(id, toast, deleteCallback = Function()) {
 
          // On fetch l'API pour supprimer la séquence
          const response = await fetch(process.env.VUE_APP_API_URL + "/sequences/removeSequence/" + id, {
-            method: "POST",
+            method: "GET",
             mode: "cors",
             credentials: "include",
             headers: {
