@@ -63,9 +63,15 @@
    <!-- Bouton sauvegarde -->
    <div class="save">
       <button
-        class="relative ml-auto mt-5 mr-6 mb-5 bg-blue-500 hover:bg-blue-600 text-white
-        font-bold py-2 px-7 rounded-lg disabled:opacity-25 right-0" @click="save" :disabled="!canSave()">
-         Enregistrer
+        class="relative mt-5 mr-5 sm:mr-6 mb-5 bg-blue-500 hover:bg-blue-600 text-white
+        font-bold py-2 px-7 rounded-lg disabled:opacity-25" @click="save" :disabled="!canSave()">
+         Enregistrer les modifications
+      </button>
+
+      <button
+          class="relative mt-5 ml-5 sm:ml-6 mr-3 mb-5 bg-red-500 hover:bg-red-600 text-white
+        font-bold py-2 px-7 rounded-lg" @click="remove">
+         Supprimer la Question
       </button>
    </div>
 </template>
@@ -78,7 +84,7 @@ import { useToast } from "vue-toastification";
 
 import { fetchData } from "@/functions/fetch";
 import { TextToHtml } from "@/functions/textTohtml";
-import { editQuestion } from "@/functions/questions";
+import {editQuestion, removeQuestion} from "@/functions/questions";
 
 import RedirectBack from "@/components/redirectBack";
 import ModalComponent from "@/components/ModalComponent";
@@ -86,6 +92,7 @@ import AddLabelsComponent from "@/components/Labels/AddLabels.vue";
 import SwitchButton from "@/components/SwitchButton.vue";
 import MultipleResponses from "@/components/Questions/multipleResponses.vue";
 import UniqueResponse from "@/components/Questions/uniqueResponse.vue";
+import router from "@/router";
 
 export default {
    name: "EditQuestion",
@@ -148,6 +155,16 @@ export default {
             else this.toast.error("Une erreur a eu lieu lors de la modification de la question");
          });
       },
+      remove: function () {
+         const question = toRaw(this.question);
+         removeQuestion(question, (data) => {
+            if (data.success) {
+               this.toast.success("La question a été supprimée");
+               router.back()
+            }
+            else this.toast.error("Une erreur a eu lieu lors de la suppression de la question");
+         });
+      },
       onChildUpdate: function(newValue) {
          this.question.type = !newValue ? 0 : 1
       }
@@ -205,8 +222,9 @@ export default {
 }
 
 .save {
-   width: 100%;
-   display: inline-flex;
+   display: flex;
+   flex-direction: row-reverse;
+   margin-top: 5px;
    border-top: solid 1px #eaeaea;
 }
 </style>
