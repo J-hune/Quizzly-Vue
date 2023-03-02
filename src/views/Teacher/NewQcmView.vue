@@ -5,7 +5,7 @@
 
          <!-- Titre de la page -->
          <div class="flex flex-col w-full mb-10 py-1">
-            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Créer un QCM</h1>
+            <h1 class="sm:text-3xl text-2xl font-semibold title-font mb-4 text-gray-900">Créer un QCM</h1>
             <p class="leading-relaxed text-base">Les questions que vous avez déjà créées sont affichées sur la
                droite.<br>
                Faites les glisser sur la gauche pour les ajouter au sujet.</p>

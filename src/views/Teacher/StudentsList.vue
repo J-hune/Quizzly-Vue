@@ -1,9 +1,9 @@
 <template>
-   <div class="px-7 md:px-16 pt-10 pb-14 w-full">
+   <div class="px-7 md:px-16 py-12 pb-14 w-full">
 
       <!-- Titre et description Composant -->
       <div class="flex flex-col w-full mb-12 py-1">
-         <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Mes Etudiants</h1>
+         <h1 class="sm:text-3xl text-2xl font-semibold title-font mb-4 text-gray-900">Mes Etudiants</h1>
          <p class="leading-relaxed text-base">Les comptes étudiants de l'établissement sont affichées ci-dessous.<br>
             Cliquez sur un étudiant pour le supprimer.</p>
       </div>
@@ -37,7 +37,7 @@
               v-for="student in searchStudents" :key="student.id" @click="removeStudent(student)">
             <img class="w-12 h-12 rounded-full mr-4" :src="student.avatar || image" alt="student avatar">
             <div class="flex flex-col overflow-hidden">
-               <span class="card-font text-black overflow-hidden text-ellipsis whitespace-nowrap">{{ student.prenom }} {{ student.nom
+               <span class="card-font text-black font-medium overflow-hidden text-ellipsis whitespace-nowrap">{{ student.prenom }} {{ student.nom
                   }}</span>
                <span class="text-sm text-slate-600">#{{ student.id }}</span>
             </div>

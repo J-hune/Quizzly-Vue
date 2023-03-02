@@ -12,46 +12,56 @@
     border-radius: 10px;
 }
 
+/* Styles de titre */
 .markdown-body h1 {
-    font-size: 2em;
-    font-weight: bold;
-    margin: 0.67em 0;
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-bottom: 0.5em;
 }
 
 .markdown-body h2 {
-    font-size: 1.5em;
-    font-weight: bold;
-    margin: 0.83em 0;
+    font-size: 2em;
+    font-weight: 600;
+    margin-bottom: 0.5em;
 }
 
 .markdown-body h3 {
-    font-size: 1.17em;
-    font-weight: bold;
-    margin: 1em 0;
+    font-size: 1.5em;
+    font-weight: 600;
+    margin-bottom: 0.5em;
 }
 
+/* Style de paragraphe */
 .markdown-body p {
     margin: 1em 0;
 }
 
-.markdown-body ul,
-.markdown-body ol {
-    display: block;
-    list-style-type: disc;
-    padding-left: 40px;
-    margin: 1em 0;
+/* Style de liste non ordonnée */
+.markdown-body ul {
+    list-style: disc;
+    margin-left: 1.5em;
+    margin-bottom: 1.2em;
 }
 
+/* Style de liste ordonnée */
 .markdown-body ol {
-    list-style-type: decimal;
+    list-style: decimal;
+    margin-left: 1.5em;
+    margin-bottom: 1.2em;
 }
 
+/* Style d'élément de liste */
 .markdown-body li {
-    display: list-item;
+    font-size: 1.1em;
+    line-height: 1.4;
 }
 
+/* Style de citation */
 .markdown-body blockquote {
-    margin: 1em 40px;
+    font-style: italic;
+    border-left: 3px solid #ddd;
+    margin: 1em 0;
+    padding-left: 1em;
 }
 
 .markdown-body pre .hljs {

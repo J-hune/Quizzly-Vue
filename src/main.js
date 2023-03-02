@@ -12,6 +12,7 @@ import router from "./router";
 
 import "./assets/tailwind.css";
 import "./assets/markdown.css";
+import "./assets/font.css";
 import "highlight.js/styles/default.css";
 
 

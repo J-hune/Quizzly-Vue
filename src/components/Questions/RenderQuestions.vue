@@ -1,6 +1,6 @@
 <template>
    <div class="markdown-body" id="printableElement">
-      <h1 class="text-center">{{ title }}</h1>
+      <h2 class="mt-3 text-center">{{ title }}</h2>
       <div v-for="(question, index) in questions" :key="index" class="mt-6">
 
          <!-- Énoncé de la question (rendu html) -->

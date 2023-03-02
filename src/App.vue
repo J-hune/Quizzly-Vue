@@ -8,7 +8,7 @@ body {
 }
 
 #app {
-   font-family: Arial, sans-serif;
+   font-family: Nunito, serif;
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale;
    color: #2c3e50;
