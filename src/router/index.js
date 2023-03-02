@@ -10,8 +10,9 @@ import AddQuestion from "@/views/Teacher/AddQuestionView.vue";
 import EditQuestion from "@/views/Teacher/EditQuestionView.vue";
 import StudentsList from "@/views/Teacher/StudentsList.vue";
 import DefaultPage from "@/views/DefaultPageView.vue";
-import { checkUserLogged } from "@/functions/login";
+import {checkUserLogged} from "@/functions/login";
 import ProfileView from "@/views/Student/ProfileView.vue";
+import AddSequenceView from "@/views/Teacher/AddSequenceView.vue";
 
 const routes = [
    {
@@ -58,6 +59,15 @@ const routes = [
             path: "/newQCM",
             name: "newQCM",
             component: NewQcm,
+            meta: {
+               requiresAuth: true,
+               userType: ["Enseignant"]
+            }
+         },
+         {
+            path: "/newSequence",
+            name: "newSequence",
+            component: AddSequenceView,
             meta: {
                requiresAuth: true,
                userType: ["Enseignant"]
