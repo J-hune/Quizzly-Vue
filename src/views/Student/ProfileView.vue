@@ -43,8 +43,6 @@ import { editImageProfile, editPassword, getColorFromImage } from "@/functions/p
 import { useToast } from "vue-toastification";
 import { mapMutations } from "vuex";
 
-//TODO Fetch pour modifier le mot de passe (hugo doit modifier le back avant)
-
 export default {
    name: "ProfileView",
    data: function() {
