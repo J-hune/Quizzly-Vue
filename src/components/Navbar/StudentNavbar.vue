@@ -7,8 +7,6 @@
          </router-link>
       </nav>
 
-      <!-- TODO Quand la route "/login/users/logged" aura été modifiée, ajouter un props "avatar" et l'utiliser ici -->
-      <!-- <img class="w-12 h-12 rounded-full mr-4" :src="avatar || image" alt="student avatar"> -->
       <img class="w-10 h-10 avatar" :src="userAvatar" alt="student avatar" @click="displayDropdown = !displayDropdown"
            v-click-outside="() => displayDropdown = false" />
       <div class="dropdown-container" :style="{display: displayDropdown ? 'block': 'none'}">
