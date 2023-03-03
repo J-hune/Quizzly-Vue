@@ -84,11 +84,10 @@ export default {
       const {data} = await fetchData("/questions/getQuestions/");
       this.allQuestions = data;
 
-      // TODO modifier quand Hugo aura fait la route /sequences/getSequence/<id>
-      //const {data: sequence} = await fetchData("/sequences/getSequence/" + route.params.id);
+      const {data: sequence} = await fetchData("/sequences/getSequence/" + route.params.id);
       this.id = route.params.id
-      //this.title = sequence.titre
-      //this.selectedQuestions = data.filter(e => sequence.questions.includes(e.id))
+      this.title = sequence.titre
+      this.selectedQuestions = data.filter(e => sequence.questions.includes(e.id))
    }
 };
 </script>
