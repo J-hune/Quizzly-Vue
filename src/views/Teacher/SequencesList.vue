@@ -41,6 +41,7 @@ import router from "@/router";
 import SequenceCard from "@/components/Sequences/SequenceCard.vue";
 import {sequenceInteraction} from "@/functions/sequences";
 import {useToast} from "vue-toastification";
+import {fetchData} from "@/functions/fetch";
 
 export default {
    name: "SequencesList",
@@ -56,25 +57,8 @@ export default {
       };
    },
    async created() {
-      // TODO Ajouter la route une fois que Hugo l'aura ajouté
-      //const { data } = await fetchData("/sequences/getAllSequences/");
-      //this.sequences = data;
-
-      this.sequences = [{
-         "id": "Rz3dx334",
-         "titre": "Blabla le titre",
-         "questions": 3,
-         "listeEtiquettes": [
-            {
-               "couleur": "4682b4",
-               "nom": "Algorithmie"
-            },
-            {
-               "couleur": "ffe465",
-               "nom": "Python"
-            }
-         ]
-      }]
+      const { data } = await fetchData("/sequences/getAllSequences");
+      this.sequences = data;
    },
    computed: {
       matchingSequences() {
