@@ -117,7 +117,7 @@ export async function sequenceInteraction(id, router, toast, deleteCallback = Fu
    }).then(async (result) => {
       // Si l'utilisateur veut démarrer la séquence
       if (result.isConfirmed) {
-         console.log("Start sequence #" + id)
+         router.push("/sequence/" + id + "/start");
       }
 
       // Si l'utilisateur veut modifier la séquence

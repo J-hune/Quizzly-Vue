@@ -1,9 +1,9 @@
-import { createApp } from "vue";
+import {createApp} from "vue";
 import VueCookies from "vue-cookies";
-
 import Toast from "vue-toastification";
+import {vfmPlugin} from "vue-final-modal";
+
 import "vue-toastification/dist/index.css";
-import { vfmPlugin } from "vue-final-modal";
 import clickOutside from "@/Methods/click-outside";
 import store from "@/store";
 
@@ -14,7 +14,6 @@ import "./assets/tailwind.css";
 import "./assets/markdown.css";
 import "./assets/font.css";
 import "highlight.js/styles/default.css";
-
 
 const options = {
    position: "top-right",

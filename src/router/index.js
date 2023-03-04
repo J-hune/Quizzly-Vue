@@ -15,6 +15,7 @@ import ProfileView from "@/views/Student/ProfileView.vue";
 import AddSequenceView from "@/views/Teacher/AddSequenceView.vue";
 import SequencesList from "@/views/Teacher/SequencesList.vue";
 import EditSequenceView from "@/views/Teacher/EditSequenceView.vue";
+import StartSequenceView from "@/views/Teacher/StartSequenceView.vue";
 
 const routes = [
    {
@@ -79,6 +80,15 @@ const routes = [
             path: "/sequence/:id/edit",
             name: "editSequence",
             component: EditSequenceView,
+            meta: {
+               requiresAuth: true,
+               userType: ["Enseignant"]
+            }
+         },
+         {
+            path: "/sequence/:id/start",
+            name: "startSequence",
+            component: StartSequenceView,
             meta: {
                requiresAuth: true,
                userType: ["Enseignant"]
