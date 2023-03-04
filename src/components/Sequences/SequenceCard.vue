@@ -10,7 +10,7 @@
             :class="{ 'ml-0': labelIndex === 0,  'mr-0': labelIndex === sequence.listeEtiquettes.length -1 }">
             {{ label.nom }}</a>
       </div>
-      <p class="text-xs text-gray-500 mt-3 text-right">{{ sequence.questions }} question(s)</p>
+      <p class="text-xs text-gray-500 mt-3 text-right">{{ sequence.questions.length }} question(s)</p>
    </div>
 </template>
 
