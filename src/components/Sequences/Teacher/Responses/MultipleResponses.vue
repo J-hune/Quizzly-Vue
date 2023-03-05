@@ -6,29 +6,28 @@
       <div class="flex items-baseline">
          <div v-for="(htmlResponse, indexRH) in TextToHtmMarkdownOnly(responses.find(e => e.id === answer.id).reponse)"
               :key="indexRH">
-            <div class="html-response" v-html="htmlResponse"/>
+            <div class="html-response" v-html="htmlResponse" />
          </div>
          <span class="ml-2 text-sm">({{ answer.count }} étudiants)</span>
       </div>
 
 
       <!-- Barre avec une taille proportionnelle -->
-      <div class="bar" :class="correction.includes(answer.id) && 'valid'" :style="{ width: answer.percent + '%'}"/>
+      <div class="bar" :class="correction.includes(answer.id) && 'valid'" :style="{ width: answer.percent + '%'}" />
    </div>
 
    <!-- Affichage de la réponse "Autres" si elle est nécessaire -->
    <div class="answer" v-if="studentsAnswers.length > 5">
       <p>Autres Réponses<span class="ml-2 text-sm">({{ otherResponses.count }} étudiants)</span></p>
       <div class="bar" :class="correction.some(e => otherResponses.ids.includes(e)) && 'valid'"
-           :style="{ width: otherResponses.percent + '%'}"/>
+           :style="{ width: otherResponses.percent + '%'}" />
 
    </div>
 </template>
 
 <script>
-import {TextToHtmMarkdownOnly} from "@/functions/textTohtml";
+import { TextToHtmMarkdownOnly } from "@/functions/textTohtml";
 import SocketioService from "@/services/socketio.service";
-import {toRaw} from "vue";
 
 export default {
    props: {
@@ -36,20 +35,21 @@ export default {
       students: Number,
       studentsAnswers: Array
    },
-   data: function () {
+   data: function() {
       return {
          correction: []
-      }
+      };
    },
    computed: {
       // Réponses des étudiants triées par popularité et avec un pourcentage
       sortedStudentsAnswers() {
-         const deepCopy = JSON.parse(JSON.stringify(toRaw(this.studentsAnswers)))
+         const deepCopy = JSON.parse(JSON.stringify(this.studentsAnswers));
          return deepCopy.sort((a, b) => b.count - a.count).map(e => ({
             ...e,
             percent: ((e.count / this.students) * 100).toFixed(1)
-         }))
+         }));
       },
+
       // Réponses "Autres" avec leur pourcentage et leur id
       otherResponses() {
          return this.sortedStudentsAnswers.reduce((accumulator, currentValue, currentIndex) => {
@@ -59,23 +59,19 @@ export default {
                accumulator.ids.push(currentValue.id);
             }
             return accumulator;
-         }, {count: 0, percent: 0, ids: []});
+         }, { count: 0, percent: 0, ids: [] });
 
-      },
-      // Nombre total de réponses
-      totalAnswersCount() {
-         return this.studentsAnswers.reduce((total, answer) => total + answer.count, 0);
       }
    },
    created() {
       // Ajout des événements SocketIO
-      SocketioService.socket.on("renderCorrection", this.onRenderCorrection)
+      SocketioService.socket.on("renderCorrection", this.onRenderCorrection);
    },
    methods: {
       TextToHtmMarkdownOnly,
       // Fonction appelée lors de la réception de la demande de correction des réponses
-      onRenderCorrection: function (correction) {
-         this.correction = correction
+      onRenderCorrection: function(correction) {
+         this.correction = correction;
       }
    }
 };
