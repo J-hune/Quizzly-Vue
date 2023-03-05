@@ -12,36 +12,46 @@
 
          <!-- Énoncé de la question (rendu html) -->
          <div v-for="(htmlElement, index) in TextToHtml(question.enonce)" :key="index">
-            <div v-html="htmlElement"/>
+            <div v-html="htmlElement" />
          </div>
       </div>
 
       <!-- Affichage des réponses possibles (cas QCM) -->
-      <p v-if="question.type === 0" class="mt-6">Veuillez sélectionner les réponses qui sont valides. Il peut n'y avoir aucune réponse valide.</p>
+      <p v-if="question.type === 0" class="mt-6">Veuillez sélectionner les réponses qui sont valides. Il peut n'y avoir
+         aucune réponse valide.</p>
 
       <div class="responses-container" v-if="question.type === 0">
          <div class="response" v-for="response in question.reponses" :key="response.id"
-              @click="toggleResponse(response.id)" :class="selected.includes(response.id) && 'selected'">
+              @click="toggleResponse(response.id)" :class="answer.includes(response.id) && 'selected'">
             <div v-for="(htmlResponse, indexRH) in TextToHtmMarkdownOnly(response.reponse)"
                  :key="indexRH">
-               <div class="html-response" v-html="htmlResponse"/>
+               <div class="html-response" v-html="htmlResponse" />
             </div>
          </div>
       </div>
+
+      <!-- Affichage d'un input type number (cas Numérique) -->
+      <p v-if="question.type === 1" class="mt-6 mb-3">Veuillez entrer votre réponse puis l'envoyer.</p>
+      <input v-if="question.type === 1" type="number" v-model="answer" step=".01"
+             class="w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-300
+                   focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
+                   py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
+             placeholder="Entrez votre réponse..." :disabled="!canSubmit" />
+
    </div>
 
    <!-- Boutons -->
    <div class="sequence-buttons mt-10 text-right sm:flex">
       <div class="sm:flex ml-auto">
          <button
-             class="relative w-full sm:w-auto sm:mr-3 bg-red-500 hover:bg-red-600 text-white
-        font-bold py-2 px-7 rounded-lg disabled:opacity-25 right-0" @click="quitSequence">
+           class="relative w-full sm:w-auto sm:mr-3 bg-red-500 hover:bg-red-600 text-white
+        font-bold py-2 px-7 rounded-lg disabled:opacity-40 right-0" @click="quitSequence">
             Quitter
          </button>
          <button
-             class="relative w-full sm:w-auto mt-2 sm:mt-0 bg-blue-500 hover:bg-blue-600 text-white
-        font-bold py-2 px-7 rounded-lg disabled:opacity-25 right-0"
-             @click="handleClick" :disabled="!canSubmit">
+           class="relative w-full sm:w-auto mt-2 sm:mt-0 bg-blue-500 hover:bg-blue-600 text-white
+        font-bold py-2 px-7 rounded-lg disabled:opacity-40 right-0"
+           @click="handleClick" :disabled="!canSubmit">
             Envoyer la réponse
          </button>
       </div>
@@ -51,15 +61,16 @@
 <script>
 import Swal from "sweetalert2";
 import router from "@/router";
-import {useToast} from "vue-toastification";
-import {TextToHtml, TextToHtmMarkdownOnly} from "@/functions/textTohtml";
+import { useToast } from "vue-toastification";
+import { TextToHtml, TextToHtmMarkdownOnly } from "@/functions/textTohtml";
+import SocketioService from "@/services/socketio.service";
 
 export default {
    name: "RenderQuestion",
-   data: function () {
+   data: function() {
       return {
-         selected: []
-      }
+         answer: this.question.type === 0 ? [] : ""
+      };
    },
    props: {
       sequenceId: String,
@@ -69,12 +80,12 @@ export default {
    },
    setup() {
       const toast = useToast();
-      return {toast};
+      return { toast };
    },
    methods: {
       TextToHtmMarkdownOnly,
       TextToHtml,
-      quitSequence: function () {
+      quitSequence: function() {
          Swal.fire({
             title: "Voulez-vous vraiment quitter ?",
             text: `Si vous quittez la séquence en cours, vous ne pourrez plus revenir.`,
@@ -86,19 +97,32 @@ export default {
          }).then(async (result) => {
             // Si l'utilisateur a confirmé
             if (result.isConfirmed) {
-               await router.push("/")
+               await router.push("/");
             }
-         })
+         });
       },
-      handleClick: function () {
-         // TODO
+      handleClick: function() {
+         SocketioService.submitAnswer(this.answer);
       },
-      toggleResponse: function (id) {
-         if (this.selected.includes(id)) this.selected = this.selected.filter(e => e !== id)
-         else this.selected = [...this.selected, id]
+      toggleResponse: function(id) {
+         if (!this.canSubmit) return;
+         if (this.answer.includes(id)) this.answer = this.answer.filter(e => e !== id);
+         else this.answer = [...this.answer, id];
+      }
+   },
+   watch: {
+      answer(newValue, oldValue) {
+         // On limite le nombre de décimales à 2
+         if (this.question.type === 1 && newValue != null && !/^\d*\.?\d{0,2}$/.test(newValue)) {
+            this.answer = oldValue;
+         }
+      },
+      question() {
+         // On met à jour `answer` quand on passe à la question suivante
+         this.answer = this.question.type === 0 ? [] : "";
       }
    }
-}
+};
 </script>
 
 <style scoped>

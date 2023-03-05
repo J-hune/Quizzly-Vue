@@ -43,6 +43,10 @@ class SocketioService {
       this.socket.emit("joinRoom", sequenceId)
    }
 
+   submitAnswer(answer) {
+      this.socket.emit("submitAnswer", answer)
+   }
+
 
 }
 
