@@ -1,5 +1,5 @@
 <template>
-   <div class="px-4 py-8 sm:p-12 mx-6">
+   <div class="px-2 sm:px-4 py-8 sm:p-12 mx-6">
 
       <!-- Titre de la page : Login ou Register -->
       <div class="text-center">

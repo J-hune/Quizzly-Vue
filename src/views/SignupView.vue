@@ -2,13 +2,13 @@
    <div class="gradient-form bg-sky-200 md:h-screen grid h-screen place-items-center">
       <div class="container content-center">
          <div class="xl:w-10/12 m-auto">
-            <div class="block bg-white shadow-lg rounded-lg">
+            <div class="block bg-white shadow-lg sm:rounded-lg">
                <div class="flex flex-wrap g-0">
                   <div class="col-container w-full px-4 px-0">
                      <teacher-portal type="Signup" />
                   </div>
                   <div
-                    class="col-container flex items-center lg:rounded-r-lg rounded-b-lg lg:rounded-bl-none"
+                    class="col-container flex items-center lg:rounded-r-lg sm:rounded-b-lg lg:rounded-bl-none"
                     style="background: linear-gradient(to right, #1645be, #1364ba)"
                   >
                      <div class="text-white px-8 py-10 md:p-12 md:mx-6">
