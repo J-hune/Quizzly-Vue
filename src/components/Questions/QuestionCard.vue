@@ -10,7 +10,8 @@
             :class="{ 'ml-0': labelIndex === 0,  'mr-0': labelIndex === question.etiquettes.length -1 }">
             {{ label.nom }}</a>
       </div>
-      <p class="text-xs text-gray-500 mt-3 text-right">{{ question.reponses.length }} réponse(s)</p>
+      <p v-if="question.type === 1" class="text-xs text-gray-500 mt-3 text-right">réponse numérique</p>
+      <p v-else class="text-xs text-gray-500 mt-3 text-right">{{ question.reponses.length }} réponse(s)</p>
    </div>
 </template>
 

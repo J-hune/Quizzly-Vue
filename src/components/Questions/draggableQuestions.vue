@@ -59,6 +59,7 @@ import { toRaw } from "vue";
 
 export default {
    name: "draggableQuestions",
+   components: { QuestionCard, draggable },
    props: { selectedQuestions: Object, allQuestions: Object },
    data: function() {
       return {
@@ -66,7 +67,6 @@ export default {
          drag: false
       };
    },
-   components: { QuestionCard, draggable },
    computed: {
       searchQuestions: function() {
          const allQuestions = toRaw(this.allQuestions);
