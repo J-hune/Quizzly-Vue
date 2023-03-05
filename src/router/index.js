@@ -16,6 +16,7 @@ import AddSequenceView from "@/views/Teacher/AddSequenceView.vue";
 import SequencesList from "@/views/Teacher/SequencesList.vue";
 import EditSequenceView from "@/views/Teacher/EditSequenceView.vue";
 import StartSequenceView from "@/views/Teacher/StartSequenceView.vue";
+import JoinSequenceView from "@/views/Student/JoinSequenceView.vue";
 
 const routes = [
    {
@@ -92,6 +93,15 @@ const routes = [
             meta: {
                requiresAuth: true,
                userType: ["Enseignant"]
+            }
+         },
+         {
+            path: "/sequence/:id/join",
+            name: "joinSequence",
+            component: JoinSequenceView,
+            meta: {
+               requiresAuth: true,
+               userType: ["Etudiant"]
             }
          },
          {

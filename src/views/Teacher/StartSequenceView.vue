@@ -20,7 +20,7 @@ export default {
          waiting: true,
          sequenceId: null,
          question: null,
-         students: ["Donovan Zassot", "Matéo Avvantiriero", "Hugo Vaillant", "Livio Nortes Bousquet", "Anais Mackow", "Mickael Longlade"],
+         students: [],
          statements: [],
          lastQuestion: false
       }
@@ -55,6 +55,7 @@ export default {
       SocketioService.socket.on("renderSequenceInit", this.onRenderSequenceInit)
       SocketioService.socket.on("renderQuestion", this.onRenderQuestion)
       SocketioService.socket.on("renderNewResponse", this.onRenderNewResponse)
+      SocketioService.socket.on("renderStudentList", this.onRenderStudentList)
    },
    methods: {
       onError(error) {
@@ -63,6 +64,9 @@ export default {
       },
       onRenderSequenceInit(sequenceId) {
          this.sequenceId = sequenceId
+      },
+      onRenderStudentList(studentList) {
+         this.students = studentList.map(e => e.nom)
       },
       onRenderQuestion({question, last}) {
          this.waiting = false

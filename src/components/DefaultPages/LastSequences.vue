@@ -51,6 +51,7 @@
 <script>
 import moment from "moment";
 import { useToast } from "vue-toastification";
+import router from "@/router";
 
 moment.locale("fr");
 
@@ -99,7 +100,7 @@ export default {
       joinSequence: function() {
          const sequenceId = this.sequenceModel;
          if (sequenceId.length !== 8) return this.toast.error("L'id de séquence n'est pas valide");
-         // TODO Redirection vers la page de la séquence
+         router.push(`sequence/${sequenceId}/join`)
       }
    }
 };

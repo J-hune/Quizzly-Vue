@@ -6,12 +6,21 @@ class SocketioService {
    constructor() {
    }
 
+   /* --------- Events Enseignant et Etudiants --------- */
    setupSocketConnection() {
       this.socket = io("http://localhost:5000/", {
          withCredentials: true
       });
    }
 
+   disconnect() {
+      if (this.socket) {
+         this.socket.disconnect();
+      }
+   }
+
+
+   /* --------- Events Enseignant --------- */
    createRoom(sequenceId) {
       this.socket.emit("createRoom", sequenceId)
    }
@@ -28,11 +37,13 @@ class SocketioService {
       this.socket.emit("askStopResponses")
    }
 
-   disconnect() {
-      if (this.socket) {
-         this.socket.disconnect();
-      }
+
+   /* --------- Events Etudiants --------- */
+   joinRoom(sequenceId) {
+      this.socket.emit("joinRoom", sequenceId)
    }
+
+
 }
 
 export default new SocketioService();
