@@ -8,7 +8,8 @@ const store = createStore({
             id: null,
             firstname: null,
             lastname: null,
-            type: null
+            type: null,
+            avatar: null
          },
          isLoggedIn: false
       };
