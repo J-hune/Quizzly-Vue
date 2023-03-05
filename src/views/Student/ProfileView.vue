@@ -24,9 +24,9 @@
          <h2 class="mt-10 mb-2 text-xl font-medium text-gray-900">Modifier le mot de passe</h2>
          <div>
             <input type="password" v-model="password"
-                   class="w-3/5 text-gray-900 bg-gray-50 rounded-lg border border-gray-300
-                   focus:ring-indigo-200 focus:border-indigo-500 focus:ring-2 outline-none
-                   text-gray-900 py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
+                   class="w-3/5 text-gray-700 bg-gray-50 rounded-lg border border-gray-300
+                   focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
+                   py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
                    placeholder="Nouveau mot de passe..." />
          </div>
          <button @click="updatePassword"

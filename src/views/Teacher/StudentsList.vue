@@ -10,9 +10,9 @@
 
       <!-- input Search -->
       <input type="text" v-model="search"
-             class="w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300
-                   focus:ring-indigo-200 focus:border-indigo-500 focus:ring-2 outline-none
-                   text-gray-900 py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
+             class="w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-300
+                   focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
+                   py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
              placeholder="Filtrer par numéro étudiant, nom, prénom..." />
 
       <!-- Boutons "Ajouter une liste d'étudiants" et "Supprimer tous les étudiants" -->

@@ -8,9 +8,9 @@
          <!-- Titre du QCM -->
          <h2 class="mb-2 text-xl font-medium text-gray-900">Titre de la Séquence :</h2>
          <input type="text" v-model="title"
-                class="w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300
-                   focus:ring-indigo-200 focus:border-indigo-500 focus:ring-2 outline-none
-                   text-gray-900 py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
+                class="w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-300
+                   focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
+                   py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
                 placeholder="Écrivez le titre de la Séquene..."/>
       </div>
 
@@ -23,7 +23,7 @@
    <div class="save">
       <button
           class="relative mt-5 mr-5 sm:mr-6 mb-5 bg-blue-500 hover:bg-blue-600 text-white
-        font-bold py-2 px-7 rounded-lg disabled:opacity-25" @click="save"
+        font-bold py-2 px-7 rounded-lg disabled:opacity-40" @click="save"
           :disabled="!title || selectedQuestions.length <= 0">
          Enregistrer les modifications
       </button>

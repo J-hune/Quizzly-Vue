@@ -24,7 +24,7 @@
    <div class="sequence-buttons mt-14 text-right">
       <button
           class="relative w-full sm:w-auto sm:mr-3 bg-red-500 hover:bg-red-600 text-white
-        font-bold py-2 px-7 rounded-lg disabled:opacity-25 right-0" @click="quitSequence">
+        font-bold py-2 px-7 rounded-lg right-0" @click="quitSequence">
          Quitter la séquence
       </button>
    </div>

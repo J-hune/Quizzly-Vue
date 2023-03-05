@@ -40,12 +40,12 @@
       <div class="flex gap-2 sm:gap-3">
          <button
              class="relative w-full sm:w-auto bg-cyan-600 hover:bg-cyan-700 text-white
-        font-bold py-2 px-7 rounded-lg disabled:opacity-25 right-0" @click="displayQuestion = !displayQuestion">
+        font-bold py-2 px-7 rounded-lg right-0" @click="displayQuestion = !displayQuestion">
             Question
          </button>
          <button
              class="relative w-full sm:w-auto bg-cyan-600 hover:bg-cyan-700 text-white
-        font-bold py-2 px-7 rounded-lg disabled:opacity-25 right-0" @click="displayResponses = !displayResponses">
+        font-bold py-2 px-7 rounded-lg right-0" @click="displayResponses = !displayResponses">
             Réponses
          </button>
       </div>
@@ -54,12 +54,12 @@
       <div class="mt-8 sm:mt-0 sm:flex ml-auto">
          <button
              class="relative w-full sm:w-auto sm:mr-3 bg-red-500 hover:bg-red-600 text-white
-        font-bold py-2 px-7 rounded-lg disabled:opacity-25 right-0" @click="quitSequence">
+        font-bold py-2 px-7 rounded-lg right-0" @click="quitSequence">
             Quitter
          </button>
          <button
              class="relative w-full sm:w-auto mt-2 sm:mt-0 bg-blue-500 hover:bg-blue-600 text-white
-        font-bold py-2 px-7 rounded-lg disabled:opacity-25 right-0"
+        font-bold py-2 px-7 rounded-lg right-0"
              @click="handleClick">
             {{ lastQuestion ? "Terminer la Séquence" : "Question Suivante" }}
          </button>
@@ -79,6 +79,19 @@ import {useToast} from "vue-toastification";
 export default {
    name: "RenderQuestion",
    components: {NumericResponses, MultipleResponses},
+   props: {
+      sequenceId: String,
+      question: Object,
+      statements: Array,
+      students: Array,
+      lastQuestion: Boolean
+   },
+   data: function () {
+      return {
+         displayQuestion: true,
+         displayResponses: true
+      }
+   },
    setup() {
       const toast = useToast();
       return {toast};
@@ -120,20 +133,7 @@ export default {
          router.push("/sequences")
          this.toast.info("La séquence #" + this.sequenceId + " est terminée")
       }
-   },
-   props: {
-      sequenceId: String,
-      question: Object,
-      statements: Array,
-      students: Array,
-      lastQuestion: Boolean
-   },
-   data: function () {
-      return {
-         displayQuestion: true,
-         displayResponses: true
-      }
-   },
+   }
 }
 </script>
 

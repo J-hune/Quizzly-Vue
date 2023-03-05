@@ -13,7 +13,7 @@
          <div class="md:w-1/2 md:pr-8">
             <p><strong>Partagez le mot de passe</strong> à vos élèves pour qu'ils puissent rejoindre la séquence.</p>
             <p class="mt-4">Vous pouvez inscrire vos élèves dans la section
-               <router-link to="/students">Mes Eleves</router-link>
+               <router-link to="/students" class="text-blue-600"><strong>Mes Eleves</strong></router-link>
                .
             </p>
          </div>
@@ -33,13 +33,13 @@
    <!-- Bouton pour lancer la séquence -->
    <div class="sequence-buttons mt-14 text-right">
       <button
-          class="relative w-full sm:w-auto sm:mr-3 bg-red-500 hover:bg-red-600 text-white
-        font-bold py-2 px-7 rounded-lg disabled:opacity-25 right-0" @click="quitSequence">
+        class="relative w-full sm:w-auto sm:mr-3 bg-red-500 hover:bg-red-600 text-white
+        font-bold py-2 px-7 rounded-lg right-0" @click="quitSequence">
          Quitter la séquence
       </button>
       <button
-          class="relative w-full sm:w-auto mt-2 sm:mt-0 bg-blue-500 hover:bg-blue-600 text-white
-        font-bold py-2 px-7 rounded-lg disabled:opacity-25 right-0" @click="$emit('startSequence')">
+        class="relative w-full sm:w-auto mt-2 sm:mt-0 bg-blue-500 hover:bg-blue-600 text-white
+        font-bold py-2 px-7 rounded-lg right-0" @click="$emit('startSequence')">
          Démarrer la séquence
       </button>
    </div>
@@ -57,7 +57,7 @@ export default {
    },
    emits: ["startSequence"],
    methods: {
-      quitSequence: function () {
+      quitSequence: function() {
          Swal.fire({
             title: "Voulez-vous vraiment quitter ?",
             text: `Si vous quittez la séquence en cours, vous ne pourrez plus revenir.`,
@@ -69,19 +69,15 @@ export default {
          }).then(async (result) => {
             // Si l'utilisateur a confirmé
             if (result.isConfirmed) {
-               await router.push("/sequences")
+               await router.push("/sequences");
             }
-         })
+         });
       }
    }
-}
+};
 </script>
 
 <style scoped>
-a {
-   color: blue;
-}
-
 .password {
    background-color: #eeebf3;
    padding: 3px 5px;

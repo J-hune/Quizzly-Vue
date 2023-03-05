@@ -11,7 +11,7 @@
                <!-- Titre et textArea (Question) -->
                <h2 class="mb-2 text-xl font-medium text-gray-900">Votre question :</h2>
                <textarea v-model="question.enonce" id="question" rows="3"
-                         class="enonce p-2.5 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300
+                         class="enonce p-2.5 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-300
                          focus:ring-indigo-200 focus:border-blue-500 focus:ring-2 outline-none
                          transition-colors duration-150 ease-in-out"
                          placeholder="Écrivez l'énoncé de la question..." />
@@ -61,7 +61,7 @@
    <div class="save">
       <button
         class="relative ml-auto mt-5 mr-6 mb-5 bg-blue-500 hover:bg-blue-600 text-white
-        font-bold py-2 px-7 rounded-lg disabled:opacity-25 right-0" @click="save"
+        font-bold py-2 px-7 rounded-lg disabled:opacity-40 right-0" @click="save"
         :disabled="!canSave()">
          Ajouter la question
       </button>
