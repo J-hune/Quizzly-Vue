@@ -5,12 +5,15 @@
 
          <!-- Pour chaque réponse -->
          <span v-for="(answer, index) in studentsAnswers" :key="index" class="answer"
-               :class="correction === answer && 'valid'">{{ answer }}</span>
+               :class="correction === answer.toString() && 'valid'">{{ answer }}</span>
 
 
       </div>
    </div>
-   <p class="mt-3" v-if="correction">La bonne réponse est : <span class="answer valid">{{ correction }}</span></p>
+   <p class="mt-3" v-if="correction">
+      La bonne réponse est : <span class="answer valid">{{ correction }}</span>
+      (trouvée par {{studentsAnswers.filter(e => e.toString() === correction).length}} étudiants)
+   </p>
 </template>
 
 <script>
