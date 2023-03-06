@@ -16,7 +16,7 @@
       <div class="text-container">
 
          <!-- Nom, prénom, id de l'étudiant -->
-         <div class="flex items-baseline gap-2">
+         <div class="username sm:flex items-baseline gap-2">
             <p class="font-bold text-2xl">{{ name }}</p> <span>#{{ id }}</span>
          </div>
 
@@ -24,7 +24,7 @@
          <h2 class="mt-10 mb-2 text-xl font-medium text-gray-900">Modifier le mot de passe</h2>
          <div>
             <input type="password" v-model="password"
-                   class="w-3/5 text-gray-700 bg-gray-50 rounded-lg border border-gray-300
+                   class="w-full md:w-4/5 lg:w-3/5 text-gray-700 bg-gray-50 rounded-lg border border-gray-300
                    focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
                    py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
                    placeholder="Nouveau mot de passe..." />
@@ -165,5 +165,26 @@ export default {
    margin-top: 30px;
    margin-left: 215px;
    margin-bottom: 40px;
+}
+
+
+/* Format md */
+@media (max-width: 768px) {
+   .image-container {
+      top: -68px;
+   }
+
+   .text-container {
+      margin: 0;
+      padding: 22px 20px 40px 30px;
+   }
+
+   .text-container .username {
+      margin-left: 178px;
+   }
+
+   .background {
+      border-radius: unset;
+   }
 }
 </style>
