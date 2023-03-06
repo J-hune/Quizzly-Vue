@@ -39,13 +39,13 @@
       <!-- Affichage -->
       <div class="flex gap-2 sm:gap-3">
          <button
-             class="relative w-full sm:w-auto bg-cyan-600 hover:bg-cyan-700 text-white
-        font-bold py-2 px-7 rounded-lg right-0" @click="displayQuestion = !displayQuestion">
+             class="relative w-full sm:w-auto bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-7 rounded-lg right-0"
+             :class="!displayQuestion && 'bg-cyan-800'" @click="displayQuestion = !displayQuestion">
             Question
          </button>
          <button
-             class="relative w-full sm:w-auto bg-cyan-600 hover:bg-cyan-700 text-white
-        font-bold py-2 px-7 rounded-lg right-0" @click="displayResponses = !displayResponses">
+             class="relative w-full sm:w-auto bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-7 rounded-lg right-0"
+             :class="!displayResponses && 'bg-cyan-800'" @click="displayResponses = !displayResponses">
             Réponses
          </button>
       </div>
