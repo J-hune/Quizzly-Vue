@@ -22,7 +22,11 @@
 
       <div class="responses-container" v-if="question.type === 0">
          <div class="response" v-for="response in question.reponses" :key="response.id"
-              @click="toggleResponse(response.id)" :class="answer.includes(response.id) && 'selected'">
+              @click="toggleResponse(response.id)" :class="{
+                 'selected': answer.includes(response.id),
+                 'valid': correction && correction.includes(response.id) === answer.includes(response.id),
+                 'invalid': correction && correction.includes(response.id) !== answer.includes(response.id)
+              }">
             <div v-for="(htmlResponse, indexRH) in TextToHtmMarkdownOnly(response.reponse)"
                  :key="indexRH">
                <div class="html-response" v-html="htmlResponse" />
@@ -33,9 +37,9 @@
       <!-- Affichage d'un input type number (cas Numérique) -->
       <p v-if="question.type === 1" class="mt-6 mb-3">Veuillez entrer votre réponse puis l'envoyer.</p>
       <input v-if="question.type === 1" type="number" v-model="answer" step=".01"
-             class="w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-300
-                   focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
-                   py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
+             :class="{'valid': correction?.trim() === answer.toString(), 'invalid': correction && correction.trim() !== answer.toString() }"
+             class="w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-indigo-200 answer-input
+             focus:border-indigo-200 focus:ring-2 outline-none py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
              placeholder="Entrez votre réponse..." :disabled="!canSubmit" />
 
    </div>
@@ -69,7 +73,8 @@ export default {
    name: "RenderQuestion",
    data: function() {
       return {
-         answer: this.question.type === 0 ? [] : ""
+         answer: this.question.type === 0 ? [] : "",
+         correction: null
       };
    },
    props: {
@@ -81,6 +86,10 @@ export default {
    setup() {
       const toast = useToast();
       return { toast };
+   },
+   created() {
+      // Ajout des événements SocketIO
+      SocketioService.socket.on("renderCorrection", this.onRenderCorrection);
    },
    methods: {
       TextToHtmMarkdownOnly,
@@ -108,6 +117,9 @@ export default {
          if (!this.canSubmit) return;
          if (this.answer.includes(id)) this.answer = this.answer.filter(e => e !== id);
          else this.answer = [...this.answer, id];
+      },
+      onRenderCorrection: function(correction) {
+         this.correction = correction;
       }
    },
    watch: {
@@ -161,9 +173,27 @@ export default {
    border-color: #3b82f6
 }
 
+.response.valid {
+   background-color: #228B224f;
+}
+
+.response.invalid {
+   background-color: #d9534f4f;
+}
+
 .sequence-buttons {
    width: 100%;
    border-top: solid 1px #eaeaea;
    padding: 20px 26px;
+}
+
+.answer-input.valid {
+   border: solid 2px #228B22;
+   background-color: #228B2214;
+}
+
+.answer-input.invalid {
+   border: solid 2px #d9534f;
+   background-color: #d9534f14;
 }
 </style>
