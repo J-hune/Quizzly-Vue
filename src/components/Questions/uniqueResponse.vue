@@ -19,12 +19,15 @@ export default {
    },
    watch: {
       internalAnswer(newVal, oldVal) {
+         newVal = newVal.replace(",", ".");
+         oldVal = oldVal?.replace(",", ".");
+
          if (newVal !== "" && isNaN(newVal)) {
             this.internalAnswer = oldVal;
          } else if (!/^\d*\.?\d{0,2}$/.test(newVal)) {
             this.internalAnswer = oldVal;
          }
-         this.$emit('update:modelValue', this.internalAnswer.toString());
+         this.$emit("update:modelValue", this.internalAnswer.replace(",", ".").toString());
       }
    }
 };
