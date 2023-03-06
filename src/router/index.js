@@ -5,7 +5,6 @@ import HomeView from "../views/HomeView.vue";
 import SignupView from "@/views/SignupView";
 import SigninView from "@/views/SigninView";
 import NewQcm from "@/views/Teacher/NewQcmView.vue";
-import QuestionsList from "@/views/Teacher/QuestionsListView.vue";
 import AddQuestion from "@/views/Teacher/AddQuestionView.vue";
 import EditQuestion from "@/views/Teacher/EditQuestionView.vue";
 import StudentsList from "@/views/Teacher/StudentsList.vue";
@@ -17,6 +16,7 @@ import SequencesList from "@/views/Teacher/SequencesList.vue";
 import EditSequenceView from "@/views/Teacher/EditSequenceView.vue";
 import StartSequenceView from "@/views/Teacher/StartSequenceView.vue";
 import JoinSequenceView from "@/views/Student/JoinSequenceView.vue";
+import LabelsList from "@/views/Teacher/LabelsList.vue";
 
 const routes = [
    {
@@ -33,9 +33,9 @@ const routes = [
             }
          },
          {
-            path: "/label/:label",
-            name: "label",
-            component: QuestionsList,
+            path: "/labels",
+            name: "labels",
+            component: LabelsList,
             meta: {
                requiresAuth: true,
                userType: ["Enseignant"]

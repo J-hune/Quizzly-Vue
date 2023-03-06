@@ -87,10 +87,11 @@ export default {
          image: image,
          links: {
             teacher: [
-               { link: "/", label: "Mes Etiquettes" },
+               { link: "/", label: "Mes Questions" },
+               { link: "/labels", label: "Mes Etiquettes" },
                { link: "/students", label: "Mes Eleves" },
                { link: "/sequences", label: "Mes Séquences" },
-               { link: "/newQCM", label: "Nouveau QCM" },
+               { link: "/newQCM", label: "Nouveau QCM" }
             ],
             student: [
                { link: "/profile", label: "Mon profil" },

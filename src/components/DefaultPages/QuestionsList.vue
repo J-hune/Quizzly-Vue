@@ -1,6 +1,4 @@
 <template>
-   <redirect-back back="Liste des Etiquettes" />
-
    <div class="px-7 md:px-16 pt-10 pb-14 w-full">
 
       <!-- Titre et description Composant -->
@@ -12,11 +10,17 @@
 
       <!-- input Search -->
       <input type="text" v-model="search"
-             class="w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-300 mb-5
+             class="w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-300
                    focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
                    py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
-             placeholder="Filtrer par énoncé... (ex: Quelle est...)" />
+             placeholder="Filtrer par étiquette ou par énoncé... (ex: Quelle est...)" />
 
+      <button @click="redirectQuestionCreation"
+              class="mt-3 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-7 rounded-lg">
+         Créer une nouvelle Question
+      </button>
+
+      <hr class="mt-8 mb-8" />
       <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 lg:gap-5">
 
          <!-- Pour chaque question -->
@@ -41,13 +45,11 @@
 <script>
 import router from "@/router";
 import { fetchData } from "@/functions/fetch";
-import { useRoute } from "vue-router";
-import RedirectBack from "@/components/redirectBack";
 import QuestionCard from "@/components/Questions/QuestionCard.vue";
 
 export default {
-   name: "ListeQuestions",
-   components: { QuestionCard, RedirectBack },
+   name: "QuestionsList",
+   components: { QuestionCard },
    methods: {
       redirectQuestionCreation: function() {
          router.push("/newQuestion");
@@ -63,8 +65,7 @@ export default {
       };
    },
    async created() {
-      const route = useRoute();
-      const { data } = await fetchData("/questions/getQuestions/" + route.params.label);
+      const { data } = await fetchData("/questions/getQuestions/");
       this.questions = data;
    },
    computed: {

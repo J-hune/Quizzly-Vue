@@ -6,13 +6,13 @@
          <h1 class="sm:text-3xl text-2xl font-semibold title-font mb-4 text-gray-900">Mes Etiquettes</h1>
          <p class="leading-relaxed text-base">Les étiquettes que vous avez créées ou associées à vos
             questions sont affichées ci-dessous.<br>
-            Cliquez sur une étiquette pour accéder aux questions qui lui sont associées.</p>
+            Cliquez sur une étiquette pour la modifier ou la supprimer.</p>
       </div>
 
       <!-- Si l'utilisateur a au moins une étiquette -->
       <div class="label-flex" v-if="labels[0]">
          <div v-for="label in labels" :key="label.nom"
-              class="cursor-pointer" @click.prevent="redirect($event, label[0])">
+              class="cursor-pointer" @click.prevent="editLabel(label)">
             <div class="h-full flex items-center border-l-8 border-2 py-2 px-10 rounded-lg"
                  :style="{borderColor: `#${label[1]}`}">
                <div class="flex-grow">
@@ -35,7 +35,6 @@
 
 <script>
 import { fetchData } from "@/functions/fetch";
-import router from "@/router";
 
 // Fonction tri en utilisant le tri-rapide de JS
 function sortArray(array) {
@@ -43,21 +42,22 @@ function sortArray(array) {
 }
 
 export default {
-   name: "LabelsComponent",
+   name: "LabelsList",
    data: function() {
       return {
          labels: []
       };
    },
    methods: {
-      redirect: function(event, label) {
-         router.push("/label/" + label);
+      editLabel: function(label) {
+         console.log(label);
+         // TODO
       }
    },
    async created() {
       // Récupération des étiquettes et stockage dans data
       const { data } = await fetchData("/labels/getLabels");
-      this.labels = sortArray(data)
+      this.labels = sortArray(data);
    }
 };
 </script>

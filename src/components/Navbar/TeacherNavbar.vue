@@ -26,11 +26,12 @@ export default {
    data: function() {
       return {
          links: [
-            { link: "/", label: "Mes Etiquettes" },
+            { link: "/", label: "Mes Questions" },
+            { link: "/labels", label: "Mes Etiquettes" },
             { link: "/students", label: "Mes Eleves" },
             { link: "/sequences", label: "Mes Séquences" },
             { link: "/newQCM", label: "Nouveau QCM" }
-         ],
+         ]
       };
    },
    methods: {
