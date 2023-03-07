@@ -2,19 +2,18 @@
    <vue-final-modal
      v-bind="$attrs"
      classes="flex justify-center items-center"
-     content-class="relative flex flex-col mx-4 p-6 block bg-white shadow-lg rounded-lg custom-pop-up"
-     :content-style="{width: width}"
+     :content-class="'relative flex flex-col mx-4 p-6 block bg-white shadow-lg rounded-lg custom-pop-up ' + classes"
+     :content-style="{maxWidth: width}"
    >
 
       <slot name="content"></slot>
    </vue-final-modal>
 </template>
-
 <script>
 export default {
    name: "ModalComponent",
    inheritAttrs: false,
-   props: { width: String }
+   props: { width: String, classes: String }
 };
 </script>
 
