@@ -10,7 +10,7 @@
       </div>
 
       <!-- Liste des 3 dernières Sessions -->
-      <div class="grid grid-cols-1 sm:grid-cols-2  xl:grid-cols-2 gap-3 2xl:grid-cols-3 lg:gap-5 mb-6">
+      <div v-if="sequences.length" class="grid grid-cols-1 sm:grid-cols-2  xl:grid-cols-2 gap-3 2xl:grid-cols-3 lg:gap-5 mb-6">
          <div class="w-full rounded-lg border-2 border-gray-300 bg-white items-center cursor-pointer p-6"
               v-for="(sequence) in sequences" :key="sequence.id">
             <div class="flex justify-between items-center mb-2">
@@ -30,6 +30,8 @@
             </div>
          </div>
       </div>
+
+      <p class="mb-6" v-else>Actuellement, vous n'avez pas encore participé à une séquence pédagogique.</p>
 
       <!-- Bouton pour rejoindre une séquence -->
       <div class="flex flex-col sm:flex-row gap-3">
@@ -61,6 +63,7 @@ import { useToast } from "vue-toastification";
 import router from "@/router";
 import CarouselChamp from "@/components/Sequences/Student/CarouselChamp.vue";
 import ModalComponent from "@/components/ModalComponent.vue";
+import { fetchData } from "@/functions/fetch";
 
 moment.locale("fr");
 
@@ -72,32 +75,14 @@ export default {
       const toast = useToast();
       return { toast };
    },
+   async created() {
+      const { data } = await fetchData("/students/getLastSequences");
+      this.sequences = data;
+   },
    data: function() {
       return {
          sequenceModel: "",
-         sequences: [
-            {
-               teacherName: "Michel Meynard",
-               participantCount: 25,
-               percentCorrect: 80,
-               date: "1677582727",
-               id: "AB12CD34"
-            },
-            {
-               teacherName: "Laura Jones",
-               participantCount: 30,
-               percentCorrect: 75,
-               date: "1677582750",
-               id: "EF56GH78"
-            },
-            {
-               teacherName: "Kim Lee",
-               participantCount: 15,
-               percentCorrect: 90,
-               date: "1677582783",
-               id: "IJ90KL12"
-            }
-         ],
+         sequences: [],
          carouselShow: false
       };
    },
