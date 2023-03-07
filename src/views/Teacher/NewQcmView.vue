@@ -7,8 +7,10 @@
          <div class="flex flex-col w-full mb-10 py-1">
             <h1 class="sm:text-3xl text-2xl font-semibold title-font mb-4 text-gray-900">Créer un QCM</h1>
             <p class="leading-relaxed text-base">Les questions que vous avez déjà créées sont affichées sur la
-               droite.<br>
-               Faites les glisser sur la gauche pour les ajouter au sujet.</p>
+               <span class="cursor-pointer" @click="openLink('droite')">droite.</span>.<br>
+               Faites les glisser sur la
+               <span class="cursor-pointer" @click="openLink('gauche')">gauche</span>
+               pour les ajouter au sujet.</p>
          </div>
 
 
@@ -21,7 +23,7 @@
                 placeholder="Écrivez le titre du Sujet..." />
       </div>
 
-      <hr class="mt-7 mb-8"/>
+      <hr class="mt-7 mb-8" />
 
       <draggable-questions :selected-questions="selectedQuestions" :all-questions="allQuestions" />
    </div>
@@ -69,6 +71,22 @@ export default {
          this.show = true;
          this.renderQuestions = toRaw(this.selectedQuestions);
          this.renderTitle = toRaw(this.title);
+      },
+      openLink: function(side) {
+         // Liste des liens à choisir aléatoirement
+         const links = {
+            droite: [
+               "https://fr.wikipedia.org/wiki/Droite_(math%C3%A9matiques)",
+               "https://fr.wikipedia.org/wiki/Droite_(politique)"
+            ],
+            gauche: ["https://fr.wikipedia.org/wiki/Gauche_(politique)"]
+         };
+
+         // Générer un nombre aléatoire entre 0 et la longueur de la liste des liens
+         let randomIndex = Math.floor(Math.random() * links[side].length);
+
+         // Ouvrir une nouvelle fenêtre avec l'URL aléatoire
+         window.open(links[side][randomIndex], "_blank");
       }
    },
    async created() {
@@ -83,7 +101,7 @@ export default {
    padding: 0 30px 5px 30px;
 }
 
-@media (max-width:1280px) {
+@media (max-width: 1280px) {
    .markdown-body {
       min-height: 72px;
    }
