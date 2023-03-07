@@ -114,7 +114,7 @@ export default {
    async created() {
       const route = useRoute();
       const { data } = await fetchData("/questions/getQuestion/" + route.params.id);
-      const { data: allLabels } = await fetchData("/labels/getAllLabels");
+      const { data: allLabels } = await fetchData("/labels/getLabels");
       this.labels = allLabels;
       this.question = data;
    },

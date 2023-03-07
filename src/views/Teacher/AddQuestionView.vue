@@ -109,7 +109,7 @@ export default {
       return { toast };
    },
    async created() {
-      const { data: allLabels } = await fetchData("/labels/getAllLabels");
+      const { data: allLabels } = await fetchData("/labels/getLabels");
       this.labels = allLabels;
    },
    mounted() {
