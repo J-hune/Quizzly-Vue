@@ -90,6 +90,7 @@ export default {
    created() {
       // Ajout des événements SocketIO
       SocketioService.socket.on("renderCorrection", this.onRenderCorrection);
+      SocketioService.socket.on("renderQuestion", () => this.correction = null);
    },
    methods: {
       TextToHtmMarkdownOnly,
