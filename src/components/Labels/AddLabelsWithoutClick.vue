@@ -1,6 +1,6 @@
 <template>
    <span class="mr-8 text-2xl font-semibold">Ajouter une étiquette</span>
-   <p>Vous pouvez ajouter une étiquette existante ou en créer une nouvelle.</p>
+   <p>Vous pouvez créer une nouvelle étiquette. Celle-ci doit avoir un nom unique.</p>
 
    <div class="mt-4 mb-2">
 
@@ -25,10 +25,10 @@
          </button>
       </div>
 
-      <!-- Génération des questions avec un v-bind for -->
+      <!-- Génération des étiquettes avec un v-bind for -->
       <div class="custom-flex">
          <a v-for="label in labels" :key="label.id"
-            class="px-4 py-1 rounded-md cursor-pointer" @click="emitEvent(label)"
+            class="px-4 py-1 rounded-md"
             :style="{backgroundColor: `#${label.couleur}`, color: getContrast(`#${label.couleur}`)}">
             {{ label.nom }}</a>
       </div>
@@ -40,7 +40,7 @@ import { fetchData } from "@/functions/fetch";
 import { useToast } from "vue-toastification";
 
 export default {
-   name: "AddLabelsComponent",
+   name: "AddLabelsWithoutClick",
    emits: ["addLabel"],
    data: function() {
       return {
@@ -70,10 +70,6 @@ export default {
          let yiq = ((red * 299) + (green * 587) + (blue * 114)) / 1000;
          return (yiq >= 128) ? "black" : "white";
       },
-      emitEvent: function(label) {
-         // On émet un event qui sera catch par le parent
-         this.$emit("addLabel", label);
-      },
       createLabel: async function() {
          const couleur = this.color.slice(1);
 
@@ -81,13 +77,14 @@ export default {
          const { data } = await fetchData("/labels/addLabel/" + this.search + "/" + couleur);
          if (data.success) {
             this.toast.success("L'étiquette " + this.search + " a été ajoutée");
+
+            // On émet un event qui sera catch par le parent
+            this.$emit("addLabel", { nom: this.search.trim(), couleur: couleur, id: data.id });
+            this.allLabels.push({ nom: this.search.trim(), couleur: couleur, id: data.id });
          } else {
             this.toast.error("L'étiquette n'a pas pu être ajoutée");
          }
 
-         // On émet un event qui sera catch par le parent
-         this.$emit("addLabel", [this.search.trim(), couleur]);
-         this.allLabels.push([this.search.trim(), couleur]);
          this.search = "";
       }
    },
