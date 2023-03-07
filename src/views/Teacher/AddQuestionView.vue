@@ -32,7 +32,7 @@
 
             <!-- Génération des étiquettes avec un v-bind for -->
             <div class="custom-flex">
-               <a v-for="label in question.etiquettes" :key="label.nom" @click="removeLabel(label.nom)"
+               <a v-for="label in question.etiquettes" :key="label.id" @click="removeLabel(label.id)"
                   class="px-4 py-0.5 rounded-md cursor-no-drop border-2"
                   :style="{backgroundColor: `#${label.couleur}`, borderColor: `#${label.couleur}`, color: getContrast(`#${label.couleur}`)}">
                   {{ label.nom }}</a>
@@ -70,7 +70,6 @@
 
 <script>
 import mermaid from "mermaid";
-import { toRaw } from "vue";
 import { useToast } from "vue-toastification";
 
 import { TextToHtml } from "@/functions/textTohtml";
@@ -104,12 +103,17 @@ export default {
          html: []
       };
    },
-   mounted() {
-      mermaid.initialize({});
-   },
+
    setup() {
       const toast = useToast();
       return { toast };
+   },
+   async created() {
+      const { data: allLabels } = await fetchData("/labels/getAllLabels");
+      this.labels = allLabels;
+   },
+   mounted() {
+      mermaid.initialize({});
    },
    methods: {
       getContrast: function(hexcolor) {
@@ -122,23 +126,19 @@ export default {
          return (yiq >= 128) ? "black" : "white";
       },
       addLabel: function(label) {
-
          // Verification doublons et push
-         let labels = toRaw(this.question.etiquettes);
-         if (!labels.find(e => e.nom === label[0])) {
-            this.question.etiquettes.push({ couleur: label[1], nom: label[0] });
+         if (!this.question.etiquettes.find(e => e.id === label.id)) {
+            this.question.etiquettes.push(label);
          }
 
          this.show = false;
       },
       removeLabel: function(label) {
-
-         // On supprime label de this.question.etiquettes
-         const labels = toRaw(this.question.etiquettes);
-         this.question.etiquettes = labels.filter(e => e.nom !== label);
+         // On supprime l'étiquette de this.question.etiquettes
+         this.question.etiquettes = this.question.etiquettes.filter(e => e.id !== label);
       },
       canSave: function() {
-         const Question = toRaw(this.question);
+         const Question = this.question;
          const regex = /^[-+]?\d+(\.\d{0,2}|)$/;
 
          if (!Question.enonce || !Question.etiquettes.length) return false;
@@ -148,44 +148,38 @@ export default {
          return true;
       },
       save: function() {
-         const question = toRaw(this.question);
-         addQuestion(question, (data) => {
+         addQuestion(this.question, (data) => {
             if (data.success) this.toast.success("La question a été ajoutée");
             else this.toast.error("Une erreur a eu lieu lors de l'ajout de la question");
          });
       },
       onChildUpdate: function(newValue) {
-         this.question.type = !newValue ? 0 : 1
+         this.question.type = !newValue ? 0 : 1;
       }
    },
    watch: {
       "question": {
          // On met en place un watcher sur question pour ajouter ou supprimer des réponses
          handler: function(newQuestion) {
-            const question = toRaw(newQuestion);
 
             // On met à jour html
-            this.html = TextToHtml(question.enonce);
+            this.html = TextToHtml(newQuestion.enonce);
 
             // Si aucun contenu de réponse n'est vide
-            if (!question?.reponses.find(e => !e.reponse.trim())) {
+            if (!newQuestion?.reponses.find(e => !e.reponse.trim())) {
                this.question.reponses.push(
                  { "reponse": "", "reponseJuste": false }
                );
             } else {
                //S'il y a plus d'une réponse sans contenu
-               if (question?.reponses.filter(e => !e.reponse.trim()).length > 1) {
-                  let emptyRes = question.reponses.findIndex(e => !e.reponse);
+               if (newQuestion?.reponses.filter(e => !e.reponse.trim()).length > 1) {
+                  let emptyRes = newQuestion.reponses.findIndex(e => !e.reponse);
                   this.question.reponses.splice(emptyRes, 1);
                }
             }
          },
          deep: true
       }
-   },
-   async created() {
-      const { data: allLabels } = await fetchData("/labels/getAllLabels");
-      this.labels = allLabels;
    }
 };
 </script>
