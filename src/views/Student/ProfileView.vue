@@ -1,6 +1,16 @@
 <template>
-   <div class="background" :style="{backgroundColor: backgroundColor}" />
-   <div class="container">
+   <div class="background" @click="handleBackgroundClick"
+        :class="{enabled: backgroundImage, 'cursor-pointer': discordEnabled}"
+        :style="{backgroundColor: backgroundColor, backgroundImage: `url(${backgroundImage})`}" />
+   <input
+     type="file"
+     id="backgroundUpload"
+     style="display:none"
+     accept="image/png, image/gif, image/jpeg"
+     @change="handleBackgroundUpload"
+   />
+
+   <div class="discord-container">
 
       <!-- Image de profil de l'étudiant -->
       <div class="image-container">
@@ -9,9 +19,18 @@
            type="file"
            id="imageUpload"
            style="display:none"
+           accept="image/png, image/jpeg"
            @change="handleImageUpload"
          />
       </div>
+
+      <!-- Ref à Discord -->
+      <div class="discord" @click="discordEnabled = true">
+         <img src="@/assets/img/bravery.svg" alt="Bravery icon">
+         <img src="@/assets/img/developer.svg" alt="Developer icon">
+         <img src="@/assets/img/nitro.svg" alt="Nitro icon">
+      </div>
+
 
       <div class="text-container">
 
@@ -21,7 +40,7 @@
          </div>
 
          <!-- Modification du mot de passe -->
-         <h2 class="mt-10 mb-2 text-xl font-medium text-gray-900">Modifier le mot de passe</h2>
+         <h2 class="mt-8 mb-2 text-xl font-medium text-gray-900">Modifier le mot de passe</h2>
          <div>
             <input type="password" v-model="password"
                    class="w-full md:w-4/5 lg:w-3/5 text-gray-700 bg-gray-50 rounded-lg border border-gray-300
@@ -52,7 +71,9 @@ export default {
          avatar: this.$store.getters.getUserAvatar || image,
          image: image,
          backgroundColor: "#ffffff",
-         password: ""
+         backgroundImage: null,
+         password: "",
+         discordEnabled: false
       };
    },
    setup() {
@@ -99,6 +120,9 @@ export default {
       handleImageClick() {
          document.getElementById("imageUpload").click();
       },
+      handleBackgroundClick() {
+         if (this.discordEnabled) document.getElementById("backgroundUpload").click();
+      },
       handleImageUpload(event) {
          this.file = event.target.files[0];
 
@@ -113,6 +137,14 @@ export default {
             this.updateImage();
          };
          reader.readAsDataURL(this.file);
+      },
+      handleBackgroundUpload(event) {
+         const file = event.target.files[0];
+         const reader = new FileReader();
+         reader.onload = () => {
+            this.backgroundImage = reader.result;
+         };
+         reader.readAsDataURL(file);
       },
       async updateImage() {
          await editImageProfile(this.file, this.toast, async (base64) => {
@@ -135,21 +167,33 @@ export default {
    height: 110px;
    border-radius: 8px 8px 0 0;
    width: 100%;
+
+
 }
 
-.container {
+.background.enabled {
+   height: 150px;
+   background-size: cover;
+   background-position: center;
+   background-repeat: no-repeat;
+}
+
+.discord-container {
+   width: 100%;
    position: relative;
+   background-color: #F2F1F4;
+   border-radius: 0 0 8px 8px;
 }
 
 .image-container {
    position: absolute;
    padding: 8px;
-   width: 150px;
-   height: 150px;
+   width: 120px;
+   height: 120px;
    border-radius: 50%;
-   top: -42px;
+   top: -60px;
    left: 40px;
-   background-color: white;
+   background-color: #F2F1F4;
 }
 
 .image-container img {
@@ -159,32 +203,43 @@ export default {
    object-fit: cover;
 }
 
-.text-container {
+.discord {
+   position: absolute;
+   top: 12px;
+   right: 16px;
+   width: fit-content;
+   border-radius: 8px;
+   cursor: pointer;
+
+   display: flex;
+   gap: 4px;
    background-color: white;
-   border-radius: 0 0 8px 8px;
-   margin-top: 30px;
-   margin-left: 215px;
-   margin-bottom: 40px;
+   padding: 5px;
+}
+
+.text-container {
+   padding: 22px;
+   background-color: white;
+   border-radius: 10px;
+   margin: 80px 40px 40px 40px;
 }
 
 
 /* Format md */
 @media (max-width: 768px) {
-   .image-container {
-      top: -68px;
-   }
-
-   .text-container {
-      margin: 0;
-      padding: 22px 20px 40px 30px;
-   }
-
-   .text-container .username {
-      margin-left: 178px;
-   }
-
    .background {
       border-radius: unset;
+   }
+
+   .discord-container {
+      border-radius: unset;
+   }
+}
+
+
+@media (max-width: 640px) {
+   .text-container {
+      margin: 80px 20px 40px 20px;
    }
 }
 </style>
