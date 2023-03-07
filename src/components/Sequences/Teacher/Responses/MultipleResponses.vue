@@ -89,7 +89,7 @@ export default {
 }
 
 .valid {
-   background-color: green;
+   background-color: #18937b;
 }
 
 .answer:not(:first-child) {
