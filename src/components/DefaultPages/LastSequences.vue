@@ -5,7 +5,8 @@
       <div class="flex flex-col w-full mb-10 py-1">
          <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Mes dernières Séquences</h1>
          <p class="leading-relaxed text-base">Vos dernières séquences sont affichées ci-dessous.<br>
-            Un champ vous permet d'en rejoindre une nouvelle.</p>
+            Un <span class="cursor-pointer" @click="carouselShow = true">champ</span> vous permet d'en rejoindre une
+            nouvelle.</p>
       </div>
 
       <!-- Liste des 3 dernières Sessions -->
@@ -46,18 +47,27 @@
          </button>
       </div>
    </div>
+
+   <modal-component v-model="carouselShow" classes="p-3 sm:p-6 w-11/12 sm:w-2/3 lg:w-1/2 xl:w-2/5">
+      <template v-slot:content>
+         <carousel-champ v-if="carouselShow" />
+      </template>
+   </modal-component>
 </template>
 
 <script>
 import moment from "moment";
 import { useToast } from "vue-toastification";
 import router from "@/router";
+import CarouselChamp from "@/components/Sequences/Student/CarouselChamp.vue";
+import ModalComponent from "@/components/ModalComponent.vue";
 
 moment.locale("fr");
 
 // TODO fetch les données
 export default {
    name: "LastSequences",
+   components: { ModalComponent, CarouselChamp },
    setup() {
       const toast = useToast();
       return { toast };
@@ -87,7 +97,8 @@ export default {
                date: "1677582783",
                id: "IJ90KL12"
             }
-         ]
+         ],
+         carouselShow: false
       };
    },
    methods: {
@@ -100,7 +111,7 @@ export default {
       joinSequence: function() {
          const sequenceId = this.sequenceModel;
          if (sequenceId.length !== 8) return this.toast.error("L'id de séquence n'est pas valide");
-         router.push(`sequence/${sequenceId}/join`)
+         router.push(`sequence/${sequenceId}/join`);
       }
    }
 };
