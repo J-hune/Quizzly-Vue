@@ -60,7 +60,7 @@
             <div class="pt-6">
                <button @click.prevent="logout"
                        class="bg-gray-100 block px-4 py-3 w-full mb-2 leading-loose text-sm text-center font-semibold hover:bg-gray-200 rounded-xl">
-                  Logout
+                  Déconnexion
                </button>
             </div>
          </div>

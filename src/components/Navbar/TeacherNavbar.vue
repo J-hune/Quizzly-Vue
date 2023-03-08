@@ -8,7 +8,7 @@
       </nav>
       <button
         class="inline-flex items-center bg-gray-100 border-0 py-1.5 px-3.5 focus:outline-none hover:bg-gray-200 rounded-lg text-base mt-4 md:mt-0"
-        @click="logout">Logout
+        @click="logout">Déconnexion
       </button>
    </div>
 </template>
