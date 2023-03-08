@@ -67,7 +67,6 @@ import { fetchData } from "@/functions/fetch";
 
 moment.locale("fr");
 
-// TODO fetch les données
 export default {
    name: "LastSequences",
    components: { ModalComponent, CarouselChamp },
