@@ -3,7 +3,8 @@
    <div class="px-7 md:px-16 pt-10 w-full">
 
       <!-- Mot de passe de la séquence -->
-      <h2 class="text-center font-bold text-2xl leading-10">Mot de passe de la séquence:
+      <h2 class="text-center font-bold text-2xl leading-10">Mot de passe de la {{ mode === "sequence" ? "séquence" : "question"
+         }}:
          <span class="password" v-if="sequenceId">{{ sequenceId }}</span>
          <span class="password" v-else>********</span>
       </h2>
@@ -11,7 +12,7 @@
       <!-- Infos utiles -->
       <div class="mt-12 md:flex">
          <div class="md:w-1/2 md:pr-8">
-            <p><strong>Partagez le mot de passe</strong> à vos élèves pour qu'ils puissent rejoindre la séquence.</p>
+            <p><strong>Partagez le mot de passe</strong> à vos élèves pour qu'ils puissent rejoindre le quiz.</p>
             <p class="mt-4">Vous pouvez inscrire vos élèves dans la section
                <router-link to="/students" class="text-blue-600"><strong>Mes Eleves</strong></router-link>
                .
@@ -35,12 +36,12 @@
       <button
         class="relative w-full sm:w-auto sm:mr-3 bg-red-500 hover:bg-red-600 text-white
         font-bold py-2 px-7 rounded-lg right-0" @click="quitSequence">
-         Quitter la séquence
+         Quitter le quiz
       </button>
       <button
         class="relative w-full sm:w-auto mt-2 sm:mt-0 bg-blue-500 hover:bg-blue-600 text-white
         font-bold py-2 px-7 rounded-lg right-0" @click="$emit('startSequence')">
-         Démarrer la séquence
+         {{ mode === "sequence" ? "Démarrer la séquence" : "Diffuser la question" }}
       </button>
    </div>
 </template>
@@ -53,23 +54,24 @@ export default {
    name: "WaitStudents",
    props: {
       sequenceId: String,
-      students: {}
+      students: {},
+      mode: String
    },
    emits: ["startSequence"],
    methods: {
       quitSequence: function() {
          Swal.fire({
             title: "Voulez-vous vraiment quitter ?",
-            text: `Si vous quittez la séquence en cours, vous ne pourrez plus revenir.`,
+            text: `Si vous quittez le quiz en cours, vous ne pourrez plus revenir.`,
             icon: "question",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
-            confirmButtonText: "Quitter la séquence",
+            confirmButtonText: "Quitter le quiz",
             cancelButtonText: "Annuler"
          }).then(async (result) => {
             // Si l'utilisateur a confirmé
             if (result.isConfirmed) {
-               await router.push("/sequences");
+               await router.push(this.mode === "sequence" ? "/sequences" : "/");
             }
          });
       }

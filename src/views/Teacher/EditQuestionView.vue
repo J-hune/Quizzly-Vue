@@ -60,19 +60,29 @@
 
    </div>
 
-   <!-- Bouton sauvegarde -->
-   <div class="save">
-      <button
-        class="relative mt-5 mr-5 sm:mr-6 mb-5 bg-blue-500 hover:bg-blue-600 text-white
-        font-bold py-2 px-7 rounded-lg disabled:opacity-40" @click="save" :disabled="!canSave()">
-         Enregistrer les modifications
-      </button>
+   <!-- Boutons de sauvegarde et de diffusion -->
+   <div class="question-buttons">
+      <div class="flex gap-2 sm:gap-3">
+         <button
+           class="relative bg-blue-500 hover:bg-blue-600 text-white
+        font-bold py-2 px-7 rounded-lg" @click="startQuestion">
+            Diffuser la question
+         </button>
+      </div>
 
-      <button
-        class="relative mt-5 ml-5 sm:ml-6 mr-3 mb-5 bg-red-500 hover:bg-red-600 text-white
-        font-bold py-2 px-7 rounded-lg" @click="remove">
-         Supprimer la Question
-      </button>
+      <div class="mt-8 sm:mt-0 sm:flex ml-auto">
+         <button
+           class="relative w-full sm:w-auto sm:mr-3 mt-2 sm:mt-0 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-7 rounded-lg right-0 disabled:opacity-40"
+           @click="save" :disabled="!canSave()">
+            Enregistrer les modifications
+         </button>
+
+         <button
+           class="relative w-full sm:w-auto  bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-7 rounded-lg right-0"
+           @click="remove">
+            Supprimer la Question
+         </button>
+      </div>
    </div>
 </template>
 
@@ -164,6 +174,9 @@ export default {
             } else this.toast.error("Une erreur a eu lieu lors de la suppression de la question");
          });
       },
+      startQuestion: function() {
+         router.push("/question/" + this.$route.params.id + "/start");
+      },
       onChildUpdate: function(newValue) {
          this.question.type = !newValue ? 0 : 1;
       }
@@ -212,10 +225,12 @@ export default {
    align-items: center;
 }
 
-.save {
+.question-buttons {
+   width: 100%;
    display: flex;
-   flex-direction: row-reverse;
-   margin-top: 5px;
+   padding: 20px 26px;
+   text-align: right;
+   margin-top: 3.5rem;
    border-top: solid 1px #eaeaea;
 }
 </style>

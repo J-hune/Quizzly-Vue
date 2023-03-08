@@ -8,7 +8,9 @@
               :key="indexRH">
             <div class="html-response" v-html="htmlResponse" />
          </div>
-         <span class="ml-2 text-sm">({{ answer.count }} étudiants)</span>
+
+         <!-- On affiche le nombre d'étudiants qui ont répondu cette réponse (avec accords) -->
+         <span class="ml-2 text-sm">({{ answer.count }} {{ answer.count > 1 ? "étudiants" : "étudiant" }})</span>
       </div>
 
 

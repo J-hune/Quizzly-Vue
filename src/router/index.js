@@ -17,6 +17,7 @@ import EditSequenceView from "@/views/Teacher/EditSequenceView.vue";
 import StartSequenceView from "@/views/Teacher/StartSequenceView.vue";
 import JoinSequenceView from "@/views/Student/JoinSequenceView.vue";
 import LabelsList from "@/views/Teacher/LabelsList.vue";
+import StartQuestionView from "@/views/Teacher/StartQuestionView.vue";
 
 const routes = [
    {
@@ -54,6 +55,15 @@ const routes = [
             path: "/question/:id/edit",
             name: "editQuestion",
             component: EditQuestion,
+            meta: {
+               requiresAuth: true,
+               userType: ["Enseignant"]
+            }
+         },
+         {
+            path: "/question/:id/start",
+            name: "startQuestion",
+            component: StartQuestionView,
             meta: {
                requiresAuth: true,
                userType: ["Enseignant"]

@@ -21,8 +21,8 @@ class SocketioService {
 
 
    /* --------- Events Enseignant --------- */
-   createRoom(sequenceId) {
-      this.socket.emit("createRoom", sequenceId)
+   createRoomSequence(sequenceId) {
+      this.socket.emit("createRoomSequence", sequenceId)
    }
 
    nextQuestion() {
@@ -35,6 +35,11 @@ class SocketioService {
 
    askStopResponses() {
       this.socket.emit("askStopResponses")
+   }
+
+   // Pour les questions uniquement (sans passer par une séquence)
+   createRoomQuestion(questionId) {
+      this.socket.emit("createRoomQuestion", questionId)
    }
 
 

@@ -3,7 +3,8 @@
    <div class="px-7 md:px-16 pt-10 w-full">
 
       <!-- Mot de passe de la séquence -->
-      <h2 class="text-center font-bold text-2xl leading-10">Mot de passe de la séquence:
+      <h2 class="text-center font-bold text-2xl leading-10">
+         Mot de passe de la {{ mode === "sequence" ? "séquence" : "question" }}:
          <span class="password" v-if="sequenceId">{{ sequenceId }}</span>
          <span class="password" v-else>********</span>
       </h2>
@@ -81,7 +82,8 @@ export default {
       sequenceId: String,
       question: Object,
       lastQuestion: Boolean,
-      canSubmit: Boolean
+      canSubmit: Boolean,
+      mode: String
    },
    setup() {
       const toast = useToast();
@@ -98,11 +100,11 @@ export default {
       quitSequence: function() {
          Swal.fire({
             title: "Voulez-vous vraiment quitter ?",
-            text: `Si vous quittez la séquence en cours, vous ne pourrez plus revenir.`,
+            text: `Si vous quittez le quiz en cours, vous ne pourrez plus revenir.`,
             icon: "question",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            confirmButtonText: "Quitter la séquence",
+            confirmButtonColor: "#ef4444",
+            confirmButtonText: "Quitter le quiz",
             cancelButtonText: "Annuler"
          }).then(async (result) => {
             // Si l'utilisateur a confirmé

@@ -1,8 +1,7 @@
 <template>
-   <wait-students v-if="waiting" :sequence-id="sequenceId" :students="students" :mode="mode"
-                  @startSequence="startSequence" />
+   <wait-students v-if="waiting" :sequence-id="questionId" :students="students" :mode="mode" @startSequence="startSequence" />
    <render-question v-if="question" :students="students" :question="question" :statements="statements"
-                    :sequence-id="sequenceId" :lastQuestion="lastQuestion" :mode="mode" />
+                    :sequence-id="questionId" :lastQuestion="lastQuestion" :mode="mode" />
 </template>
 
 <script>
@@ -14,17 +13,17 @@ import router from "@/router";
 import { useToast } from "vue-toastification";
 
 export default {
-   name: "StartSequenceView",
+   name: "StartQuestionView",
    components: { RenderQuestion, WaitStudents },
    data: function() {
       return {
          waiting: true,
-         sequenceId: null,
+         questionId: null,
          question: null,
          students: [],
          statements: [],
          lastQuestion: false,
-         mode: "sequence"
+         mode: "question"
       };
    },
    watch: {
@@ -53,7 +52,7 @@ export default {
       SocketioService.setupSocketConnection();
 
       // Creation de la room
-      SocketioService.createRoomSequence(route.params.id);
+      SocketioService.createRoomQuestion(route.params.id);
 
       // Ajouts des events
       SocketioService.socket.on("error", this.onError);
@@ -65,10 +64,10 @@ export default {
    methods: {
       onError(error) {
          this.toast.error(error);
-         router.push("/sequences");
+         router.push("/");
       },
-      onRenderSequenceInit(sequenceId) {
-         this.sequenceId = sequenceId;
+      onRenderSequenceInit(questionId) {
+         this.questionId = questionId;
       },
       onRenderStudentList(studentList) {
          this.students = studentList.map(e => e.nom);

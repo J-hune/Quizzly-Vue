@@ -7,7 +7,9 @@
          <!-- Affichage des réponses avec du markdown -->
          <div class="flex items-baseline">
             {{ answer.answer }}
-            <span class="ml-2 text-sm">({{ answer.count }} étudiants)</span>
+
+            <!-- On affiche le nombre d'étudiants qui ont répondu cette réponse (avec accords) -->
+            <span class="ml-2 text-sm">({{ answer.count }} {{ answer.count > 1 ? "étudiants" : "étudiant" }})</span>
          </div>
 
          <!-- Barre avec une taille proportionnelle -->
