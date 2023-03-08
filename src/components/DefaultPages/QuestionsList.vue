@@ -70,7 +70,8 @@ export default {
    },
    computed: {
       matchingQuestions() {
-         return this.questions.filter(e => e.enonce.toLowerCase().includes(this.search.trim().toLowerCase()));
+         const search = this.search.trim().toLowerCase()
+         return this.questions.filter(obj => obj.etiquettes.some(etiq => etiq.nom.toLowerCase().includes(search)) || obj.enonce.toLowerCase().includes(search));
       }
    }
 };
