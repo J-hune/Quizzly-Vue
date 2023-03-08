@@ -61,26 +61,26 @@
    </div>
 
    <!-- Boutons de sauvegarde et de diffusion -->
-   <div class="question-buttons">
-      <div class="flex gap-2 sm:gap-3">
+   <div class="question-buttons sm:flex">
+      <div class="flex gap-2 sm:gap-3 sm:mr-6">
          <button
-           class="relative bg-blue-500 hover:bg-blue-600 text-white
+           class="relative w-full sm:w-fit bg-purple-400 hover:bg-purple-500 text-white
         font-bold py-2 px-7 rounded-lg" @click="startQuestion">
             Diffuser la question
          </button>
       </div>
 
-      <div class="mt-8 sm:mt-0 sm:flex ml-auto">
+      <div class="mt-4 sm:mt-0 sm:flex ml-auto">
          <button
-           class="relative w-full sm:w-auto sm:mr-3 mt-2 sm:mt-0 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-7 rounded-lg right-0 disabled:opacity-40"
-           @click="save" :disabled="!canSave()">
-            Enregistrer les modifications
+           class="relative w-full sm:w-auto sm:mr-3 mt-2 sm:mt-0 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-7 rounded-lg right-0"
+           @click="remove">
+            Supprimer la Question
          </button>
 
          <button
-           class="relative w-full sm:w-auto  bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-7 rounded-lg right-0"
-           @click="remove">
-            Supprimer la Question
+           class="relative w-full sm:w-auto mt-2 sm:mt-0 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-7 rounded-lg right-0 disabled:opacity-40"
+           @click="save" :disabled="!canSave()">
+            Enregistrer les modifications
          </button>
       </div>
    </div>
@@ -227,7 +227,6 @@ export default {
 
 .question-buttons {
    width: 100%;
-   display: flex;
    padding: 20px 26px;
    text-align: right;
    margin-top: 3.5rem;
