@@ -35,7 +35,7 @@
    <div class="save">
       <button
           class="relative ml-auto mt-5 mr-6 mb-5 bg-blue-500 hover:bg-blue-600 text-white
-        font-bold py-2 px-7 rounded-lg right-0" @click="save"
+        font-bold py-2 px-7 rounded-lg right-0 disabled:opacity-40" @click="save"
           :disabled="!title || selectedQuestions.length <= 0">
          Ajouter la Séquence Pédagogique
       </button>
