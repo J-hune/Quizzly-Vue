@@ -1,6 +1,6 @@
 <template>
    <div class="custom-card">
-      <h3 class="text-lg mb-3">Supprimer les résultats d'un quiz :</h3>
+      <h3 class="text-lg mb-3 font-semibold">Supprimer les résultats d'un quiz :</h3>
       <input type="text" v-model="quizInput"
              class="w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-300
                    focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
