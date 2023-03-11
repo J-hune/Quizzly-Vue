@@ -42,7 +42,7 @@
    <!-- Navbar phone format md -->
    <header :style="{display: navbarOpen ? 'block' : 'none'}" class="hide-content md:none"
            @click.prevent="navbarOpen = false">
-      <nav class="phone-navbar flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
+      <nav class="phone-navbar flex flex-col w-5/6 max-w-sm pt-5 pb-4 px-6 bg-white border-r overflow-y-auto">
 
          <!-- Liste des Liens de la navbar -->
          <ul>
@@ -62,6 +62,13 @@
                        class="bg-gray-100 block px-4 py-3 w-full mb-2 leading-loose text-sm text-center font-semibold hover:bg-gray-200 rounded-xl">
                   Déconnexion
                </button>
+            </div>
+
+            <!-- ce dont on ne doit pas prononcer le nom -->
+            <div class="w-full text-xs text-center pt-1">
+                  <span class="text-blue-600 cursor-pointer no-underline" @click="redirect">
+                     FAQ - CONTACT
+                  </span>
             </div>
          </div>
       </nav>
@@ -123,6 +130,14 @@ export default {
        */
       home() {
          router.push("/");
+      },
+
+      /**
+       * Redirection de l'utilisateur vers une certaine page
+       * Pour "ce dont on ne doit pas prononcer le nom"
+       */
+      redirect() {
+         window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank");
       }
    }
 };
