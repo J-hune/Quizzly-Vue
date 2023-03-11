@@ -1,11 +1,17 @@
 <template>
    <div class="custom-card">
+
+      <!-- Nom de la carte -->
       <h3 class="text-lg mb-3 font-semibold">Supprimer les résultats d'un quiz :</h3>
+
+      <!-- Champ pour l'identifiant du quiz -->
       <input type="text" v-model="quizInput"
              class="w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-300
                    focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
                    py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
              placeholder="Identifiant du quiz (8 caractères alphanumériques)..." maxlength="8" />
+
+      <!-- Bouton pour supprimer les résultats du quiz -->
       <button @click="removeStats"
               class="mt-3 w-full sm:w-fit bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg">
          Supprimer les résultats du quiz
@@ -29,6 +35,10 @@ export default {
       };
    },
    methods: {
+      /**
+       * Supprime toutes les réponses fournies par les étudiants pour le quiz spécifié par l'utilisateur.
+       * Si l'identifiant du quiz n'est pas au format attendu, affiche un message d'erreur.
+       */
       removeStats: function() {
 
          // On teste si l'id du quiz est bien formaté (8 chiffres)

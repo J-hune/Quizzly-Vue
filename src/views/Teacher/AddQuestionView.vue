@@ -82,6 +82,7 @@ import AddLabels from "@/components/Labels/AddLabels.vue";
 import SwitchButton from "@/components/SwitchButton.vue";
 import MultipleResponses from "@/components/Questions/multipleResponses.vue";
 import UniqueResponse from "@/components/Questions/uniqueResponse.vue";
+import { getContrast } from "@/functions/profile";
 
 export default {
    name: "AddQuestion",
@@ -116,15 +117,12 @@ export default {
       mermaid.initialize({});
    },
    methods: {
-      getContrast: function(hexcolor) {
-         // Fonction de Brian Suda trouvée sur cet article :
-         // https://24ways.org/2010/calculating-color-contrast
-         let red = parseInt(hexcolor.substring(1, 3), 16);
-         let green = parseInt(hexcolor.substring(3, 5), 16);
-         let blue = parseInt(hexcolor.substring(5, 7), 16);
-         let yiq = ((red * 299) + (green * 587) + (blue * 114)) / 1000;
-         return (yiq >= 128) ? "black" : "white";
-      },
+      getContrast,
+
+      /**
+       * Ajoute une étiquette à la liste d'étiquettes de la question.
+       * @param {Object} label - L'étiquette à ajouter.
+       */
       addLabel: function(label) {
          // Verification doublons et push
          if (!this.question.etiquettes.find(e => e.id === label.id)) {
@@ -133,10 +131,20 @@ export default {
 
          this.show = false;
       },
+
+      /**
+       * Supprime une étiquette de la question.
+       * @param {string} label - L'ID de l'étiquette à supprimer.
+       */
       removeLabel: function(label) {
          // On supprime l'étiquette de this.question.etiquettes
          this.question.etiquettes = this.question.etiquettes.filter(e => e.id !== label);
       },
+
+      /**
+       * Vérifie si la question peut être sauvegardée
+       * @returns {boolean} Vrai si la question peut être sauvegardée, faux sinon
+       */
       canSave: function() {
          const Question = this.question;
          const regex = /^[-+]?\d+(\.\d{0,2}|)$/;
@@ -147,12 +155,21 @@ export default {
          if (!!Question.type && !regex.test(Question.numerique)) return false;
          return true;
       },
+
+      /**
+       * Ajoute la question dans la base de données
+       */
       save: function() {
          addQuestion(this.question, (data) => {
             if (data.success) this.toast.success("La question a été ajoutée");
             else this.toast.error("Une erreur a eu lieu lors de l'ajout de la question");
          });
       },
+
+      /**
+       * Met à jour le type de la question
+       * @param {boolean} newValue La nouvelle valeur du type de la question
+       */
       onChildUpdate: function(newValue) {
          this.question.type = !newValue ? 0 : 1;
       }

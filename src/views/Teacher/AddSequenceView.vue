@@ -45,7 +45,6 @@
 <script>
 import DraggableQuestions from "@/components/Questions/draggableQuestions.vue";
 import {fetchData} from "@/functions/fetch";
-import {toRaw} from "vue";
 import {addSequence} from "@/functions/sequences";
 import {useToast} from "vue-toastification";
 import RedirectBack from "@/components/redirectBack.vue";
@@ -65,8 +64,14 @@ export default {
       };
    },
    methods: {
+      /**
+       * Ajoute la séquence à l'aide de l'API et affiche un message de succès ou d'erreur en fonction du résultat.
+       * @async
+       * @returns {Promise<void>}
+       */
       save: async function () {
-         const sequence = toRaw(this.selectedQuestions).map(e => e.id);
+         // On récupère un tableau contenant uniquement les identifiants des questions sélectionnées
+         const sequence = this.selectedQuestions.map(e => e.id);
 
          // On appelle l'api pour ajouter la séquence
          await addSequence({title: this.title, questions: sequence}, (data) => {

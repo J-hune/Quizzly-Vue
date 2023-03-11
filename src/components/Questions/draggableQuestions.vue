@@ -5,7 +5,7 @@
       <!-- Container Questions Disponibles -->
       <div class="w-full flex flex-col">
 
-         <!-- input Search -->
+         <!-- Champ de recherche par étiquette -->
          <input type="text" v-model="search"
                 class="w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-300 mb-5
                    focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
@@ -55,7 +55,6 @@
 <script>
 import QuestionCard from "@/components/Questions/QuestionCard.vue";
 import draggable from "vuedraggable";
-import { toRaw } from "vue";
 
 export default {
    name: "draggableQuestions",
@@ -69,7 +68,7 @@ export default {
    },
    computed: {
       searchQuestions: function() {
-         const allQuestions = toRaw(this.allQuestions);
+         const allQuestions = this.allQuestions;
          return allQuestions.filter(e => e.etiquettes.find(f => f.nom.toLowerCase().includes(this.search.toLowerCase())));
       },
       dragOptions() {

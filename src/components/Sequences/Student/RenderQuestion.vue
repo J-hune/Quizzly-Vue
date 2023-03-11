@@ -97,6 +97,11 @@ export default {
    methods: {
       TextToHtmMarkdownOnly,
       TextToHtml,
+
+      /**
+       * Affiche une boîte de dialogue demandant confirmation avant de quitter le quiz.
+       * Si l'utilisateur confirme, il est redirigé vers la page d'accueil.
+       */
       quitSequence: function() {
          Swal.fire({
             title: "Voulez-vous vraiment quitter ?",
@@ -113,14 +118,30 @@ export default {
             }
          });
       },
+
+      /**
+       * Soumet la réponse de l'utilisateur à l'aide du service Socket.io.
+       */
       handleClick: function() {
          SocketioService.submitAnswer(this.answer);
       },
+
+      /**
+       * Bascule l'état de la réponse de l'utilisateur pour l'option avec l'ID donné.
+       * Si l'option est déjà sélectionnée, elle est désélectionnée.
+       * Sinon, elle est sélectionnée.
+       * @param {number} id - L'ID de l'option à basculer.
+       */
       toggleResponse: function(id) {
          if (!this.canSubmit) return;
          if (this.answer.includes(id)) this.answer = this.answer.filter(e => e !== id);
          else this.answer = [...this.answer, id];
       },
+
+      /**
+       * Met à jour l'état de la correction avec les données fournies.
+       * @param {object} correction - Les données de la correction.
+       */
       onRenderCorrection: function(correction) {
          this.correction = correction;
       }

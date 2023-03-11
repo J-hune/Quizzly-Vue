@@ -51,7 +51,6 @@ import DraggableQuestions from "@/components/Questions/draggableQuestions.vue";
 import { fetchData } from "@/functions/fetch";
 import RenderQuestions from "@/components/Questions/RenderQuestions.vue";
 import ModalComponent from "@/components/ModalComponent.vue";
-import { toRaw } from "vue";
 
 export default {
    name: "NewQcm",
@@ -67,11 +66,20 @@ export default {
       };
    },
    methods: {
+      /**
+       * Affiche les questions sélectionnées et le titre dans la vue d'impression.
+       */
       print: function() {
          this.show = true;
-         this.renderQuestions = toRaw(this.selectedQuestions);
-         this.renderTitle = toRaw(this.title);
+         this.renderQuestions = this.selectedQuestions;
+         this.renderTitle = this.title;
       },
+
+      /**
+       * Ouvre un lien aléatoire depuis une liste de liens en fonction du côté choisi.
+       * Il s'agit d'un "on ne doit pas prononcer le nom"
+       * @param {string} side - Le côté du lien (gauche ou droite).
+       */
       openLink: function(side) {
          // Liste des liens à choisir aléatoirement
          const links = {

@@ -1,10 +1,14 @@
 <template>
+   <!-- Navbar -->
    <navbar-component />
+
    <div class="grid h-screen">
       <div class="custom-background">
          <div class="custom-container mb-14">
             <div :class="backgroundClass">
                <div class="flex flex-wrap g-0">
+
+                  <!-- Suite de la route -->
                   <router-view />
                </div>
             </div>
@@ -14,7 +18,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import NavbarComponent from "@/components/Navbar/NavbarComponent";
 
 export default {

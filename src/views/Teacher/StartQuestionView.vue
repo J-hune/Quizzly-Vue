@@ -1,5 +1,8 @@
 <template>
+   <!-- Si le quiz n'est pas démarré, on affiche une page avec le nombre d'étudiants et la liste -->
    <wait-students v-if="waiting" :sequence-id="questionId" :students="students" :mode="mode" @startSequence="startSequence" />
+
+   <!-- Si le quiz est démarré, la question est affichée -->
    <render-question v-if="question" :students="students" :question="question" :statements="statements"
                     :sequence-id="questionId" :lastQuestion="lastQuestion" :mode="mode" />
 </template>
@@ -62,21 +65,46 @@ export default {
       SocketioService.socket.on("renderStudentList", this.onRenderStudentList);
    },
    methods: {
+      /**
+       * Gère les erreurs en affichant un message d'erreur et en redirigeant l'utilisateur vers la page d'accueil.
+       * @param {string} error - Message d'erreur.
+       */
       onError(error) {
          this.toast.error(error);
          router.push("/");
       },
+
+      /**
+       * Initialise l'affichage de la question.
+       * @param {number} questionId - ID de la question.
+       */
       onRenderSequenceInit(questionId) {
          this.questionId = questionId;
       },
+
+      /**
+       * Initialise l'affichage de la liste des étudiants.
+       * @param {Array} studentList - Liste des étudiants.
+       */
       onRenderStudentList(studentList) {
          this.students = studentList.map(e => e.nom);
       },
+
+      /**
+       * Initialise l'affichage d'une question.
+       * @param {Object} question - Objet représentant la question.
+       * @param {boolean} last - Booléen indiquant si c'est la dernière question.
+       */
       onRenderQuestion({ question, last }) {
          this.waiting = false;
          this.question = question;
          this.lastQuestion = last;
       },
+
+      /**
+       * Gère l'ajout d'une réponse à une question.
+       * @param {number} answer - ID de la réponse.
+       */
       onRenderNewResponse(answer) {
          if (this.question.type === 0) {
             const statement = this.statements.find((el) => el.id === answer);
@@ -85,6 +113,10 @@ export default {
             this.statements.push(answer);
          }
       },
+
+      /**
+       * Démarre la séquence en envoyant une requête à l'API via Socket.io.
+       */
       startSequence() {
          SocketioService.nextQuestion();
       }

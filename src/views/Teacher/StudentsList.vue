@@ -38,7 +38,9 @@
               v-for="student in searchStudents" :key="student.id" @click="removeStudent(student)">
             <img class="w-12 h-12 rounded-full mr-4" :src="student.avatar || image" alt="student avatar">
             <div class="flex flex-col overflow-hidden">
-               <span class="card-font text-black font-medium overflow-hidden text-ellipsis whitespace-nowrap">{{ student.prenom }} {{ student.nom
+               <span
+                 class="card-font text-black font-medium overflow-hidden text-ellipsis whitespace-nowrap">{{ student.prenom
+                  }} {{ student.nom
                   }}</span>
                <span class="text-sm text-slate-600">#{{ student.id }}</span>
             </div>
@@ -53,12 +55,11 @@
 </template>
 
 <script>
-import Swal from "sweetalert2";
-import { toRaw } from "vue";
 import image from "../../assets/img/f2.png";
 import { addStudentsFromCSV } from "@/functions/csv";
 import { useToast } from "vue-toastification";
 import { fetchData } from "@/functions/fetch";
+import { removeAllStudents, removeStudent } from "@/functions/students";
 
 export default {
    name: "StudentsList",
@@ -78,92 +79,72 @@ export default {
       this.students = data;
    },
    methods: {
+      /**
+       * Charge un fichier CSV contenant des étudiants et les ajoute à la base de données
+       */
       uploadFile() {
+         // Récupération de l'input file
          let input = this.$refs.fileInput;
          let file = input.files[0];
 
+         // Si aucun fichier n'a été sélectionné, on sort de la fonction
          if (!file) {
             return;
          }
 
+         // On lit le contenu du fichier CSV
          let reader = new FileReader();
          reader.readAsText(file);
 
+         // Une fois que le contenu a été chargé
          reader.onload = async (e) => {
             let csvData = e.target.result;
+            // On ajoute les étudiants à la base de données
             await addStudentsFromCSV(csvData, this.toast);
 
-            // On modifie les données du front à partir d'un appel à l'api
+            // On récupère tous les étudiants à jour depuis l'API
             const { data } = await fetchData("/students/getAllStudents");
+            // On met à jour la liste des étudiants affichés sur le front-end
             this.students = data;
          };
       },
+
+
+      /**
+       * Ouvre la boîte de dialogue pour sélectionner un fichier CSV contenant des étudiants
+       */
       addStudents() {
          this.$refs.fileInput.click();
       },
+
+      /**
+       * Supprime tous les étudiants de la base de données
+       */
       removeAllStudents() {
-
-         // On affiche un popup pour que l'utilisateur confirme la suppression
-         Swal.fire({
-            title: "Confirmer la suppression ?",
-            text: `Voulez vous supprimer tous les étudiants ? Attention, cette action est irréversible`,
-            icon: "question",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            confirmButtonText: "Supprimer tous les étudiants",
-            cancelButtonText: "Annuler"
-         }).then(async (result) => {
-            // Si l'utilisateur a confirmé
-            if (result.isConfirmed) {
-
-               // On appelle l'api pour supprimer tous les étudiants
-               const { data: dataRemove } = await fetchData("/students/removeAllStudent/");
-               if (dataRemove.success) {
-                  this.toast.success("Tous les étudiants ont été supprimés");
-
-                  // On modifie les données du front en faisant confiance au back-end
-                  // (On pourrait aussi récupérer les données une nouvelle fois avec un nouvel appel à l'api)
-                  this.students = [];
-               } else {
-                  this.toast.error("Les étudiants n'ont pas pu être supprimés");
-               }
-            }
+         // Appelle la méthode dans le fichier students.js pour supprimer tous les étudiants
+         removeAllStudents(this.toast, () => {
+            // On modifie les données du front en faisant confiance au back-end
+            // (On pourrait aussi récupérer les données une nouvelle fois avec un nouvel appel à l'api)
+            this.students = [];
          });
       },
+
+      /**
+       * Supprime un étudiant de la base de données
+       * @param {Object} student - L'étudiant à supprimer
+       */
       removeStudent(student) {
-
-         // On affiche un popup pour que l'utilisateur confirme la suppression
-         Swal.fire({
-            title: "Confirmer la suppression ?",
-            text: `Voulez vous supprimer l'étudiant ${student.id}: ${student.prenom} ${student.nom} ?`,
-            icon: "question",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            confirmButtonText: "Supprimer cet étudiant",
-            cancelButtonText: "Annuler"
-         }).then(async (result) => {
-            // Si l'utilisateur a confirmé
-            if (result.isConfirmed) {
-
-               // On appelle l'api pour supprimer tous les étudiants
-               const { data } = await fetchData("/students/removeStudent/" + student.id);
-               if (data.success) {
-                  this.toast.success("L'étudiant #" + student.id + " a été supprimé");
-
-                  // On modifie les données du front en faisant confiance au back-end
-                  // (On pourrait aussi récupérer les données une nouvelle fois avec un nouvel appel à l'api)
-                  this.students = this.students.filter(e => e.id !== student.id);
-               } else {
-                  this.toast.error("L'étudiant n'a pas pu être supprimé");
-               }
-            }
+         // Appelle la méthode dans le fichier students.js pour supprimer un étudiant
+         removeStudent(student, this.toast, () => {
+            // On modifie les données du front en faisant confiance au back-end
+            // (On pourrait aussi récupérer les données une nouvelle fois avec un nouvel appel à l'api)
+            this.students = this.students.filter(e => e.id !== student.id);
          });
       }
    },
    computed: {
       searchStudents: function() {
-         const allStudents = toRaw(this.students);
-         return allStudents.filter(e => {
+         return this.students.filter(e => {
             let nom = e.nom.toLowerCase().includes(this.search.toLowerCase());
             let prenom = e.prenom.toLowerCase().includes(this.search.toLowerCase());
             let id = e.id.toString().includes(this.search);

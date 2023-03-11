@@ -38,6 +38,7 @@
 <script>
 import { fetchData } from "@/functions/fetch";
 import { useToast } from "vue-toastification";
+import { getContrast } from "@/functions/profile";
 
 export default {
    name: "AddLabelsWithoutClick",
@@ -61,25 +62,28 @@ export default {
       this.allLabels = data;
    },
    methods: {
-      getContrast: function(hexcolor) {
-         // Fonction de Brian Suda trouvée sur cet article :
-         // https://24ways.org/2010/calculating-color-contrast
-         let red = parseInt(hexcolor.substring(1, 3), 16);
-         let green = parseInt(hexcolor.substring(3, 5), 16);
-         let blue = parseInt(hexcolor.substring(5, 7), 16);
-         let yiq = ((red * 299) + (green * 587) + (blue * 114)) / 1000;
-         return (yiq >= 128) ? "black" : "white";
-      },
+      getContrast,
+
+      /**
+       * Ajoute une nouvelle étiquette dans la base de données via une requête asynchrone
+       * @async
+       * @function createLabel
+       * @returns {void}
+       */
       createLabel: async function() {
+         // Récupère la couleur de l'étiquette (sans le "#" initial)
          const couleur = this.color.slice(1);
 
-         // Fetch API pour ajouter l'étiquette en base de donnée
+         // Requête pour ajouter l'étiquette en base de données
          const { data } = await fetchData("/labels/addLabel/" + this.search + "/" + couleur);
+
          if (data.success) {
             this.toast.success("L'étiquette " + this.search + " a été ajoutée");
 
-            // On émet un event qui sera catch par le parent
+            // On émet un événement avec l'étiquette ajoutée qui sera capté par le parent
             this.$emit("addLabel", { nom: this.search.trim(), couleur: couleur, id: data.id });
+
+            // On ajoute l'étiquette à la liste de toutes les étiquettes
             this.allLabels.push({ nom: this.search.trim(), couleur: couleur, id: data.id });
          } else {
             this.toast.error("L'étiquette n'a pas pu être ajoutée");

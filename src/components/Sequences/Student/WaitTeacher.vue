@@ -40,6 +40,10 @@ export default {
       sequenceId: String
    },
    methods: {
+      /**
+       * Affiche une boîte de dialogue demandant confirmation avant de quitter le quiz.
+       * Si l'utilisateur confirme, il est redirigé vers la page d'accueil.
+       */
       quitSequence: function() {
          Swal.fire({
             title: "Voulez-vous vraiment quitter ?",

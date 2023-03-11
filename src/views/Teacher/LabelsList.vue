@@ -2,7 +2,7 @@
    <!-- Block Principal -->
    <div class="px-7 md:px-16 py-12 w-full">
 
-      <!-- Titre et explications -->
+      <!-- Titre et explications de la page -->
       <div class="flex flex-col w-full py-1 mb-6">
          <h1 class="sm:text-3xl text-2xl font-semibold title-font mb-4 text-gray-900">Mes Etiquettes</h1>
          <p class="leading-relaxed text-base">Les étiquettes que vous avez créées ou associées à vos
@@ -10,13 +10,14 @@
             Cliquez sur une étiquette pour la modifier ou la supprimer.</p>
       </div>
 
-      <!-- input Search -->
+      <!-- Champ de recherche par nom d'étiquette -->
       <input type="text" v-model="search"
              class="w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-300
                    focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
                    py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
              placeholder="Filtrer par nom d'étiquette... (ex: Algorithmie...)" />
 
+      <!-- Bouton pour créer une nouvelle étiquette -->
       <button @click="showAddLabel = true"
               class="mt-3 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-7 rounded-lg">
          Créer une nouvelle Etiquette
@@ -37,7 +38,7 @@
          </div>
       </div>
 
-      <!-- Si l'utilisateur n'a pas créé d'étiquette -->
+      <!-- Si l'utilisateur n'a pas encore créé d'étiquette -->
       <div v-else>
          Vous n'avez pas encore créé d'étiquette, cliquez sur
          <strong><span class="text-blue-600 cursor-pointer" @click="showAddLabel = true">
@@ -46,6 +47,7 @@
          pour en créer une !
       </div>
 
+      <!-- On affiche une div si aucune étiquette ne correspond à la recherche -->
       <div v-if="labels.length && !matchingLabels.length">
          Aucune étiquette ne correspond à votre recherche
       </div>
@@ -96,22 +98,32 @@ export default {
       }
    },
    methods: {
+      /**
+       * Ajoute une étiquette à la liste des étiquettes.
+       * @param {object} label - L'étiquette à ajouter
+       */
       addLabel: function(label) {
-
-         // On ajoute l'étiquette à this.labels
          this.labels.push(label);
          this.showAddLabel = false;
       },
-      editLabel: function(label) {
 
+      /**
+       * Modifie une étiquette de la liste des étiquettes.
+       * @param {object} label - L'étiquette à modifier
+       */
+      editLabel: function(label) {
          // On parcourt this.labels pour modifier l'étiquette
          this.labels = this.labels.map(e => {
             if (e.id === label.id) return label;
             else return e;
          });
       },
-      removeLabel: function(labelId) {
 
+      /**
+       * Supprime une étiquette de la liste des étiquettes.
+       * @param {number} labelId - L'identifiant de l'étiquette à supprimer
+       */
+      removeLabel: function(labelId) {
          // On parcourt this.labels pour supprimer l'étiquette
          this.labels = this.labels.filter(e => e.id !== labelId)
       }

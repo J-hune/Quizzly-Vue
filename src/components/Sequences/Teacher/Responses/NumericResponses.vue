@@ -49,7 +49,10 @@ export default {
       SocketioService.socket.on("renderCorrection", this.onRenderCorrection);
    },
    methods: {
-      // Fonction appelée lors de la réception de la demande de correction des réponses
+      /**
+       * Affiche le rendu de la correction
+       * @param correction
+       */
       onRenderCorrection: function(correction) {
          this.correction = correction;
       }

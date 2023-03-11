@@ -1,11 +1,17 @@
 <template>
    <div class="custom-card">
+
+      <!-- Nom de la carte -->
       <h3 class="text-lg mb-3 font-semibold">Accéder aux résultats d'un étudiant :</h3>
+
+      <!-- Champ pour l'identifiant du quiz -->
       <input type="text" v-model="studentInput"
              class="w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-300
                    focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
                    py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
              placeholder="Numéro de l'étudiant..." maxlength="8" />
+
+      <!-- Bouton pour supprimer les résultats du quiz -->
       <button @click="redirectStatsPage"
               class="mt-3 w-full sm:w-fit bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">
          Accéder aux résultats
@@ -29,6 +35,10 @@ export default {
       };
    },
    methods: {
+      /**
+       * Redirige l'utilisateur vers la page de statistiques pour l'étudiant spécifié par son numéro étudiant.
+       * Si le numéro étudiant n'est pas au format attendu, affiche un message d'erreur.
+       */
       redirectStatsPage: function() {
 
          // On teste si le numéro étudiant est bien formaté (8 chiffres)

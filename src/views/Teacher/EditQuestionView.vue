@@ -102,6 +102,7 @@ import SwitchButton from "@/components/SwitchButton.vue";
 import MultipleResponses from "@/components/Questions/multipleResponses.vue";
 import UniqueResponse from "@/components/Questions/uniqueResponse.vue";
 import router from "@/router";
+import { getContrast } from "@/functions/profile";
 
 export default {
    name: "EditQuestion",
@@ -129,27 +130,34 @@ export default {
       this.question = data;
    },
    methods: {
-      getContrast: function(hexcolor) {
-         // Fonction de Brian Suda trouvée sur cet article :
-         // https://24ways.org/2010/calculating-color-contrast
-         let red = parseInt(hexcolor.substring(1, 3), 16);
-         let green = parseInt(hexcolor.substring(3, 5), 16);
-         let blue = parseInt(hexcolor.substring(5, 7), 16);
-         let yiq = ((red * 299) + (green * 587) + (blue * 114)) / 1000;
-         return (yiq >= 128) ? "black" : "white";
-      },
+      getContrast,
+
+      /**
+       * Ajoute une étiquette à la question courante.
+       * @param {Object} label - L'étiquette à ajouter.
+       */
       addLabel: function(label) {
-         // Verification doublons et push
+         // Vérification des doublons et ajout de l'étiquette
          if (!this.question.etiquettes.find(e => e.id === label.id)) {
             this.question.etiquettes.push(label);
          }
 
          this.show = false;
       },
+
+      /**
+       * Supprime l'étiquette donnée de la question courante.
+       * @param {Object} label - L'objet étiquette à supprimer.
+       */
       removeLabel: function(label) {
          // On supprime l'étiquette de this.question.etiquettes
          this.question.etiquettes = this.question.etiquettes.filter(e => e.id !== label);
       },
+
+      /**
+       * Vérifie si la question courante peut être enregistrée.
+       * @return {Boolean} True si la question peut être enregistrée, False sinon.
+       */
       canSave: function() {
          const Question = this.question;
          const regex = /^[-+]?\d+(\.\d{0,2}|)$/;
@@ -160,23 +168,46 @@ export default {
          if (!!Question.type && !regex.test(Question.numerique)) return false;
          return true;
       },
+
+      /**
+       * Enregistre la question courante en appelant la fonction d'ajout de question de l'API.
+       * Affiche un message de succès ou d'erreur en fonction du résultat de la requête.
+       */
       save: function() {
+         // Appel de l'API pour ajouter la séquence
          editQuestion(this.question, (data) => {
             if (data.success) this.toast.success("La question a été modifiée");
             else this.toast.error("Une erreur a eu lieu lors de la modification de la question");
          });
       },
+
+      /**
+       * Supprime la question courante en appelant la fonction de suppression de question de l'API.
+       * Affiche un message de succès ou d'erreur en fonction du résultat de la requête.
+       * Redirige vers la page précédente en cas de succès.
+       */
       remove: function() {
          removeQuestion(this.question, (data) => {
             if (data.success) {
                this.toast.success("La question a été supprimée");
                router.back();
-            } else this.toast.error("Une erreur a eu lieu lors de la suppression de la question");
+            } else {
+               this.toast.error("Une erreur a eu lieu lors de la suppression de la question");
+            }
          });
       },
+
+      /**
+       * Redirige vers la page de démarrage de la question courante.
+       */
       startQuestion: function() {
          router.push("/question/" + this.$route.params.id + "/start");
       },
+
+      /**
+       * Met à jour le type de la question courante en fonction de la nouvelle valeur.
+       * @param {Boolean} newValue - La nouvelle valeur du type.
+       */
       onChildUpdate: function(newValue) {
          this.question.type = !newValue ? 0 : 1;
       }

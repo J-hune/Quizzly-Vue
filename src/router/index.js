@@ -30,126 +30,85 @@ const routes = [
             path: "",
             name: "DefaultPage",
             component: DefaultPage,
-            meta: {
-               requiresAuth: true
-            }
+            meta: { requiresAuth: true }
          },
          {
             path: "/labels",
             name: "labels",
             component: LabelsList,
-            meta: {
-               requiresAuth: true,
-               userType: ["Enseignant"]
-            }
+            meta: { requiresAuth: true, userType: ["Enseignant"] }
          },
          {
             path: "/newQuestion",
             name: "newQuestion",
             component: AddQuestion,
-            meta: {
-               requiresAuth: true,
-               userType: ["Enseignant"]
-            }
+            meta: { requiresAuth: true, userType: ["Enseignant"] }
          },
          {
             path: "/question/:id/edit",
             name: "editQuestion",
             component: EditQuestion,
-            meta: {
-               requiresAuth: true,
-               userType: ["Enseignant"]
-            }
+            meta: { requiresAuth: true, userType: ["Enseignant"] }
          },
          {
             path: "/question/:id/start",
             name: "startQuestion",
             component: StartQuestionView,
-            meta: {
-               requiresAuth: true,
-               userType: ["Enseignant"]
-            }
+            meta: { requiresAuth: true, userType: ["Enseignant"] }
          },
          {
             path: "/sequences",
             name: "sequences",
             component: SequencesList,
-            meta: {
-               requiresAuth: true,
-               userType: ["Enseignant"]
-            }
+            meta: { requiresAuth: true, userType: ["Enseignant"] }
          },
          {
             path: "/newSequence",
             name: "newSequence",
             component: AddSequenceView,
-            meta: {
-               requiresAuth: true,
-               userType: ["Enseignant"]
-            }
+            meta: { requiresAuth: true, userType: ["Enseignant"] }
          },
          {
             path: "/sequence/:id/edit",
             name: "editSequence",
             component: EditSequenceView,
-            meta: {
-               requiresAuth: true,
-               userType: ["Enseignant"]
-            }
+            meta: { requiresAuth: true, userType: ["Enseignant"] }
          },
          {
             path: "/sequence/:id/start",
             name: "startSequence",
             component: StartSequenceView,
-            meta: {
-               requiresAuth: true,
-               userType: ["Enseignant"]
-            }
+            meta: { requiresAuth: true, userType: ["Enseignant"] }
          },
          {
             path: "/sequence/:id/join",
             name: "joinSequence",
             component: JoinSequenceView,
-            meta: {
-               requiresAuth: true,
-               userType: ["Etudiant"]
-            }
+            meta: { requiresAuth: true, userType: ["Etudiant"] }
          },
          {
             path: "/statistics",
             name: "statistics",
             component: StatisticsView,
-            meta: {
-               requiresAuth: true,
-               userType: ["Enseignant"]
-            }
+            meta: { requiresAuth: true, userType: ["Enseignant"] }
          },
          {
             path: "/newQCM",
             name: "newQCM",
             component: NewQcm,
-            meta: {
-               requiresAuth: true,
-               userType: ["Enseignant"]
-            }
+            meta: { requiresAuth: true, userType: ["Enseignant"] }
          },
          {
             path: "/students",
             name: "students",
             component: StudentsList,
-            meta: {
-               requiresAuth: true,
-               userType: ["Enseignant"]
-            }
+            meta: { requiresAuth: true, userType: ["Enseignant"] }
          },
          {
             path: "/profile",
             name: "profile",
             component: ProfileView,
-            meta: {
-               requiresAuth: true,
-               userType: ["Etudiant"]
-            }
+            meta: { requiresAuth: true, userType: ["Etudiant"] }
          }
       ]
    },

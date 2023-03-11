@@ -1,7 +1,10 @@
 <template>
+   <!-- Background du profil (la couleur est celle majoritaire de l'avatar) -->
    <div class="background" @click="handleBackgroundClick"
         :class="{enabled: backgroundImage, 'cursor-pointer': discordEnabled}"
         :style="{backgroundColor: backgroundColor, backgroundImage: `url(${backgroundImage})`}" />
+
+   <!-- Input pour ce dont on ne doit pas prononcer le nom -->
    <input
      type="file"
      id="backgroundUpload"
@@ -24,7 +27,8 @@
          />
       </div>
 
-      <!-- Ref à Discord -->
+      <!-- Badges de l'utilisateur (Ref à Discord) -->
+      <!-- Pour info, on a choisi la squad bravery car les 4 membres du groupe sont dans la Bravery -->
       <div class="discord" @click="discordEnabled = true">
          <img src="@/assets/img/bravery.svg" alt="Bravery icon">
          <img src="@/assets/img/developer.svg" alt="Developer icon">
@@ -48,6 +52,8 @@
                    py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
                    placeholder="Nouveau mot de passe..." />
          </div>
+
+         <!-- Bouton permettant de modifier le mot de passe -->
          <button @click="updatePassword"
                  class="mt-3 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-7 rounded-lg">
             Mettre à jour le mot de passe
@@ -88,6 +94,10 @@ export default {
       // On utilise la méthode setUserAvatar de la mutation pour mettre à jour l'avatar dans le store
       ...mapMutations(["setUserAvatar"]),
 
+      /**
+       * Vérifie la validité du mot de passe et le modifie dans le système si valide.
+       * @returns {string|number}
+       */
       updatePassword: function() {
          const lowercaseRegex = /[a-z]/;
          const uppercaseRegex = /[A-Z]/;
@@ -117,16 +127,32 @@ export default {
             this.password = "";
          });
       },
+
+      /**
+       * Gère l'événement click de l'image et déclenche la sélection de l'image à partir du système de fichiers.
+       * @returns {void}
+       */
       handleImageClick() {
          document.getElementById("imageUpload").click();
       },
+
+      /**
+       * Gère l'événement click du background et déclenche la sélection de l'image à partir du système de fichiers.
+       * @returns {void}
+       */
       handleBackgroundClick() {
          if (this.discordEnabled) document.getElementById("backgroundUpload").click();
       },
+
+      /**
+       * Gère l'événement de téléchargement de l'image et met à jour l'URL de l'image si la taille est correcte.
+       * @param {object} event - L'événement d'upload d'image.
+       * @returns {void}
+       */
       handleImageUpload(event) {
          this.file = event.target.files[0];
 
-         // On limite la taille de l'image (< 200ko)
+         // On limite la taille de l'image à 200ko
          if (this.file.size > 200480) {
             return this.toast.error("La taille du fichier ne doit pas être supérieure à 200ko");
          }
@@ -138,6 +164,12 @@ export default {
          };
          reader.readAsDataURL(this.file);
       },
+
+      /**
+       * Gère l'événement de téléchargement de l'image de fond et met à jour l'URL de l'image.
+       * @param {object} event - L'événement d'upload d'image.
+       * @returns {void}
+       */
       handleBackgroundUpload(event) {
          const file = event.target.files[0];
          const reader = new FileReader();
@@ -146,6 +178,15 @@ export default {
          };
          reader.readAsDataURL(file);
       },
+
+      /**
+       * Met à jour l'image du profil,
+       * Envoie la nouvelle image au serveur,
+       * Récupère la couleur d'arrière-plan,
+       * Met à jour l'avatar dans le store.
+       * @async
+       * @returns {Promise<void>}
+       */
       async updateImage() {
          await editImageProfile(this.file, this.toast, async (base64) => {
             // On modifie l'avatar sur la page
@@ -167,8 +208,6 @@ export default {
    height: 110px;
    border-radius: 8px 8px 0 0;
    width: 100%;
-
-
 }
 
 .background.enabled {

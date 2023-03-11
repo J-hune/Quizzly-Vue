@@ -50,6 +50,7 @@
       </div>
    </div>
 
+   <!-- Popup avec le composant pour "ce dont on ne doit pas prononcer le nom" -->
    <modal-component v-model="carouselShow" classes="p-3 sm:p-6 w-11/12 sm:w-2/3 lg:w-1/2 xl:w-2/5">
       <template v-slot:content>
          <carousel-champ v-if="carouselShow" />
@@ -86,12 +87,22 @@ export default {
       };
    },
    methods: {
+      /**
+       * Convertit un timestamp Unix en une date formatée.
+       * @param {number} date - Le timestamp Unix.
+       * @returns {string} La date formatée.
+       */
       timestampToDate: function(date) {
          const momentDate = moment(date * 1000).format("dddd D MMMM YYYY");
 
          // Pour avoir la 1ère lettre du jour en majuscule
          return momentDate.charAt(0).toUpperCase() + momentDate.slice(1);
       },
+
+      /**
+       * Redirige vers la page de jointure de la séquence spécifiée.
+       * Affiche un message d'erreur si l'id de séquence est invalide.
+       */
       joinSequence: function() {
          const sequenceId = this.sequenceModel;
          if (sequenceId.length !== 8) return this.toast.error("L'id de séquence n'est pas valide");

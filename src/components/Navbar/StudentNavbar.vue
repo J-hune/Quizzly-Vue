@@ -7,8 +7,11 @@
          </router-link>
       </nav>
 
+      <!-- Avatar avec un bouton -->
       <img class="w-10 h-10 avatar" :src="userAvatar" alt="student avatar" @click="displayDropdown = !displayDropdown"
            v-click-outside="() => displayDropdown = false" />
+
+      <!-- Dropdown lié au bouton de l'avatar -->
       <div class="dropdown-container" :style="{display: displayDropdown ? 'block': 'none'}">
          <div class="dropdown">
             <div class="user-name">
@@ -48,12 +51,19 @@ export default {
       };
    },
    methods: {
+      /**
+       * Déconnexion de l'utilisateur
+       */
       logout() {
          // Suppression du cookie de session et push "/"
          this.$cookies.remove("session");
          router.push("/signin");
          this.toast.info("Vous venez d'être déconnecté");
       },
+
+      /**
+       * Redirection de l'utilisateur vers la page principale
+       */
       home() {
          router.push("/");
       }

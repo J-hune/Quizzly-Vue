@@ -8,13 +8,14 @@
             Cliquez sur une question pour la modifier et/ou modifier les réponses qui lui sont associées.</p>
       </div>
 
-      <!-- input Search -->
+      <!-- Champ de recherche par étiquette ou par énoncé -->
       <input type="text" v-model="search"
              class="w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-300
                    focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
                    py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
              placeholder="Filtrer par étiquette ou par énoncé... (ex: Quelle est...)" />
 
+      <!-- Bouton pour créer une question (redirection) -->
       <button @click="redirectQuestionCreation"
               class="mt-3 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-7 rounded-lg">
          Créer une nouvelle Question
@@ -51,10 +52,19 @@ export default {
    name: "QuestionsList",
    components: { QuestionCard },
    methods: {
+      /**
+       * Redirige vers la page de création d'une nouvelle question.
+       */
       redirectQuestionCreation: function() {
          router.push("/newQuestion");
       },
+
+      /**
+       * Redirige vers la page d'édition d'une question existante.
+       * @param {number} id - L'identifiant de la question à éditer.
+       */
       redirectEdit: function(id) {
+         // On utilise l'identifiant de la question pour construire l'URL de la page d'édition correspondante.
          router.push(`/question/${id}/edit`);
       }
    },

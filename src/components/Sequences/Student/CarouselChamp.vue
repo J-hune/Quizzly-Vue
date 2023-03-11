@@ -1,4 +1,5 @@
 <template>
+   <!-- Composant utile uniquement pour "ce dont on ne doit pas prononcer le nom" -->
    <div class="carousel-container">
       <Carousel>
          <Slide v-for="image in images" :key="image.id">
@@ -50,7 +51,7 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
 .carousel-container {
    width: 100%;
 }

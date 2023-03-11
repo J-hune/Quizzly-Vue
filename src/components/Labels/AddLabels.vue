@@ -43,6 +43,7 @@
 import { fetchData } from "@/functions/fetch";
 import { useToast } from "vue-toastification";
 import router from "@/router";
+import { getContrast } from "@/functions/profile";
 
 export default {
    name: "AddLabelsComponent",
@@ -66,37 +67,49 @@ export default {
       this.allLabels = data;
    },
    methods: {
-      getContrast: function(hexcolor) {
-         // Fonction de Brian Suda trouvée sur cet article :
-         // https://24ways.org/2010/calculating-color-contrast
-         let red = parseInt(hexcolor.substring(1, 3), 16);
-         let green = parseInt(hexcolor.substring(3, 5), 16);
-         let blue = parseInt(hexcolor.substring(5, 7), 16);
-         let yiq = ((red * 299) + (green * 587) + (blue * 114)) / 1000;
-         return (yiq >= 128) ? "black" : "white";
-      },
+      getContrast,
+
+      /**
+       * Émet un événement pour ajouter une étiquette
+       * @param {Array} label - Un tableau contenant le nom et la couleur de l'étiquette
+       */
       emitEvent: function(label) {
-         // On émet un event qui sera catch par le parent
+         // Émet un événement qui sera capté par le composant parent
          this.$emit("addLabel", label);
       },
+
+      /**
+       * Crée une nouvelle étiquette
+       */
       createLabel: async function() {
+         // Récupère la couleur de l'étiquette (sans le "#" initial)
          const couleur = this.color.slice(1);
 
-         // Fetch API pour ajouter l'étiquette en base de donnée
+         // Appelle l'API pour ajouter l'étiquette en base de données
          const { data } = await fetchData("/labels/addLabel/" + this.search + "/" + couleur);
+
+         // Affiche une notification pour indiquer le succès ou l'échec de l'opération
          if (data.success) {
             this.toast.success("L'étiquette " + this.search + " a été ajoutée");
          } else {
             this.toast.error("L'étiquette n'a pas pu être ajoutée");
          }
 
-         // On émet un event qui sera catch par le parent
+         // Émet un événement pour ajouter l'étiquette
          this.$emit("addLabel", [this.search.trim(), couleur]);
+
+         // Ajoute l'étiquette à la liste des étiquettes existantes
          this.allLabels.push([this.search.trim(), couleur]);
+
+         // Réinitialise la recherche d'étiquette
          this.search = "";
       },
+
+      /**
+       * Redirige vers la page des étiquettes
+       */
       redirectLabels: function() {
-         router.push("/labels")
+         router.push("/labels");
       }
    },
    watch: {

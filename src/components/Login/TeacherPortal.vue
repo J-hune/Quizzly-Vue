@@ -8,26 +8,34 @@
          </h4>
       </div>
 
-      <!-- Form Enseignant: Prénom, nom, mot de passe -->
+      <!-- Formulaire login Enseignant: Prénom, nom et mot de passe -->
       <form @submit.prevent="logUser">
+
+         <!-- Prénom -->
          <div class="mb-4">
             <input
               ref="firstname" type="text" id="prenom" maxlength="50" placeholder="Prénom"
               class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
             />
          </div>
+
+         <!-- Nom -->
          <div class="mb-4">
             <input
               ref="surname" type="text" id="nom" maxlength="50" placeholder="Nom de Famille"
               class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
             />
          </div>
+
+         <!-- Mot de passe -->
          <div class="mb-4">
             <input
               ref="password" type="password" id="password" maxlength="100" placeholder="Mot de passe"
               class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
             />
          </div>
+
+         <!-- Bouton Submit -->
          <div class="text-center pt-1 mb-8 pb-1">
             <button
               class="inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3"
@@ -36,6 +44,8 @@
                {{ type === "Login" ? "Se connecter" : "S'enregistrer" }}
             </button>
          </div>
+
+         <!-- Div avec redirection vers l'inscription ou le login -->
          <div class="flex items-center justify-between pb-6">
             <p class="mb-0 mr-2">
                {{ type === "Login" ? "Vous n'êtes pas inscrits ?" : "Vous êtes déjà inscrits ?" }}
@@ -63,7 +73,12 @@ export default {
       type: String
    },
    methods: {
+      /**
+       * Fonction pour connecter un enseignant.
+       * @async
+       */
       logUser() {
+         // Récupération des champs de formulaire pour l'identification
          let userData = {
             firstname: this.$refs.firstname.value.trim(),
             surname: this.$refs.surname.value.trim(),
@@ -84,7 +99,7 @@ export default {
             if (data.success) {
                this.toast.info("Bienvenue " + data.user.firstname);
 
-               // On stocke les données de l'utilisateur
+               // Stockage des données de l'utilisateur dans le store Vuex
                this.$store.commit("setUser", {
                   id: data.user.id,
                   firstname: data.user.firstname,
@@ -93,9 +108,13 @@ export default {
                   type: data.user.type
                });
 
+               // Passage de l'état de connexion à true
                this.$store.commit("setLoggedIn", true)
+
+               // Redirection vers la page d'accueil
                router.push("/");
             } else {
+               // Message d'erreur en cas d'identification invalide
                this.toast.error("Les Identifiants que vous avez donné sont invalides");
             }
          });

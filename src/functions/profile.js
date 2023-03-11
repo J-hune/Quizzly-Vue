@@ -166,3 +166,20 @@ export async function editPassword(password, toast, callback) {
       toast.error("Une erreur a eu lieu lors de la mise à jour du mot de passe");
    }
 }
+
+/**
+ * Calcule le contraste entre une couleur en format hexadécimal et le blanc ou le noir.
+ *
+ * Cette fonction utilise l'algorithme développé par Brian Suda décrit dans cet article :
+ * https://24ways.org/2010/calculating-color-contrast
+ *
+ * @param {string} hexcolor - La couleur en format hexadécimal (ex: "#FFFFFF").
+ * @returns {string} - La couleur "black" ou "white" en fonction du contraste avec la couleur donnée.
+ */
+export function getContrast(hexcolor) {
+   let red = parseInt(hexcolor.substring(1, 3), 16);
+   let green = parseInt(hexcolor.substring(3, 5), 16);
+   let blue = parseInt(hexcolor.substring(5, 7), 16);
+   let yiq = ((red * 299) + (green * 587) + (blue * 114)) / 1000;
+   return (yiq >= 128) ? "black" : "white";
+}

@@ -48,6 +48,7 @@
 import { fetchData } from "@/functions/fetch";
 import { useToast } from "vue-toastification";
 import { deleteLabel, editLabel } from "@/functions/labels";
+import { getContrast } from "@/functions/profile";
 
 export default {
    name: "EditLabel",
@@ -74,25 +75,25 @@ export default {
       this.allLabels = data;
    },
    methods: {
-      getContrast: function(hexcolor) {
-         // Fonction de Brian Suda trouvée sur cet article :
-         // https://24ways.org/2010/calculating-color-contrast
-         let red = parseInt(hexcolor.substring(1, 3), 16);
-         let green = parseInt(hexcolor.substring(3, 5), 16);
-         let blue = parseInt(hexcolor.substring(5, 7), 16);
-         let yiq = ((red * 299) + (green * 587) + (blue * 114)) / 1000;
-         return (yiq >= 128) ? "black" : "white";
-      },
+      getContrast,
+
+      /**
+       * Edite une étiquette existante.
+       */
       editLabel: async function() {
+         // Récupère la couleur de l'étiquette (sans le "#" initial)
          const couleur = this.color.slice(1);
 
-         // Fetch API pour ajouter l'étiquette en base de donnée
+         // Appelle l'API pour modifier l'étiquette en base de donnée
          await editLabel({ id: this.label.id, nom: this.search.trim(), couleur: couleur }, data => {
+
             if (data.success) {
                this.toast.success("L'étiquette " + this.search + " a été modifié");
 
-               // On émet un event qui sera catch par le parent
+               // Émet un événement pour notifier le parent que l'étiquette a été modifiée
                this.$emit("editLabel", { id: this.label.id, nom: this.search.trim(), couleur: couleur });
+
+               // Met à jour la liste des étiquettes avec la nouvelle étiquette modifiée
                this.allLabels = this.allLabels.map(e => {
                   if (e.id === this.label.id) return { nom: this.search.trim(), couleur: couleur, id: data.id };
                   else return e;
@@ -102,11 +103,18 @@ export default {
             }
          });
       },
+
+      /**
+       * Supprime l'étiquette sélectionnée.
+       */
       removeLabel: function() {
 
-         // On supprime l'étiquette
+         // Appelle l'API pour supprimer l'étiquette de la base de données
          deleteLabel(this.label, this.toast, () => {
+            // Émet un événement pour notifier le parent que l'étiquette a été supprimée
             this.$emit("removeLabel", this.label.id);
+
+            // Met à jour la liste des étiquettes en retirant l'étiquette supprimée
             this.allLabels = this.allLabels.filter(e => e.id !== this.label.id);
          });
       }

@@ -16,12 +16,14 @@
 <script>
 export default {
    name: "SwitchButton",
-   props: {
-      uniqueResponse: Boolean
-   },
+   props: { uniqueResponse: Boolean },
    methods: {
+      /**
+       * Met à jour la valeur de la propriété parente en émettant un événement.
+       * @param {Boolean} newValue La nouvelle valeur à affecter à la propriété parente.
+       */
       updateParent: function(newValue) {
-         this.$emit("update", newValue)
+         this.$emit("update", newValue);
       }
    }
 };

@@ -44,17 +44,15 @@ export default {
       };
    },
    watch: {
-      selectedQuestions: {
-         handler: function() {
-            this.html = this.selectedQuestions.map(e => TextToHtml(e.enonce));
-         }
+      selectedQuestions: function() {
+         this.html = this.selectedQuestions.map(e => TextToHtml(e.enonce));
       }
    }
 }
 ;
 </script>
 
-<style>
+<style >
 .save {
    width: 100%;
    display: inline-flex;

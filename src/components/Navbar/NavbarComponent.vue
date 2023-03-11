@@ -108,12 +108,19 @@ export default {
       }
    },
    methods: {
+      /**
+       * Déconnexion de l'utilisateur
+       */
       logout() {
          // Suppression du cookie de session et push "/"
          this.$cookies.remove("session");
          router.push("/signin");
          this.toast.info("Vous venez d'être déconnecté");
       },
+
+      /**
+       * Redirection de l'utilisateur vers la page principale
+       */
       home() {
          router.push("/");
       }

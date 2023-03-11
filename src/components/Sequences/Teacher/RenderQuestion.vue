@@ -100,6 +100,11 @@ export default {
    },
    methods: {
       TextToHtml,
+
+      /**
+       * Affiche une boîte de dialogue demandant confirmation avant de quitter le quiz.
+       * Si l'utilisateur confirme, il est redirigé vers la page des séquences.
+       */
       quitSequence: function() {
          Swal.fire({
             title: "Voulez-vous vraiment quitter ?",
@@ -116,20 +121,43 @@ export default {
             }
          });
       },
+
+      /**
+       * Demande au service Socket.io de demander la correction de la question en cours.
+       */
       askCorrection() {
          SocketioService.askCorrection();
       },
+
+      /**
+       * Demande au service Socket.io de stopper les réponses et affiche une notification.
+       */
       askStopResponses() {
          SocketioService.askStopResponses();
          this.toast.info("Aucune nouvelle réponse ne sera acceptée");
       },
+
+      /**
+       * Gère le clic sur le bouton de réponse.
+       * Si la question en cours est la dernière question, appelle endOfSequence().
+       * Sinon, appelle nextQuestion().
+       */
       handleClick() {
          if (this.lastQuestion) this.endOfSequence();
          else this.nextQuestion();
       },
+
+      /**
+       * Demande au service Socket.io de passer à la question suivante.
+       */
       nextQuestion() {
          SocketioService.nextQuestion();
       },
+
+      /**
+       * Termine la séquence en cours en déconnectant le service Socket.io, en redirigeant l'utilisateur
+       * vers la page des séquences et en affichant une notification.
+       */
       endOfSequence() {
          SocketioService.disconnect();
          router.push("/sequences");

@@ -123,9 +123,17 @@ export default {
       };
    },
    methods: {
+      /**
+       * Bascule la visibilité de la série ayant le nom en paramètre.
+       * @param {string} seriesName - Le nom de la série à basculer.
+       */
       toggleSeries(seriesName) {
          this.$refs.chart.toggleSeries(seriesName);
       },
+
+      /**
+       * Réinitialise le zoom sur l'axe X du graphique.
+       */
       reset() {
          this.$refs.chart.zoomX();
       }

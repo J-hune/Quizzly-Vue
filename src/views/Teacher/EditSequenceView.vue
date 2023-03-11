@@ -40,7 +40,6 @@
 <script>
 import DraggableQuestions from "@/components/Questions/draggableQuestions.vue";
 import {fetchData} from "@/functions/fetch";
-import {toRaw} from "vue";
 import {deleteSequence, editSequence} from "@/functions/sequences";
 import {useToast} from "vue-toastification";
 import RedirectBack from "@/components/redirectBack.vue";
@@ -62,8 +61,13 @@ export default {
       };
    },
    methods: {
+      /**
+       * Enregistre les modifications apportées à la séquence
+       * @async
+       * @returns {Promise<void>}
+       */
       save: async function () {
-         const sequence = toRaw(this.selectedQuestions).map(e => e.id);
+         const sequence = this.selectedQuestions.map(e => e.id);
 
          // On appelle l'api pour modifier la séquence
          await editSequence({title: this.title, questions: sequence}, this.id, (data) => {
@@ -74,6 +78,11 @@ export default {
             }
          })
       },
+
+      /**
+       * Supprime la séquence en cours
+       * @returns {void}
+       */
       remove: function () {
          deleteSequence(this.id, this.toast)
       }
