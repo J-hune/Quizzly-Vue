@@ -45,7 +45,7 @@ export default {
             title: "Voulez-vous vraiment quitter ?",
             icon: "question",
             showCancelButton: true,
-            confirmButtonColor: "#ef4444",
+            confirmButtonColor: "#3085d6",
             confirmButtonText: "Quitter le quiz",
             cancelButtonText: "Annuler"
          }).then(async (result) => {

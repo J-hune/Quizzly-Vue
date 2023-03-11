@@ -103,7 +103,7 @@ export default {
             text: `Si vous quittez le quiz en cours, vous ne pourrez plus revenir.`,
             icon: "question",
             showCancelButton: true,
-            confirmButtonColor: "#ef4444",
+            confirmButtonColor: "#3085d6",
             confirmButtonText: "Quitter le quiz",
             cancelButtonText: "Annuler"
          }).then(async (result) => {
