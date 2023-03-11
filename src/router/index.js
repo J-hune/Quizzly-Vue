@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import store from "@/store";
 
 import HomeView from "../views/HomeView.vue";
@@ -9,7 +9,7 @@ import AddQuestion from "@/views/Teacher/AddQuestionView.vue";
 import EditQuestion from "@/views/Teacher/EditQuestionView.vue";
 import StudentsList from "@/views/Teacher/StudentsList.vue";
 import DefaultPage from "@/views/DefaultPageView.vue";
-import {checkUserLogged} from "@/functions/login";
+import { checkUserLogged } from "@/functions/login";
 import ProfileView from "@/views/Student/ProfileView.vue";
 import AddSequenceView from "@/views/Teacher/AddSequenceView.vue";
 import SequencesList from "@/views/Teacher/SequencesList.vue";
@@ -18,6 +18,7 @@ import StartSequenceView from "@/views/Teacher/StartSequenceView.vue";
 import JoinSequenceView from "@/views/Student/JoinSequenceView.vue";
 import LabelsList from "@/views/Teacher/LabelsList.vue";
 import StartQuestionView from "@/views/Teacher/StartQuestionView.vue";
+import StatisticsView from "@/views/Teacher/StatisticsView.vue";
 
 const routes = [
    {
@@ -112,6 +113,15 @@ const routes = [
             meta: {
                requiresAuth: true,
                userType: ["Etudiant"]
+            }
+         },
+         {
+            path: "/statistics",
+            name: "statistics",
+            component: StatisticsView,
+            meta: {
+               requiresAuth: true,
+               userType: ["Enseignant"]
             }
          },
          {

@@ -1,7 +1,9 @@
-import {createApp} from "vue";
+import { createApp } from "vue";
 import VueCookies from "vue-cookies";
 import Toast from "vue-toastification";
-import {vfmPlugin} from "vue-final-modal";
+import { vfmPlugin } from "vue-final-modal";
+import VueFeather from "vue-feather";
+import VueApexCharts from "vue3-apexcharts";
 
 import "vue-toastification/dist/index.css";
 import clickOutside from "@/Methods/click-outside";
@@ -32,10 +34,13 @@ const options = {
 
 
 const app = createApp(App);
+app.component(VueFeather.name, VueFeather);
+
 app.use(router);
 app.use(VueCookies);
 app.use(Toast, options);
-app.use(store)
+app.use(store);
+app.use(VueApexCharts);
 
 app.use(vfmPlugin({
    key: "$vfm",

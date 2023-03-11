@@ -3,7 +3,7 @@
    <div class="grid h-screen">
       <div class="custom-background">
          <div class="custom-container mb-14">
-            <div class="block bg-white shadow-lg md:rounded-lg">
+            <div :class="backgroundClass">
                <div class="flex flex-wrap g-0">
                   <router-view />
                </div>
@@ -28,6 +28,15 @@ export default {
          surname: null,
          type: null
       };
+   },
+   computed: {
+      backgroundClass() {
+         if (this.$route.name === "statistics") {
+            return "";
+         } else {
+            return "custom-card";
+         }
+      }
    }
 };
 </script>
@@ -58,4 +67,15 @@ export default {
    }
 }
 
+.custom-card {
+   border-radius: 15px;
+   box-shadow: 0 9px 20px rgba(46, 35, 94, 0.07);
+   background: white;
+}
+
+@media (max-width: 640px) {
+   .custom-card {
+      margin: 0 12px;
+   }
+}
 </style>

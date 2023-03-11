@@ -91,6 +91,7 @@ export default {
                { link: "/labels", label: "Mes Etiquettes" },
                { link: "/students", label: "Mes Eleves" },
                { link: "/sequences", label: "Mes Séquences" },
+               { link: "/statistics", label: "Statistiques" },
                { link: "/newQCM", label: "Nouveau QCM" }
             ],
             student: [
