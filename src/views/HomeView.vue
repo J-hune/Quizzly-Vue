@@ -76,6 +76,12 @@ export default {
    background: white;
 }
 
+@media (max-width: 768px) {
+   .custom-card {
+      margin: 0 24px;
+   }
+}
+
 @media (max-width: 640px) {
    .custom-card {
       margin: 0 12px;
