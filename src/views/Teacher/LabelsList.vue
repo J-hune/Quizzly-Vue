@@ -1,4 +1,5 @@
 <template>
+   <!-- Block Principal -->
    <div class="px-7 md:px-16 py-12 w-full">
 
       <!-- Titre et explications -->

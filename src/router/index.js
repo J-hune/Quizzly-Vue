@@ -123,7 +123,6 @@ const routes = [
                userType: ["Enseignant"]
             }
          },
-
          {
             path: "/students",
             name: "students",

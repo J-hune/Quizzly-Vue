@@ -33,11 +33,16 @@
             {{ label.nom }}</a>
       </div>
    </div>
+
+   <p class="mt-3">Si vous souhaitez modifier ou supprimer une étiquette, vous pouvez aller dans
+      <span class="text-blue-600 cursor-pointer" @click="redirectLabels"><strong>Mes étiquettes</strong></span>
+   </p>
 </template>
 
 <script>
 import { fetchData } from "@/functions/fetch";
 import { useToast } from "vue-toastification";
+import router from "@/router";
 
 export default {
    name: "AddLabelsComponent",
@@ -89,6 +94,9 @@ export default {
          this.$emit("addLabel", [this.search.trim(), couleur]);
          this.allLabels.push([this.search.trim(), couleur]);
          this.search = "";
+      },
+      redirectLabels: function() {
+         router.push("/labels")
       }
    },
    watch: {

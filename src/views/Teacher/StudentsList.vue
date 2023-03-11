@@ -1,5 +1,6 @@
 <template>
-   <div class="px-7 md:px-16 py-12 pb-14 w-full">
+   <!-- Block Principal -->
+   <div class="px-7 md:px-16 pt-10 pb-14 w-full">
 
       <!-- Titre et description Composant -->
       <div class="flex flex-col w-full mb-12 py-1">

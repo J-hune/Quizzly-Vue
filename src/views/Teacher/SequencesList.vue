@@ -1,4 +1,5 @@
 <template>
+   <!-- Block Principal -->
    <div class="px-7 md:px-16 pt-10 pb-14 w-full">
 
       <!-- Titre et description Composant -->
