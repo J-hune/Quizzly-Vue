@@ -15,7 +15,9 @@
          <p>Veuillez patienter quelques instants, vous serez automatiquement redirigé(e) vers le quiz
             <strong>dès que le professeur aura commencé la diffusion.</strong></p>
          <br>
-         <p>Nous vous remercions de votre patience et espérons que vous passerez un moment agréable et instructif en
+         <p>Nous vous remercions de votre
+            <strong><span class="text-blue-600" @click="showMemoryGame = true">patience</span></strong>
+            et espérons que vous passerez un moment agréable et instructif en
             participant à ce quiz sur <strong><span class="text-blue-600">Quizzly</span></strong>.</p>
       </div>
    </div>
@@ -28,16 +30,29 @@
          Quitter le quiz
       </button>
    </div>
+
+   <!-- "Popup" Modal permettant de selectionner et de créer des étiquettes -->
+   <modal-component v-model="showMemoryGame" classes="p-3 sm:p-6 w-full max-w-3xl bg-slate-700">
+      <template v-slot:content>
+         <memory-game />
+      </template>
+   </modal-component>
 </template>
 
 <script>
 import Swal from "sweetalert2";
 import router from "@/router";
+import ModalComponent from "@/components/ModalComponent.vue";
+import MemoryGame from "@/components/Memory/MemoryGame.vue";
 
 export default {
    name: "WaitTeacher",
-   props: {
-      sequenceId: String
+   components: { MemoryGame, ModalComponent },
+   props: { sequenceId: String },
+   data: function() {
+      return {
+         showMemoryGame: false
+      };
    },
    methods: {
       /**
@@ -74,5 +89,9 @@ export default {
    width: 100%;
    border-top: solid 1px #eaeaea;
    padding: 20px 26px;
+}
+
+.custom-container {
+   max-width: 100px;
 }
 </style>
