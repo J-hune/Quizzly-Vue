@@ -1,8 +1,13 @@
 <template>
    <div class="game-container">
 
-      <!-- Nombre de tours joués -->
-      <h3 class="text-2xl text-white text-right mb-4">Nombre de tours joués: {{ turnCount }}</h3>
+      <!-- Nombre de tours joués et meilleur score -->
+      <div class="sm:flex">
+         <h3 v-if="bestScore" class="sm:w-1/2 text-2xl text-white mb-2">Meilleur score: {{ bestScore }}</h3>
+         <h3 v-bind:class="{'sm:w-1/2': bestScore, 'sm:w-full': !bestScore}"
+             class="text-2xl text-white sm:text-right mb-4">Nombre de tours joués: {{ turnCount }}</h3>
+      </div>
+
 
       <!-- Grille de cartes -->
       <div class="cards-container">
@@ -55,7 +60,8 @@ export default {
          deckOfCards: [],
          allPairsFound: false,
          cardContents: randomEmoji,
-         image: randomImage
+         image: randomImage,
+         bestScore: null
       };
    },
    setup() {
@@ -161,6 +167,8 @@ export default {
       allPairsFound(newValue) {
          if (newValue === true) {
             this.toast.info("Vous avez gagné en " + this.turnCount + " coups !");
+            localStorage.MemoryScore = this.bestScore ? Math.min(this.turnCount, this.bestScore) : this.turnCount;
+            this.bestScore = this.bestScore ? Math.min(this.turnCount, this.bestScore) : this.turnCount;
          }
       }
    },
@@ -180,6 +188,11 @@ export default {
       this.cards = [...cards, ...pairs];
 
       this.deckOfCards = this.shuffle(this.cards);
+
+      // Récupération du best score dans le localStorage
+      if (localStorage.MemoryScore) {
+         this.bestScore = localStorage.MemoryScore;
+      }
    }
 };
 </script>
