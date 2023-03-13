@@ -39,7 +39,7 @@
    </div>
 
    <!-- "Popup" Modal permettant de selectionner et de créer des étiquettes -->
-   <modal-component v-model="show" width="60%">
+   <modal-component v-model="show" classes="w-10/12 md:w-5/6 lg:w-2/3 xl:w-1/2">
       <template v-slot:content>
          <render-questions :title="renderTitle" :questions="renderQuestions" />
       </template>
