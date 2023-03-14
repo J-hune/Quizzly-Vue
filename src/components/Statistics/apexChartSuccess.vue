@@ -2,13 +2,12 @@
    <div class="custom-card">
       <div class="top-right-container">
          <ul class="legend">
-            <li @click="toggleSeries('Sequences')">Sequences</li>
-            <li @click="toggleSeries('Questions')">Questions</li>
+            <li>Taux de succès</li>
          </ul>
          <vue-feather @click="reset" class="reset" size="16" type="home" />
       </div>
 
-      <vue-apex-charts ref="chart" height="400" type="area" :options="chartOptions" class="w-full"
+      <vue-apex-charts ref="chart" height="150" type="area" :options="chartOptions" class="w-full"
                        :series="series" />
    </div>
 </template>
@@ -18,12 +17,11 @@ import moment from "moment";
 import VueApexCharts from "vue3-apexcharts";
 
 export default {
-   name: "apexChart",
+   name: "apexChartSuccess",
    components: { VueApexCharts },
    props: { series: Array, categories: Array },
    data: function() {
       return {
-         displaySeries: ["Sequences", "Questions"],
          chartOptions: {
             chart: {
                type: "area",
@@ -63,20 +61,12 @@ export default {
                   seriesName: "series1",
                   show: false,
                   labels: {
-                     show: false
+                     show: false,
+                     formatter: function (value) {
+                        return value + "%";
+                     }
                   },
                   axisBorder: {
-                     show: false
-                  }
-               },
-               {
-                  seriesName: "series2",
-                  show: false,
-                  labels: {
-                     show: false
-                  },
-                  axisBorder: {
-                     left: 0,
                      show: false
                   }
                }],
@@ -86,18 +76,18 @@ export default {
                   left: 0,
                   right: 0,
                   top: 0,
-                  bottom: -12
+                  bottom: 0
                }
             },
             markers: {
                strokeWidth: 3,
                colors: "#ffffff",
-               strokeColors: ["#a6acec", "#a56cc1"],
+               strokeColors: ["#18937B"],
                hover: {
                   size: 6
                }
             },
-            colors: ["#a6acec", "#a56cc1"],
+            colors: ["#18937B"],
             legend: {
                show: false
             },
@@ -108,7 +98,7 @@ export default {
             },
             stroke: {
                curve: "smooth", // courbe de la line
-               colors: ["#a6acec", "#a56cc1"] // couleur de la line
+               colors: ["#18937B"] // couleur de la line
             },
             fill: {
                type: "gradient",
@@ -123,14 +113,6 @@ export default {
       };
    },
    methods: {
-      /**
-       * Bascule la visibilité de la série ayant le nom en paramètre.
-       * @param {string} seriesName - Le nom de la série à basculer.
-       */
-      toggleSeries(seriesName) {
-         this.$refs.chart.toggleSeries(seriesName);
-      },
-
       /**
        * Réinitialise le zoom sur l'axe X du graphique.
        */
@@ -175,18 +157,14 @@ export default {
    border-radius: 50%;
    content: "";
    height: 8px;
-   left: -22%;
+   left: -16%;
    position: absolute;
    top: 27%;
    width: 8px;
 }
 
 .legend li:first-child::before {
-   background-color: #b281ca;
-}
-
-.legend li:last-child::before {
-   background-color: #b3b8ee;
+   background-color: #18937B;
 }
 
 .reset {
