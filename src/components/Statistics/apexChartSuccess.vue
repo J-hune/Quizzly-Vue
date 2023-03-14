@@ -2,7 +2,7 @@
    <div class="custom-card">
       <div class="top-right-container">
          <ul class="legend">
-            <li>Taux de succès</li>
+            <li>Taux de réussite</li>
          </ul>
          <vue-feather @click="reset" class="reset" size="16" type="home" />
       </div>

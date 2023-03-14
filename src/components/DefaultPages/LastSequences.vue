@@ -10,24 +10,11 @@
       </div>
 
       <!-- Liste des 3 dernières Sessions -->
-      <div v-if="sequences.length" class="grid grid-cols-1 sm:grid-cols-2  xl:grid-cols-2 gap-3 2xl:grid-cols-3 lg:gap-5 mb-6">
+      <div v-if="sequences.length"
+           class="grid grid-cols-1 sm:grid-cols-2  xl:grid-cols-2 gap-3 2xl:grid-cols-3 lg:gap-5 mb-6">
          <div class="w-full rounded-lg border-2 border-gray-300 bg-white items-center cursor-pointer p-6"
               v-for="(sequence) in sequences" :key="sequence.id">
-            <div class="flex justify-between items-center mb-2">
-               <div class="text-lg font-semibold">{{ sequence.teacherName }}</div>
-               <div class="text-sm text-gray-600">#{{ sequence.id }}</div>
-            </div>
-            <div class="text-sm text-gray-600 mb-4">{{ timestampToDate(sequence.date) }}</div>
-            <div class="flex flex-wrap -mx-1">
-               <div class="w-1/2 px-1">
-                  <div class="text-sm text-gray-600 mb-1">Participants</div>
-                  <div class="text-xl font-semibold">{{ sequence.participantCount }}</div>
-               </div>
-               <div class="w-1/2 px-1">
-                  <div class="text-sm text-gray-600 mb-1">Bonnes réponses (en %)</div>
-                  <div class="text-xl font-semibold">{{ sequence.percentCorrect }}%</div>
-               </div>
-            </div>
+            <quiz-card :quiz="sequence" />
          </div>
       </div>
 
@@ -65,12 +52,13 @@ import router from "@/router";
 import CarouselChamp from "@/components/Sequences/Student/CarouselChamp.vue";
 import ModalComponent from "@/components/ModalComponent.vue";
 import { fetchData } from "@/functions/fetch";
+import QuizCard from "@/components/Quiz/QuizCard.vue";
 
 moment.locale("fr");
 
 export default {
    name: "LastSequences",
-   components: { ModalComponent, CarouselChamp },
+   components: { QuizCard, ModalComponent, CarouselChamp },
    setup() {
       const toast = useToast();
       return { toast };
@@ -87,18 +75,6 @@ export default {
       };
    },
    methods: {
-      /**
-       * Convertit un timestamp Unix en une date formatée.
-       * @param {number} date - Le timestamp Unix.
-       * @returns {string} La date formatée.
-       */
-      timestampToDate: function(date) {
-         const momentDate = moment(date * 1000).format("dddd D MMMM YYYY");
-
-         // Pour avoir la 1ère lettre du jour en majuscule
-         return momentDate.charAt(0).toUpperCase() + momentDate.slice(1);
-      },
-
       /**
        * Redirige vers la page de jointure de la séquence spécifiée.
        * Affiche un message d'erreur si l'id de séquence est invalide.
