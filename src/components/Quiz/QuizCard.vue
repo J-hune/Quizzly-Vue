@@ -2,19 +2,19 @@
    <div class="w-full rounded-lg border-2 border-gray-300 bg-white items-center p-6">
       <div class="flex justify-between items-center mb-2">
          <div class="text-lg font-semibold overflow-clip text-ellipsis whitespace-nowrap" style="max-width: 70%">
-            {{ quiz.teacherName || quiz.title }}
+            {{ quiz.enseignant || quiz.title }}
          </div>
-         <div class="text-sm text-gray-600">#{{ quiz.id }}</div>
+         <div class="text-sm text-gray-600">#{{ quiz.code || quiz.id }}</div>
       </div>
       <div class="text-sm text-gray-600 mb-4">{{ timestampToDate(quiz.date) }}</div>
       <div class="flex flex-wrap -mx-1">
          <div class="w-1/2 px-1">
             <div class="text-sm text-gray-600 mb-1">Participants</div>
-            <div class="text-xl font-semibold">{{ quiz.participantCount }}</div>
+            <div class="text-xl font-semibold">{{ quiz.participants || quiz.participantCount }}</div>
          </div>
          <div class="w-1/2 px-1">
             <div class="text-sm text-gray-600 mb-1">Bonnes réponses (en %)</div>
-            <div class="text-xl font-semibold">{{ quiz.percentCorrect }}%</div>
+            <div class="text-xl font-semibold">{{ quiz.pourcentage?.toString() || quiz.percentCorrect }}%</div>
          </div>
       </div>
    </div>

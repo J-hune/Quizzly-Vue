@@ -12,10 +12,8 @@
       <!-- Liste des 3 dernières Sessions -->
       <div v-if="sequences.length"
            class="grid grid-cols-1 sm:grid-cols-2  xl:grid-cols-2 gap-3 2xl:grid-cols-3 lg:gap-5 mb-6">
-         <div class="w-full rounded-lg border-2 border-gray-300 bg-white items-center cursor-pointer p-6"
-              v-for="(sequence) in sequences" :key="sequence.id">
-            <quiz-card :quiz="sequence" />
-         </div>
+         <quiz-card v-for="(sequence) in sequences" :key="sequence.id" :quiz="sequence" />
+
       </div>
 
       <p class="mb-6" v-else>Actuellement, vous n'avez pas encore participé à une séquence pédagogique.</p>
