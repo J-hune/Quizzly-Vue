@@ -1,4 +1,5 @@
 import Swal from "sweetalert2";
+import { fetchData } from "@/functions/fetch";
 
 /**
  * Fetch l'api pour supprimer les données du quiz puis appelle le callback
@@ -19,8 +20,9 @@ export async function removeQuizStatistics(quiz, callback) {
       // Si l'utilisateur a confirmé
       if (result.isConfirmed) {
 
-         //TODO fetch l'api
-         callback();
+         // On fetch l'API pour supprimer la diffusion
+         const { data } = await fetchData("/statistics/removeDiffusion/" + quiz.archiveId);
+         callback(data);
       }
    });
 }

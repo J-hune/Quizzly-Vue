@@ -41,8 +41,10 @@
    <!-- Affichage des quiz -->
    <div class="w-full px-2 sm:px-4 md:p-0 mb-8">
       <div class="quiz-container w-full px-2 sm:px-4 md:p-0 mb-8">
-         <div v-if="archives.length && displayedArchives.length" class="w-full grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-4">
-            <quiz-card class="cursor-pointer" :quiz="archive" v-for="archive in displayedArchives" :key="archive.archiveId" @click="handleClick(archive)" />
+         <div v-if="archives.length && displayedArchives.length"
+              class="w-full grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-4">
+            <quiz-card class="cursor-pointer" :quiz="archive" v-for="archive in displayedArchives"
+                       :key="archive.archiveId" @click="handleClick(archive)" />
          </div>
 
          <p v-else-if="archives.length && !displayedArchives.length">
@@ -97,6 +99,7 @@ import QuizCard from "@/components/Quiz/QuizCard.vue";
 import { removeQuizStatistics } from "@/functions/quiz";
 import { useToast } from "vue-toastification";
 import { fetchData } from "@/functions/fetch";
+import router from "@/router";
 
 export default {
    name: "StatisticsView",
@@ -160,9 +163,16 @@ export default {
        * Gère le clic sur les archives.
        */
       handleClick: function(quiz) {
-         removeQuizStatistics(quiz, () => {
-            this.archives = this.archives.filter(e => e.archiveId !== quiz.archiveId);
-            this.toast.success("Les statistiques du quiz " + quiz.id + " ont été supprimées");
+         removeQuizStatistics(quiz, (data) => {
+
+            // Si la diffusion a été supprimée avec succès
+            if (data.success) {
+               this.archives = this.archives.filter(e => e.archiveId !== quiz.archiveId);
+               this.toast.success("Les statistiques du quiz " + quiz.id + " ont été supprimées");
+               router.go(0)
+            } else {
+               this.toast.error("La diffusion n'a pas pu être supprimée");
+            }
          });
       }
    }
