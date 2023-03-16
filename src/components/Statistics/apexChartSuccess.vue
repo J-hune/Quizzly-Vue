@@ -34,15 +34,11 @@ export default {
             },
             xaxis: {
                type: "categories",
-               categories: this.categories,
                show: false,
                labels: {
                   low: 0,
                   offsetX: 0,
-                  show: false,
-                  formatter: function(value) {
-                     return moment.unix(value).format("L");
-                  }
+                  show: false
                },
                axisBorder: {
                   low: 0,
@@ -111,6 +107,15 @@ export default {
             }
          }
       };
+   },
+   watch: {
+      categories: function(newVal) {
+         this.$refs.chart.updateOptions({
+            xaxis: {
+               categories: newVal.map(value => moment.unix(value).format("L"))
+            }
+         });
+      }
    },
    methods: {
       /**

@@ -96,6 +96,7 @@ import ApexChartSuccess from "@/components/Statistics/apexChartSuccess.vue";
 import QuizCard from "@/components/Quiz/QuizCard.vue";
 import { removeQuizStatistics } from "@/functions/quiz";
 import { useToast } from "vue-toastification";
+import { fetchData } from "@/functions/fetch";
 
 export default {
    name: "StatisticsView",
@@ -121,37 +122,22 @@ export default {
    },
    async created() {
 
-      //TODO fetch les statistiques
-      //const { data } = await fetchData("/nomàtrouver/");
-      //this.questions = data;
-      this.totalQuizzes = 157;
-      this.totalQuestions = 684;
-      this.successRate = 69;
-      this.participationCategories = [1646697600, 1646737200, 1646900400, 1646904000, 1646986800, 1647069600, 1647156000, 1647199200, 1647285600, 1647372000, 1647462000, 1647526800, 1647613200, 1647699600, 1647782400, 1647872400, 1647944400, 1648030800];
-      this.successCategories = [1646697600, 1646737200, 1646900400, 1646904000, 1646986800, 1647069600, 1647156000, 1647199200, 1647285600, 1647372000, 1647462000, 1647526800, 1647613200, 1647699600, 1647782400, 1647872400, 1647944400, 1648030800];
+      const { data } = await fetchData("/statistics/getOverallStats");
+
+      this.totalQuizzes = data.totalQuizzes;
+      this.totalQuestions = data.totalQuestions;
+      this.successRate = data.successRate;
+      this.participationCategories = data.participation.days;
+      this.successCategories = data.success.days;
       this.participationSeries = [
-         {
-            name: "Questions",
-            data: [10, 25, 7, 19, 13, 22, 28, 15, 18, 26, 21, 0, 9, 12, 17, 16, 23, 14]
-         },
-         {
-            name: "Sequences",
-            data: [4, 3, 10, 9, 29, 19, 22, 9, 12, 7, 19, 5, 13, 9, 17, 2, 7, 5]
-         }
+         { name: "Questions", data: data.participation.questions },
+         { name: "Sequences", data: data.participation.sequences }
       ];
       this.successSeries = [
-         {
-            name: "Taux de réussite",
-            data: [10, 25, 7, 19, 13, 22, 28, 0, 100, 26, 21, 0, 9, 12, 17, 16, 23, 14]
-         }
+         { name: "Taux de réussite", data: data.success.quiz }
       ];
 
-      this.archives = [
-         { archiveId: 1, title: "Séquence algorithmie", id: "Fxa4t3xr", date: 1678667302, participantCount: 15, percentCorrect: 32 },
-         { archiveId: 2, title: "Les questions de sciences", id: "Gxa4t3xr", date: 1678667302, participantCount: 15, percentCorrect: 32 },
-         { archiveId: 3, title: "Combien d'os contient le corps humain ?", id: "Hxa4t3xr", date: 1678667302, participantCount: 15, percentCorrect: 32 },
-         { archiveId: 4, title: "Combien d'os contient le corps humain ?", id: "Hxa4t3xr", date: 1678667302, participantCount: 15, percentCorrect: 32 }
-      ];
+      this.archives = data.archives;
    },
    computed: {
       matchingArchives() {
