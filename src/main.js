@@ -8,7 +8,7 @@ import VueApexCharts from "vue3-apexcharts";
 import "vue-toastification/dist/index.css";
 
 // Importation des directives et store Vuex
-import clickOutside from "@/Methods/click-outside";
+import clickOutside from "@/methods/click-outside";
 import store from "@/store";
 
 import App from "./App.vue";
