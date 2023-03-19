@@ -17,7 +17,7 @@
    <div class="w-full px-2 sm:px-4 md:p-0 mb-8">
       <div class="sm:flex sm:space-x-4 md:space-x-5">
 
-         <!-- Supprimer les résultats d'un quiz -->
+         <!-- Chercher un quiz par id ou par titre -->
          <div class="search-card">
 
             <!-- Nom de la carte -->

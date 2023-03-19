@@ -23,11 +23,73 @@
    </div>
 
    <!-- Graphique du taux de réussite en fonction du temps -->
-   <div class="w-full px-2 sm:px-4 md:p-0 mb-10">
+   <div class="w-full px-2 sm:px-4 md:p-0 mb-8">
       <apex-student-chart-success :categories="successCategories" :series="successSeries" />
    </div>
 
+   <!-- Chercher un quiz par id ou par titre -->
+   <div class="w-full search-card px-2 sm:px-4 md:p-0 mb-8">
 
+      <!-- Nom de la carte -->
+      <h3 class="text-lg mb-2 font-semibold">Rechercher un quiz par titre ou ID :</h3>
+
+      <!-- Champ pour l'identifiant du quiz -->
+      <input type="text" v-model="search"
+             class="w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-300
+                   focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
+                   py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
+             placeholder="Identifiant du quiz (8 caractères alphanumériques), Titre du quiz..." maxlength="8" />
+   </div>
+
+   <!-- Affichage des quiz -->
+   <div class="w-full px-2 sm:px-4 md:p-0 mb-8">
+      <div class="quiz-container w-full px-2 sm:px-4 md:p-0 mb-8">
+         <div v-if="archives.length && displayedArchives.length"
+              class="w-full grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-4">
+            <quiz-card :quiz="archive" v-for="archive in displayedArchives" :key="archive.archiveId" />
+         </div>
+
+         <p v-else-if="archives.length && !displayedArchives.length">
+            Aucune archive de quiz ne correspond à votre recherche.
+         </p>
+         <p v-else-if="!archives.length">L'étudiant n'a pas encore participé à un quiz.</p>
+
+         <!-- Pagination -->
+         <nav class="pb-0" v-if="archives.length > pageSize">
+            <ul class="flex justify-center">
+               <li class="mx-1">
+
+                  <!-- Bouton page précédente -->
+                  <button class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded" :disabled="currentPage === 1"
+                          @click="currentPage--">
+                     Précédent
+                  </button>
+               </li>
+               <template v-for="page in pages" :key="page">
+                  <li class="mx-1"
+                      v-if="page === 1 || page === currentPage - 1 || page === currentPage || page === currentPage + 1 || page === pages">
+                     <button class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+                             :class="{'bg-blue-500 text-blue-600': page === currentPage}" @click="currentPage = page">
+                        {{ page }}
+                     </button>
+                  </li>
+                  <li v-else-if="page === currentPage - 2 || page === currentPage + 2" :key="page"
+                      class="mx-1 flex items-center">
+                     <span class="px-3 py-1 bg-gray-200 rounded">...</span>
+                  </li>
+               </template>
+               <li class="mx-1">
+
+                  <!-- Bouton page suivante -->
+                  <button class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded" :disabled="currentPage === pages"
+                          @click="currentPage++">
+                     Suivant
+                  </button>
+               </li>
+            </ul>
+         </nav>
+      </div>
+   </div>
 </template>
 
 <script>
@@ -36,16 +98,18 @@ import RedirectBack from "@/components/redirectBack.vue";
 import StudentStatsCards from "@/components/StudentStatistics/studentStatsCards.vue";
 import image from "@/assets/img/f2.png";
 import ApexStudentChartSuccess from "@/components/StudentStatistics/apexStudentChartSuccess.vue";
+import QuizCard from "@/components/Quiz/QuizCard.vue";
 
 export default {
    name: "StudentStatisticsView.vue",
-   components: { ApexStudentChartSuccess, StudentStatsCards, RedirectBack },
+   components: { QuizCard, ApexStudentChartSuccess, StudentStatsCards, RedirectBack },
    setup() {
       const toast = useToast();
       return { toast };
    },
    data: function() {
       return {
+         search: "",
          totalQuizzes: 0,
          totalQuestions: 0,
          successRate: 0,
@@ -54,11 +118,30 @@ export default {
             { name: "Questions", data: [10, 25, 7, 19, 13, 22, 28] },
             { name: "Sequences", data: [4, 3, 10, 9, 29, 19, 22] }
          ],
-         student: { avatar: image, name: "Donovann Zassot", id: "22100000" }
-      }
+         student: { avatar: image, name: "Donovann Zassot", id: "22100000" },
+         currentPage: 1,
+         pageSize: 6,
+         archives: []
+      };
    },
    async created() {
       //TODO Fetch les données
+   },
+   computed: {
+      matchingArchives() {
+         // On filtre toutes les archives correspondant à la recherche
+         return this.archives.filter(e => {
+            if (e.title.toLowerCase().includes(this.search.toLowerCase().trim())) return e;
+            if (e.id.toLowerCase().includes(this.search.toLowerCase().trim())) return e;
+         });
+      },
+      pages() {
+         return Math.ceil(this.matchingArchives.length / this.pageSize);
+      },
+      displayedArchives() {
+         const startIndex = (this.currentPage - 1) * this.pageSize;
+         return this.matchingArchives.slice(startIndex, startIndex + this.pageSize);
+      }
    }
 };
 </script>
@@ -77,5 +160,20 @@ export default {
    transition: all 0.1s;
    width: 100px;
    height: 100px;
+}
+
+.search-card {
+   background: white;
+   border-radius: 15px;
+   box-shadow: 0 9px 20px rgba(46, 35, 94, 0.07);
+   padding: 26px 30px;
+}
+
+.quiz-container {
+   width: 100%;
+   background: white;
+   border-radius: 15px;
+   box-shadow: 0 9px 20px rgba(46, 35, 94, 0.07);
+   padding: 30px;
 }
 </style>
