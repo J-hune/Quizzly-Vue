@@ -42,11 +42,11 @@ export async function removeAllStudents(toast, callback) {
 export async function removeStudent(student, toast, callback) {
    Swal.fire({
       title: "Confirmer la suppression ?",
-      text: `Voulez vous supprimer tous les étudiants ? Attention, cette action est irréversible`,
+      text: `Voulez vous supprimer l'étudiant #${student.id} ? Attention, cette action est irréversible`,
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
-      confirmButtonText: "Supprimer tous les étudiants",
+      confirmButtonText: "Supprimer cet étudiant",
       cancelButtonText: "Annuler"
    }).then(async (result) => {
 
