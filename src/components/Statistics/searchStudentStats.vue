@@ -5,7 +5,7 @@
       <h3 class="text-lg mb-3 font-semibold">Accéder aux résultats d'un étudiant :</h3>
 
       <!-- Champ pour l'identifiant du quiz -->
-      <input type="text" v-model="studentInput"
+      <input type="text" v-model="studentInput" @keyup.enter="redirectStatsPage"
              class="w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-300
                    focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
                    py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"

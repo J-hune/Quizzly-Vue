@@ -37,7 +37,7 @@
 
       <!-- Affichage d'un input type number (cas Numérique) -->
       <p v-if="question.type === 1" class="mt-6 mb-3">Veuillez entrer votre réponse puis l'envoyer.</p>
-      <input v-if="question.type === 1" type="number" v-model="answer" step=".01"
+      <input v-if="question.type === 1" type="number" v-model="answer" step=".01" @keyup.enter="handleClick"
              :class="{'valid': correction?.trim() === answer.toString(), 'invalid': correction && correction.trim() !== answer.toString() }"
              class="w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-indigo-200 answer-input
              focus:border-indigo-200 focus:ring-2 outline-none py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"

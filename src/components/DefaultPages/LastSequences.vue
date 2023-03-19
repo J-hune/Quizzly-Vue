@@ -20,7 +20,7 @@
       <!-- Bouton pour rejoindre une séquence -->
       <div class="flex flex-col sm:flex-row gap-3">
          <!-- input Id séquence -->
-         <input type="text" v-model="sequenceModel"
+         <input type="text" v-model="sequenceModel" @keyup.enter="joinSequence"
                 class="text-gray-700 bg-gray-50 rounded-lg border border-gray-300
                    focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
                    py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
@@ -29,7 +29,7 @@
          <!-- Bouton "rejoindre" -->
          <button @click="joinSequence"
                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-7 rounded-lg">
-            Rejoindre la séquence
+            Rejoindre la diffusion
          </button>
       </div>
    </rgb-div>

@@ -16,7 +16,7 @@
 
          <!-- Titre du QCM -->
          <h2 class="mb-2 text-xl font-medium text-gray-900">Titre du Sujet :</h2>
-         <input type="text" v-model="title"
+         <input type="text" v-model="title" @keyup.enter="print"
                 class="w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-300
                    focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
                    py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
@@ -70,6 +70,7 @@ export default {
        * Affiche les questions sélectionnées et le titre dans la vue d'impression.
        */
       print: function() {
+         if (!this.title || this.selectedQuestions.length <= 0) return;
          this.show = true;
          this.renderQuestions = this.selectedQuestions;
          this.renderTitle = this.title;
