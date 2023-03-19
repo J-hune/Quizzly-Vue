@@ -1,6 +1,5 @@
 <template>
-   <div class="px-7 md:px-16 pt-10 pb-14 w-full">
-
+   <rgb-div :rgb="rgbShow" class="px-7 md:px-16 pt-10 pb-14 w-full">
       <!-- Titre et description Composant -->
       <div class="flex flex-col w-full mb-10 py-1">
          <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Mes dernières Séquences</h1>
@@ -33,7 +32,7 @@
             Rejoindre la séquence
          </button>
       </div>
-   </div>
+   </rgb-div>
 
    <!-- Popup avec le composant pour "ce dont on ne doit pas prononcer le nom" -->
    <modal-component v-model="carouselShow" classes="p-3 sm:p-6 w-11/12 sm:w-2/3 lg:w-1/2 xl:w-2/5">
@@ -51,12 +50,13 @@ import CarouselChamp from "@/components/Sequences/Student/CarouselChamp.vue";
 import ModalComponent from "@/components/ModalComponent.vue";
 import { fetchData } from "@/functions/fetch";
 import QuizCard from "@/components/Quiz/QuizCard.vue";
+import RgbDiv from "@/components/EasterEggs/rgbDiv.vue";
 
 moment.locale("fr");
 
 export default {
    name: "LastSequences",
-   components: { QuizCard, ModalComponent, CarouselChamp },
+   components: { RgbDiv, QuizCard, ModalComponent, CarouselChamp },
    setup() {
       const toast = useToast();
       return { toast };
@@ -69,7 +69,8 @@ export default {
       return {
          sequenceModel: "",
          sequences: [],
-         carouselShow: false
+         carouselShow: false,
+         rgbShow: false
       };
    },
    methods: {
@@ -78,7 +79,12 @@ export default {
        * Affiche un message d'erreur si l'id de séquence est invalide.
        */
       joinSequence: function() {
+         this.rgbShow = false
          const sequenceId = this.sequenceModel;
+         if (["anais", "anaïs"].includes(sequenceId.toLowerCase())) {
+            this.rgbShow = true
+            return this.toast("♫ Somewhere Over the Rainbow ! ♫");
+         }
          if (sequenceId.length !== 8) return this.toast.error("L'id de séquence n'est pas valide");
          router.push(`sequence/${sequenceId}/join`);
       }
