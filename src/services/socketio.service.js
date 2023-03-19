@@ -1,4 +1,4 @@
-import {io} from 'socket.io-client';
+import { io } from "socket.io-client";
 
 class SocketioService {
    socket;
@@ -8,7 +8,7 @@ class SocketioService {
 
    /* --------- Events Enseignant et Etudiants --------- */
    setupSocketConnection() {
-      this.socket = io("http://localhost:5000/", {
+      this.socket = io(process.env.VUE_APP_SOCKET_ENDPOINT, {
          withCredentials: true
       });
    }
@@ -22,34 +22,34 @@ class SocketioService {
 
    /* --------- Events Enseignant --------- */
    createRoomSequence(sequenceId) {
-      this.socket.emit("createRoomSequence", sequenceId)
+      this.socket.emit("createRoomSequence", sequenceId);
    }
 
    nextQuestion() {
-      this.socket.emit("nextQuestion")
+      this.socket.emit("nextQuestion");
    }
 
    askCorrection() {
-      this.socket.emit("askCorrection")
+      this.socket.emit("askCorrection");
    }
 
    askStopResponses() {
-      this.socket.emit("askStopResponses")
+      this.socket.emit("askStopResponses");
    }
 
    // Pour les questions uniquement (sans passer par une séquence)
    createRoomQuestion(questionId) {
-      this.socket.emit("createRoomQuestion", questionId)
+      this.socket.emit("createRoomQuestion", questionId);
    }
 
 
    /* --------- Events Etudiants --------- */
    joinRoom(sequenceId) {
-      this.socket.emit("joinRoom", sequenceId)
+      this.socket.emit("joinRoom", sequenceId);
    }
 
    submitAnswer(answer) {
-      this.socket.emit("submitAnswer", answer)
+      this.socket.emit("submitAnswer", answer);
    }
 
 
