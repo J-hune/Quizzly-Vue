@@ -2,7 +2,7 @@
    <!-- Navbar -->
    <navbar-component />
 
-   <div class="grid h-screen">
+   <div class="custom-color grid h-screen">
       <div class="custom-background">
          <div class="custom-container mb-14">
             <div :class="backgroundClass">
@@ -44,11 +44,15 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .custom-background {
    margin-top: 84px;
    display: flex;
    justify-content: center;
+}
+
+.custom-color > *:has(.div-rgb) {
+   background-color: #2a1634; /* changer cette valeur à la couleur souhaitée */
 }
 
 .custom-container {
