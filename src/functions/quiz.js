@@ -21,7 +21,7 @@ export async function removeQuizStatistics(quiz, callback) {
       if (result.isConfirmed) {
 
          // On fetch l'API pour supprimer la diffusion
-         const { data } = await fetchData("/statistics/removeDiffusion/" + quiz.archiveId);
+         const { data } = await fetchData("/statistics/teachers/removeDiffusion/" + quiz.archiveId);
          callback(data);
       }
    });

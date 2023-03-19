@@ -9,7 +9,7 @@
          <div class="mt-8 w-full text-center">
             <img class="avatar mx-auto" :src="student.avatar" alt="student avatar" />
             <div class="mt-4 mb-6">
-               <h2 class="font-bold text-2xl mb-1">{{ student.name }}</h2>
+               <h2 class="font-bold text-2xl mb-1">{{ student.name + " " + student.surname }}</h2>
                <p class="text-gray-500">#{{ student.id }}</p>
             </div>
          </div>
@@ -99,6 +99,8 @@ import StudentStatsCards from "@/components/StudentStatistics/studentStatsCards.
 import image from "@/assets/img/f2.png";
 import ApexStudentChartSuccess from "@/components/StudentStatistics/apexStudentChartSuccess.vue";
 import QuizCard from "@/components/Quiz/QuizCard.vue";
+import { fetchData } from "@/functions/fetch";
+import router from "@/router";
 
 export default {
    name: "StudentStatisticsView.vue",
@@ -113,19 +115,39 @@ export default {
          totalQuizzes: 0,
          totalQuestions: 0,
          successRate: 0,
-         successCategories: [1646697600, 1646737200, 1646900400, 1646904000, 1646986800, 1647069600, 1647156000],
+         successCategories: [],
          successSeries: [
-            { name: "Questions", data: [10, 25, 7, 19, 13, 22, 28] },
-            { name: "Sequences", data: [4, 3, 10, 9, 29, 19, 22] }
+            { name: "Questions", data: [] },
+            { name: "Sequences", data: [] }
          ],
-         student: { avatar: image, name: "Donovann Zassot", id: "22100000" },
+         student: { avatar: image, name: "*****", surname: "***", id: "********" },
          currentPage: 1,
          pageSize: 6,
          archives: []
       };
    },
    async created() {
-      //TODO Fetch les données
+      const { data } = await fetchData("/statistics/teachers/getStatsByStudent/" + this.$route.params.id);
+
+      // Vérification que l'étudiant existe
+      if (data.reason) {
+         this.toast.error("L'étudiant #" + this.$route.params.id + " n'existe pas");
+         return await router.push("/statistics");
+      }
+
+      this.totalQuizzes = data.totalQuizzes;
+      this.totalQuestions = data.totalQuestions;
+      this.successRate = data.successRate;
+      this.successCategories = data.success.days;
+      this.successSeries = [
+         { name: "Questions", data: data.success.questions },
+         { name: "Sequences", data: data.success.sequences }
+      ];
+      this.archives = data.archives;
+      this.student.name = data.etudiant.prenom;
+      this.student.surname = data.etudiant.nom;
+      this.student.id = data.etudiant.id;
+      if (data.etudiant.avatar) this.student.avatar = data.etudiant.avatar;
    },
    computed: {
       matchingArchives() {

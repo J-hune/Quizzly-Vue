@@ -125,7 +125,7 @@ export default {
    },
    async created() {
 
-      const { data } = await fetchData("/statistics/getOverallStats");
+      const { data } = await fetchData("/statistics/teachers/getOverallStats");
 
       this.totalQuizzes = data.totalQuizzes;
       this.totalQuestions = data.totalQuestions;
