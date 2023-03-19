@@ -29,7 +29,7 @@
 
       <!-- Badges de l'utilisateur (Ref à Discord) -->
       <!-- Pour info, on a choisi la squad bravery car les 4 membres du groupe sont dans la Bravery -->
-      <div class="discord" @click="discordEnabled = true">
+      <div class="discord" @click="enableDiscord">
          <img src="@/assets/img/bravery.svg" alt="Bravery icon">
          <img src="@/assets/img/developer.svg" alt="Developer icon">
          <img src="@/assets/img/nitro.svg" alt="Nitro icon">
@@ -198,6 +198,17 @@ export default {
             // On modifie l'avatar dans le store
             this.$store.dispatch("updateUserAvatar", base64);
          });
+      },
+
+      /**
+       * Active "ce dont on ne doit pas prononcer le nom"
+       * @async
+       * @returns {Promise<void>}
+       */
+      async enableDiscord() {
+         if (this.discordEnabled) return;
+         this.toast(".  :･ﾟ-=͟͟͞=͟͟͞=͟͟͞=͟͟͞(          /⋆ᗜ⋆)/");
+         this.discordEnabled = true;
       }
    }
 };
