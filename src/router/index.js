@@ -19,6 +19,7 @@ import JoinSequenceView from "@/views/Student/JoinSequenceView.vue";
 import LabelsList from "@/views/Teacher/LabelsList.vue";
 import StartQuestionView from "@/views/Teacher/StartQuestionView.vue";
 import StatisticsView from "@/views/Teacher/StatisticsView.vue";
+import StudentStatisticsView from "@/views/Teacher/StudentStatisticsView.vue";
 
 const routes = [
    {
@@ -90,6 +91,12 @@ const routes = [
             path: "/statistics",
             name: "statistics",
             component: StatisticsView,
+            meta: { requiresAuth: true, userType: ["Enseignant"] }
+         },
+         {
+            path: "/statistics/:id",
+            name: "studentStatistics",
+            component: StudentStatisticsView,
             meta: { requiresAuth: true, userType: ["Enseignant"] }
          },
          {

@@ -34,7 +34,7 @@ export default {
    },
    computed: {
       backgroundClass() {
-         if (this.$route.name === "statistics") {
+         if (this.$route.name === "statistics" || this.$route.name === "studentStatistics") {
             return "";
          } else {
             return "custom-card";
