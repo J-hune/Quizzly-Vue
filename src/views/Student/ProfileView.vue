@@ -71,15 +71,22 @@ import { mapMutations } from "vuex";
 export default {
    name: "ProfileView",
    data: function() {
+      let discordEnabled = false;
+      let backgroundImage = null;
+      if (localStorage.getItem("discordBackground")) {
+         discordEnabled = true;
+         backgroundImage = localStorage.getItem("discordBackground");
+      }
+
       return {
          id: this.$store.getters.getUserId,
          name: this.$store.getters.getUserName,
          avatar: this.$store.getters.getUserAvatar || image,
          image: image,
          backgroundColor: "#ffffff",
-         backgroundImage: null,
+         backgroundImage: backgroundImage,
          password: "",
-         discordEnabled: false
+         discordEnabled: discordEnabled
       };
    },
    setup() {
@@ -175,6 +182,7 @@ export default {
          const reader = new FileReader();
          reader.onload = () => {
             this.backgroundImage = reader.result;
+            localStorage.setItem("discordBackground", reader.result.toString());
          };
          reader.readAsDataURL(file);
       },
