@@ -125,7 +125,9 @@ export default {
        */
       removeLabel: function(labelId) {
          // On parcourt this.labels pour supprimer l'étiquette
-         this.labels = this.labels.filter(e => e.id !== labelId)
+         this.labels = this.labels.filter(e => e.id !== labelId);
+         this.showEditLabel = false
+         this.labelToEdit = null;
       }
    },
    async created() {
