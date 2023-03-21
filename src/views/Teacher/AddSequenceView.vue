@@ -48,6 +48,7 @@ import {fetchData} from "@/functions/fetch";
 import {addSequence} from "@/functions/sequences";
 import {useToast} from "vue-toastification";
 import RedirectBack from "@/components/redirectBack.vue";
+import router from "@/router";
 
 export default {
    name: "AddSequence",
@@ -77,6 +78,7 @@ export default {
          await addSequence({title: this.title, questions: sequence}, (data) => {
             if (data.success) {
                this.toast.success("La séquence a été ajoutée")
+               router.push("/sequences");
             } else {
                this.toast.error("La séquence n'a pas pu être ajoutée")
             }

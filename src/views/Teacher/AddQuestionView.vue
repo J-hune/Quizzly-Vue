@@ -83,6 +83,7 @@ import SwitchButton from "@/components/SwitchButton.vue";
 import MultipleResponses from "@/components/Questions/multipleResponses.vue";
 import UniqueResponse from "@/components/Questions/uniqueResponse.vue";
 import { getContrast } from "@/functions/profile";
+import router from "@/router";
 
 export default {
    name: "AddQuestion",
@@ -161,7 +162,10 @@ export default {
        */
       save: function() {
          addQuestion(this.question, (data) => {
-            if (data.success) this.toast.success("La question a été ajoutée");
+            if (data.success) {
+               this.toast.success("La question a été ajoutée");
+               router.push("/");
+            }
             else this.toast.error("Une erreur a eu lieu lors de l'ajout de la question");
          });
       },
