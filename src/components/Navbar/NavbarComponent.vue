@@ -96,7 +96,7 @@ export default {
             teacher: [
                { link: "/", label: "Mes Questions" },
                { link: "/labels", label: "Mes Etiquettes" },
-               { link: "/students", label: "Mes Eleves" },
+               { link: "/students", label: "Mes Etudiants" },
                { link: "/sequences", label: "Mes Séquences" },
                { link: "/statistics", label: "Statistiques" },
                { link: "/newQCM", label: "Nouveau QCM" }
