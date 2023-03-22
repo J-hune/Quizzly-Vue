@@ -43,23 +43,18 @@ import { getContrast } from "@/functions/profile";
 export default {
    name: "AddLabelsWithoutClick",
    emits: ["addLabel"],
+   props: {allLabels: Array},
    data: function() {
       return {
          allowCreate: false,
          search: "",
          color: "#a56cc1",
-         allLabels: [],
-         labels: []
+         labels: this.allLabels
       };
    },
    setup() {
       const toast = useToast();
       return { toast };
-   },
-   async created() {
-      const { data } = await fetchData("/labels/getLabels");
-      this.labels = data;
-      this.allLabels = data;
    },
    methods: {
       getContrast,
@@ -82,9 +77,6 @@ export default {
 
             // On émet un événement avec l'étiquette ajoutée qui sera capté par le parent
             this.$emit("addLabel", { nom: this.search.trim(), couleur: couleur, id: data.id });
-
-            // On ajoute l'étiquette à la liste de toutes les étiquettes
-            this.allLabels.push({ nom: this.search.trim(), couleur: couleur, id: data.id });
          } else {
             this.toast.error("L'étiquette n'a pas pu être ajoutée");
          }
@@ -97,6 +89,16 @@ export default {
 
          // On récupère tous les labels qui correspondent à la recherche
          const correspondLabels = this.allLabels.filter(e => e.nom.toLowerCase().includes(newString.trim().toLowerCase()));
+
+         // On met à jour labels
+         this.labels = correspondLabels;
+
+         // On active/désactive le bouton pour créer une étiquette
+         this.allowCreate = correspondLabels.length === 0;
+      },
+      allLabels: function() {
+         // On récupère tous les labels qui correspondent à la recherche
+         const correspondLabels = this.allLabels.filter(e => e.nom.toLowerCase().includes(this.search.trim().toLowerCase()));
 
          // On met à jour labels
          this.labels = correspondLabels;

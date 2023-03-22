@@ -55,7 +55,7 @@
       <!-- "Popup" Modal permettant de créer des étiquettes -->
       <modal-component v-model="showAddLabel">
          <template v-slot:content>
-            <add-labels-without-click @add-label="addLabel" />
+            <add-labels-without-click @add-label="addLabel" :allLabels="labels" />
          </template>
       </modal-component>
 
