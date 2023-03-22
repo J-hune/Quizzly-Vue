@@ -140,8 +140,8 @@ export default {
       this.successRate = data.successRate;
       this.successCategories = data.success.days;
       this.successSeries = [
-         { name: "Questions", data: data.success.questions },
-         { name: "Sequences", data: data.success.sequences }
+         { name: "Taux de réussite", data: data.success.questions },
+         { name: "Taux de réussite", data: data.success.sequences }
       ];
       this.archives = data.archives;
       this.student.name = data.etudiant.prenom;

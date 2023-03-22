@@ -58,8 +58,8 @@ export default {
                   show: false,
                   labels: {
                      show: false,
-                     formatter: function (value) {
-                        return value + "%";
+                     formatter: function(value) {
+                        return (value % 1 === 0 ? value : value.toFixed(1)) + "%";
                      }
                   },
                   axisBorder: {

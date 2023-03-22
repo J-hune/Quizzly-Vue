@@ -62,7 +62,10 @@ export default {
                   seriesName: "series1",
                   show: false,
                   labels: {
-                     show: false
+                     show: false,
+                     formatter: function(value) {
+                        return value % 1 === 0 ? value : value.toFixed(1);
+                     }
                   },
                   axisBorder: {
                      show: false
@@ -72,7 +75,10 @@ export default {
                   seriesName: "series2",
                   show: false,
                   labels: {
-                     show: false
+                     show: false,
+                     formatter: function(value) {
+                        return value % 1 === 0 ? value : value.toFixed(1);
+                     }
                   },
                   axisBorder: {
                      left: 0,

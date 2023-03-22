@@ -133,8 +133,8 @@ export default {
       this.participationCategories = data.participation.days;
       this.successCategories = data.success.days;
       this.participationSeries = [
-         { name: "Questions", data: data.participation.questions },
-         { name: "Sequences", data: data.participation.sequences }
+         { name: "Nombre moyen de participants", data: data.participation.questions },
+         { name: "Nombre moyen de participants", data: data.participation.sequences }
       ];
       this.successSeries = [
          { name: "Taux de réussite", data: data.success.quiz }
