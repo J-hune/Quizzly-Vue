@@ -3,7 +3,7 @@
    <div class="px-7 md:px-16 py-12 w-full">
 
       <!-- Titre et explications de la page -->
-      <div class="flex flex-col w-full py-1 mb-6">
+      <div class="flex flex-col w-full py-1 mb-12">
          <h1 class="sm:text-3xl text-2xl font-semibold title-font mb-4 text-gray-900">Mes Etiquettes</h1>
          <p class="leading-relaxed text-base">Les étiquettes que vous avez créées ou associées à vos
             questions sont affichées ci-dessous.<br>
