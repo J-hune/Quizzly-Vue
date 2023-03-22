@@ -116,13 +116,11 @@ export default {
       search: function(newString) {
 
          // On récupère tous les labels qui correspondent à la recherche
-         const correspondLabels = this.allLabels.filter(e => e.nom.toLowerCase().includes(newString.trim().toLowerCase()));
-
          // On met à jour labels
-         this.labels = correspondLabels;
+         this.labels = this.allLabels.filter(e => e.nom.toLowerCase().includes(newString.trim().toLowerCase()));
 
          // On active/désactive le bouton pour créer une étiquette
-         this.allowCreate = correspondLabels.length === 0;
+         this.allowCreate = !this.allLabels.find(e => e.nom.toLowerCase() === newString.trim().toLowerCase());
       }
    }
 };
