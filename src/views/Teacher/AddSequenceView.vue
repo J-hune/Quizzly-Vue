@@ -12,8 +12,8 @@
             <h1 class="sm:text-3xl text-2xl font-semibold title-font mb-4 text-gray-900">Créer une Séquence
                Pédagogique</h1>
             <p class="leading-relaxed text-base">Les questions que vous avez déjà créées sont affichées sur la
-               droite.<br>
-               Faites les glisser sur la gauche pour les ajouter à la séquence.</p>
+               gauche.<br>
+               Faites les glisser sur la droite pour les ajouter à la séquence.</p>
          </div>
 
 

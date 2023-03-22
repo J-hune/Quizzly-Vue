@@ -7,9 +7,9 @@
          <div class="flex flex-col w-full mb-10 py-1">
             <h1 class="sm:text-3xl text-2xl font-semibold title-font mb-4 text-gray-900">Créer un QCM</h1>
             <p class="leading-relaxed text-base">Les questions que vous avez déjà créées sont affichées sur la
-               <span class="cursor-pointer" @click="openLink('droite')">droite.</span>.<br>
+               <span class="cursor-pointer" @click="openLink('gauche')">gauche.</span>.<br>
                Faites les glisser sur la
-               <span class="cursor-pointer" @click="openLink('gauche')">gauche</span>
+               <span class="cursor-pointer" @click="openLink('droite')">droite</span>
                pour les ajouter au sujet.</p>
          </div>
 
