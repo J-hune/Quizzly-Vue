@@ -96,10 +96,10 @@ export default {
          }
 
          // Émet un événement pour ajouter l'étiquette
-         this.$emit("addLabel", [this.search.trim(), couleur]);
+         this.$emit("addLabel", { nom: this.search.trim(), couleur: couleur, id: data.id });
 
          // Ajoute l'étiquette à la liste des étiquettes existantes
-         this.allLabels.push([this.search.trim(), couleur]);
+         this.allLabels.push({ nom: this.search.trim(), couleur: couleur, id: data.id });
 
          // Réinitialise la recherche d'étiquette
          this.search = "";
