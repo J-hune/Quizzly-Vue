@@ -108,7 +108,7 @@ export async function sequenceInteraction(id, router, toast, deleteCallback = Fu
       text: "Vous pouvez lancer cette séquence pédagogique, la modifier ou la supprimer. Que souhaitez vous faire ?",
       showDenyButton: true,
       showCancelButton: true,
-      confirmButtonText: "Démarrer",
+      confirmButtonText: "Diffuser",
       denyButtonText: "Modifier",
       cancelButtonText: "Supprimer",
       confirmButtonColor: "#A56CC1",
