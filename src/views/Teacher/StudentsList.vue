@@ -6,7 +6,7 @@
       <div class="flex flex-col w-full mb-12 py-1">
          <h1 class="sm:text-3xl text-2xl font-semibold title-font mb-4 text-gray-900">Mes Etudiants</h1>
          <p class="leading-relaxed text-base">Les comptes étudiants de l'établissement sont affichées ci-dessous.<br>
-            Cliquez sur un étudiant pour le supprimer.</p>
+            <strong><span class="text-blue-600 cursor-pointer" @click="downloadFile">Cliquez ici</span></strong> pour télécharger un exemple de fichier csv permettant d'ajouter des étudiants.<br></p>
       </div>
 
       <!-- input Search -->
@@ -140,6 +140,25 @@ export default {
             // (On pourrait aussi récupérer les données une nouvelle fois avec un nouvel appel à l'api)
             this.students = this.students.filter(e => e.id !== student.id);
          });
+      },
+
+      /**
+       * Propose de télécharger un fichier csv d'exemple
+       */
+      downloadFile() {
+         const rows = [
+            ['id', 'nom', 'prenom'],
+            ['22100001', 'Panard', 'Fidel']
+         ];
+
+         const csvContent = "data:text/csv;charset=utf-8," + rows.map(e => e.join(",")).join("\n");
+
+         const encodedUri = encodeURI(csvContent);
+         const link = document.createElement("a");
+         link.setAttribute("href", encodedUri);
+         link.setAttribute("download", "students.csv");
+         document.body.appendChild(link);
+         link.click();
       }
    },
    computed: {
