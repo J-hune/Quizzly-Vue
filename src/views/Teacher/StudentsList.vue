@@ -94,11 +94,13 @@ export default {
 
          // On lit le contenu du fichier CSV
          let reader = new FileReader();
-         reader.readAsText(file);
+         reader.readAsText(file, 'ISO-8859-1');
+
 
          // Une fois que le contenu a été chargé
          reader.onload = async (e) => {
             let csvData = e.target.result;
+
             // On ajoute les étudiants à la base de données
             await addStudentsFromCSV(csvData, this.toast);
 

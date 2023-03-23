@@ -43,17 +43,29 @@ async function csvParser(csv) {
    let lines = csv.split("\n");
    let result = [];
 
+   // On détermine le séparateur en comptant le nombre de virgules et de points-virgules dans la première ligne
+   let firstLine = lines[0].replace(/\r/g, "");
+   let numCommas = (firstLine.match(/,/g) || []).length;
+   let numSemicolons = (firstLine.match(/;/g) || []).length;
+   let separator = numSemicolons > numCommas ? ";" : ",";
+
    // On sépare les en-têtes
-   let headers = lines[0].replace(/\r/g, "").split(",");
+   let headers = firstLine.split(separator);
 
    // Pour chaque ligne sauf la première
    for (let i = 1; i < lines.length; i++) {
       let obj = {};
-      let currentline = lines[i].replace(/\r/g, "").split(",");
+      let currentLine = lines[i].replace(/\r/g, "").split(separator);
+
+      // Si la ligne est vide, on l'ignore
+      if (currentLine.length === 1 && currentLine[0] === "") {
+         continue;
+      }
 
       // Pour chaque colonne en utilisant la virgule comme séparateur
       for (let j = 0; j < headers.length; j++) {
-         obj[headers[j]] = currentline[j];
+         obj[headers[j]] = currentLine[j];
+
       }
 
       result.push(obj);
