@@ -2,7 +2,8 @@
    <p v-if="studentsAnswers.length === 0">Aucune réponse n'a été envoyée</p>
    <div v-else>
       <!-- Affichage des réponses les plus populaires -->
-      <div class="answer" v-for="answer in sortedStudentsAnswers.slice(0,4)" :key="answer.id">
+      <div class="answer" :key="answer.id"
+           v-for="answer in sortedStudentsAnswers.length <= 5 ? sortedStudentsAnswers.slice(0,5):  sortedStudentsAnswers.slice(0,4)">
 
          <!-- Affichage des réponses avec du markdown -->
          <div class="flex items-baseline">
@@ -64,20 +65,20 @@ export default {
 
          const count = this.studentsAnswers.reduce((acc, answer) => {
             acc[answer] = acc[answer] ? acc[answer] + 1 : 1;
-            acc[answer] = {
+            acc[answer + "_stats"] = {
                count: acc[answer],
                percent: ((acc[answer] / totalCount) * 100).toFixed(1)
             };
             return acc;
          }, {});
 
-         return Object.keys(count).map(answer => ({ answer, ...count[answer] }));
+         return Object.keys(count).filter(key => !key.endsWith("_stats")).map(answer => ({ answer, ...count[answer + "_stats"] }));
       },
 
       // Réponses "Autres" avec leur pourcentage et leur id
       otherResponses() {
          return this.sortedStudentsAnswers.reduce((accumulator, currentValue, currentIndex) => {
-            if (currentIndex > 4) {
+            if (currentIndex > 3) {
                accumulator.count += currentValue.count;
                accumulator.percent += parseFloat(currentValue.percent);
                accumulator.values.push(currentValue.answer);
