@@ -45,11 +45,10 @@
                <span class="text-sm text-slate-600">#{{ student.id }}</span>
             </div>
          </div>
+      </div>
 
-         <div v-if="students.length && !searchStudents.length">
-            Aucune étudiant ne correspond à votre recherche
-         </div>
-
+      <div v-if="students.length && !searchStudents.length">
+         Aucune étudiant ne correspond à votre recherche
       </div>
    </div>
 </template>
