@@ -1,6 +1,6 @@
 {
   "name": "vuequizzly",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -49,5 +49,17 @@
     "postcss": "^8.4.21",
     "prettier": "^2.4.1",
     "vue-cli-plugin-tailwind": "~3.0.0"
-  }
+  },
+  "description": "```\r npm install\r ```",
+  "main": ".eslintrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/J-hune/vueproject.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/J-hune/vueproject/issues"
+  },
+  "homepage": "https://github.com/J-hune/vueproject#readme"
 }
