@@ -14,7 +14,15 @@
          </div>
          <div class="w-1/2 px-1">
             <div class="text-sm text-gray-600 mb-1">Bonnes réponses (en %)</div>
-            <div class="text-xl font-semibold">{{ quiz.pourcentage?.toString() || quiz.percentCorrect }}%</div>
+            <div class="text-xl font-semibold">{{
+                  quiz.pourcentage !== undefined
+                    ? quiz.pourcentage % 1 !== 0
+                      ? quiz.pourcentage.toFixed(2)
+                      : quiz.pourcentage
+                    : quiz.percentCorrect % 1 !== 0
+                      ? quiz.percentCorrect.toFixed(2)
+                      : quiz.percentCorrect
+               }}%</div>
          </div>
       </div>
    </div>
