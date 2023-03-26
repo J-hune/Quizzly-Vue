@@ -1,5 +1,11 @@
 <template>
-   <highcharts-vue style="border-radius: 10px" :options="chartOptions" />
+   <div>
+      <highcharts-vue style="border-radius: 10px" :options="chartOptions" />
+      <div v-if="showText">
+         <p class="mt-3">La mise à jour automatique du nuage de mots a été désactivée.</p>
+         <span class="text-blue-600 cursor-pointer" @click="updateChart"><strong>Mettre à jour le nuage de mots</strong></span>
+      </div>
+   </div>
 </template>
 
 <script>
@@ -13,6 +19,14 @@ wordcloud(Highcharts);
 export default {
    name: "OpenEndedResponses",
    props: { studentsAnswers: Array },
+   data: function() {
+      return {
+         autoLoad: false,
+         showText: false,
+         previousAnswers: [],
+         maxStudentsAutoLoad: 400
+      };
+   },
    components: {
       HighchartsVue: Chart
    },
@@ -47,6 +61,10 @@ export default {
        * @returns {Array<Object>} Le nuage de mots sous la forme d'un tableau d'objets.
        */
       wordCloudData() {
+         // Si le nombre de réponses des étudiants est trop élevé pour être mis à jour automatiquement
+         if (this.studentsAnswers.length > this.maxStudentsAutoLoad && !this.autoLoad) return this.wordCloudData;
+
+
          // Calcul du poids maximum (nombre d'occurrences) de tous les mots dans le tableau
          const maxWeight = Math.max(...this.studentsAnswers.map(word => this.studentsAnswers.filter(w => w === word).length));
 
@@ -78,6 +96,31 @@ export default {
 
             return cloud;
          }, []);
+      }
+   },
+
+
+   watch: {
+      wordCloudData: function() {
+         if (this.studentsAnswers.length > this.maxStudentsAutoLoad && this.autoLoad) this.autoLoad = false;
+      },
+
+      studentsAnswers: {
+         handler(newValue) {
+            if (this.studentsAnswers.length > this.maxStudentsAutoLoad && JSON.stringify(newValue) !== JSON.stringify(this.previousAnswers)) {
+               this.showText = true;
+            }
+         },
+         deep: true
+      }
+   },
+
+
+   methods: {
+      updateChart: function() {
+         this.showText = false;
+         this.autoLoad = true;
+         this.previousAnswers = [...this.studentsAnswers];
       }
    }
 };
