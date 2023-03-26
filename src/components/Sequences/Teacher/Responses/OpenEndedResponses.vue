@@ -117,6 +117,12 @@ export default {
 
 
    methods: {
+      /**
+       * Met à jour les données du graphique.
+       *
+       * @function
+       * @returns {void}
+       */
       updateChart: function() {
          this.showText = false;
          this.autoLoad = true;
