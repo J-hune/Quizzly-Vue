@@ -20,7 +20,9 @@
             <hr class="mb-8" />
             <!-- Switch entre Réponse unique et Réponses Multiples -->
             <!-- On utilise data: type -->
-            <switch-button class="mb-6" :response-type="question.type" @update="onChildUpdate" />
+            <switch-button class="mb-6" :response-type="question.type"
+                           :types="[{id: 1, name:'Réponse unique'}, {id: 0, name:'Réponses multiples'}, {id: 2, name:'Réponse libre'}]"
+                           @update="onChildUpdate"/>
 
             <!-- Titre et Liste d'inputs (Réponses) -->
             <div class="mb-6">

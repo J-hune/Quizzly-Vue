@@ -1,19 +1,10 @@
 <template>
    <div class="flex gap-1.5">
-      <button
-        :class="responseType === 1 ? 'switch-button' : 'switch-button-activated'" @click.prevent="updateParent(1)"
-        class="font-semibold py-2 px-4 border rounded">
-         Réponse unique
-      </button>
-      <button
-        :class="responseType === 0 ? 'switch-button' : 'switch-button-activated'" @click.prevent="updateParent(0)"
-        class="font-semibold py-2 px-4 border rounded">
-         Réponses multiples
-      </button>
-      <button
-        :class="responseType === 2 ? 'switch-button' : 'switch-button-activated'" @click.prevent="updateParent(2)"
-        class="font-semibold py-2 px-4 border rounded">
-         Réponse libre
+      <button v-for="type in types" :key="type.id"
+              :class="responseType !== type.id ? 'switch-button' : 'switch-button-activated'"
+              @click.prevent="updateParent(type.id)"
+              class="font-semibold py-2 px-4 border rounded">
+         {{ type.name }}
       </button>
    </div>
 </template>
@@ -21,7 +12,10 @@
 <script>
 export default {
    name: "SwitchButton",
-   props: { responseType: Number },
+   props: {
+      responseType: Number,
+      types: Object
+   },
    methods: {
       /**
        * Met à jour la valeur de la propriété parente en émettant un événement.
