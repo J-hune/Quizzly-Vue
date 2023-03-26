@@ -99,7 +99,6 @@ import QuizCard from "@/components/Quiz/QuizCard.vue";
 import { removeQuizStatistics } from "@/functions/quiz";
 import { useToast } from "vue-toastification";
 import { fetchData } from "@/functions/fetch";
-import router from "@/router";
 
 export default {
    name: "StatisticsView",
@@ -124,23 +123,7 @@ export default {
       };
    },
    async created() {
-
-      const { data } = await fetchData("/statistics/teachers/getOverallStats");
-
-      this.totalQuizzes = data.totalQuizzes;
-      this.totalQuestions = data.totalQuestions;
-      this.successRate = data.successRate;
-      this.participationCategories = data.participation.days;
-      this.successCategories = data.success.days;
-      this.participationSeries = [
-         { name: "Nombre moyen de participants", data: data.participation.questions },
-         { name: "Nombre moyen de participants", data: data.participation.sequences }
-      ];
-      this.successSeries = [
-         { name: "Taux de réussite", data: data.success.quiz }
-      ];
-
-      this.archives = data.archives;
+      await this.reFetchData()
    },
    computed: {
       matchingArchives() {
@@ -169,11 +152,31 @@ export default {
             if (data.success) {
                this.archives = this.archives.filter(e => e.archiveId !== quiz.archiveId);
                this.toast.success("Les statistiques du quiz " + quiz.id + " ont été supprimées");
-               router.go(0)
+               this.reFetchData()
             } else {
                this.toast.error("La diffusion n'a pas pu être supprimée");
             }
          });
+      },
+
+
+      reFetchData: async function() {
+         const { data } = await fetchData("/statistics/teachers/getOverallStats");
+
+         this.totalQuizzes = data.totalQuizzes;
+         this.totalQuestions = data.totalQuestions;
+         this.successRate = data.successRate;
+         this.participationCategories = data.participation.days;
+         this.successCategories = data.success.days;
+         this.participationSeries = [
+            { name: "Nombre moyen de participants", data: data.participation.questions },
+            { name: "Nombre moyen de participants", data: data.participation.sequences }
+         ];
+         this.successSeries = [
+            { name: "Taux de réussite", data: data.success.quiz }
+         ];
+
+         this.archives = data.archives;
       }
    }
 };
