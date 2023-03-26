@@ -4,7 +4,7 @@ import store from "@/store";
 import HomeView from "../views/HomeView.vue";
 import SignupView from "@/views/SignupView";
 import SigninView from "@/views/SigninView";
-import NewQcm from "@/views/Teacher/NewQcmView.vue";
+import NewTest from "@/views/Teacher/NewTestView.vue";
 import AddQuestion from "@/views/Teacher/AddQuestionView.vue";
 import EditQuestion from "@/views/Teacher/EditQuestionView.vue";
 import StudentsList from "@/views/Teacher/StudentsList.vue";
@@ -100,9 +100,9 @@ const routes = [
             meta: { requiresAuth: true, userType: ["Enseignant"] }
          },
          {
-            path: "/newQCM",
-            name: "newQCM",
-            component: NewQcm,
+            path: "/newTest",
+            name: "newTest",
+            component: NewTest,
             meta: { requiresAuth: true, userType: ["Enseignant"] }
          },
          {

@@ -99,7 +99,7 @@ export default {
                { link: "/students", label: "Mes Etudiants" },
                { link: "/sequences", label: "Mes Séquences" },
                { link: "/statistics", label: "Statistiques" },
-               { link: "/newQCM", label: "Nouveau QCM" }
+               { link: "/newTest", label: "Nouveau QCM" }
             ],
             student: [
                { link: "/profile", label: "Mon profil" },

@@ -5,12 +5,13 @@
 
          <!-- Titre de la page -->
          <div class="flex flex-col w-full mb-10 py-1">
-            <h1 class="sm:text-3xl text-2xl font-semibold title-font mb-4 text-gray-900">Créer un QCM</h1>
-            <p class="leading-relaxed text-base">Les questions que vous avez déjà créées sont affichées sur la
-               <span class="cursor-pointer" @click="openLink('gauche')">gauche.</span>.<br>
-               Faites les glisser sur la
-               <span class="cursor-pointer" @click="openLink('droite')">droite</span>
-               pour les ajouter au sujet.</p>
+            <h1 class="sm:text-3xl text-2xl font-semibold title-font mb-4 text-gray-900">Créer une évaluation</h1>
+            <p class="leading-relaxed text-base">Il existe deux types d'évaluations que vous pouvez créer : les quiz et
+               les contrôles.<br>
+               Les quiz sont des listes de questions que vous pouvez choisir et organiser dans l'ordre que vous
+               souhaitez.<br>
+               Les contrôles, quant à eux, sont générés de manière aléatoire en fonction des paramètres que vous
+               choisissez.</p>
          </div>
 
 
@@ -25,7 +26,23 @@
 
       <hr class="mt-7 mb-8" />
 
-      <draggable-questions :selected-questions="selectedQuestions" :all-questions="allQuestions" />
+      <!-- On montre tous les types d'évaluations disponibles (pour l'instant QCM et Contrôle -->
+      <switch-button class="mb-4" :response-type="testType"
+                     :types="[{id: 0, name:'Sujet de QCM'}, {id: 1, name:'Sujet de Contrôle'}, {id: 2, name:'Sujet de Contrôle Anonyme'} ]"
+                     @update="(type) => testType = type" />
+
+      <!-- Dans le cas où c'est un QCM -->
+      <p v-if="testType === 0" class="mb-6">Les questions que vous avez déjà créées sont affichées sur la
+         <span class="cursor-pointer" @click="openLink('gauche')">gauche.</span><br>
+         Faites les glisser sur la
+         <span class="cursor-pointer" @click="openLink('droite')">droite</span>
+         pour les ajouter au sujet.</p>
+      <draggable-questions v-if="testType === 0" :selected-questions="selectedQuestions"
+                           :all-questions="allQuestions" />
+
+      <!-- Dans le cas où c'est un Contrôle -->
+      <test-settings v-else class="mt-6 mb-10" :labels="testLabels" :questions="allQuestions"
+                     @updateLabels="(labels) => this.testLabels = labels" />
    </div>
 
    <!-- Bouton Impression -->
@@ -51,13 +68,17 @@ import DraggableQuestions from "@/components/Questions/draggableQuestions.vue";
 import { fetchData } from "@/functions/fetch";
 import RenderQuestions from "@/components/Questions/RenderQuestions.vue";
 import ModalComponent from "@/components/ModalComponent.vue";
+import SwitchButton from "@/components/SwitchButton.vue";
+import TestSettings from "@/components/Tests/TestSettings.vue";
 
 export default {
-   name: "NewQcm",
-   components: { ModalComponent, RenderQuestions, DraggableQuestions },
+   name: "NewTest",
+   components: { TestSettings, SwitchButton, ModalComponent, RenderQuestions, DraggableQuestions },
    data() {
       return {
          title: "",
+         testType: 1,
+         testLabels: [],
          selectedQuestions: [],
          allQuestions: [],
          show: false,
