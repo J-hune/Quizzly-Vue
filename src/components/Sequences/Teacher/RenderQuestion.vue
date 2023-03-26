@@ -21,11 +21,13 @@
       <div v-if="displayResponses" class="question-responses">
          <multiple-responses v-if="question.type === 0" :responses="question.reponses"
                              :students="students.length" :studentsAnswers="statements" />
-         <numeric-responses v-else :students="students.length" :studentsAnswers="statements" />
+         <numeric-responses v-else-if="question.type === 1" :students="students.length" :studentsAnswers="statements" />
+         <open-ended-responses v-else-if="question.type === 2" :studentsAnswers="statements" />
       </div>
 
       <div class="flex justify-between">
          <p v-if="displayResponses" class="cursor-pointer mt-3 text-blue-600 font-semibold select-none"
+            :class="{ 'cursor-no-drop opacity-40': question.type === 2}"
             @click="askCorrection">Afficher la correction</p>
 
          <p v-if="displayResponses" class="cursor-pointer mt-3 text-blue-600 font-semibold select-none"
@@ -76,10 +78,11 @@ import router from "@/router";
 import SocketioService from "@/services/socketio.service";
 import NumericResponses from "@/components/Sequences/Teacher/Responses/NumericResponses.vue";
 import { useToast } from "vue-toastification";
+import OpenEndedResponses from "@/components/Sequences/Teacher/Responses/OpenEndedResponses.vue";
 
 export default {
    name: "RenderQuestion",
-   components: { NumericResponses, MultipleResponses },
+   components: { OpenEndedResponses, NumericResponses, MultipleResponses },
    props: {
       sequenceId: String,
       question: Object,
@@ -126,6 +129,7 @@ export default {
        * Demande au service Socket.io de demander la correction de la question en cours.
        */
       askCorrection() {
+         if (this.question.type === 2) return;
          SocketioService.askCorrection();
       },
 

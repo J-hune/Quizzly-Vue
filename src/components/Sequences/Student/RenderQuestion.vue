@@ -43,6 +43,12 @@
              focus:border-indigo-200 focus:ring-2 outline-none py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
              placeholder="Entrez votre réponse..." :disabled="!canSubmit" />
 
+      <p v-if="question.type === 2" class="mt-6 mb-3">Veuillez entrer votre réponse puis l'envoyer.</p>
+      <input v-if="question.type === 2" type="text" v-model="answer" @keyup.enter="handleClick"
+             class="w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-indigo-200 answer-input
+             focus:border-indigo-200 focus:ring-2 outline-none py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
+             placeholder="Entrez votre réponse..." :disabled="!canSubmit" />
+
    </div>
 
    <!-- Boutons -->
