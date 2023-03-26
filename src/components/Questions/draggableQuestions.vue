@@ -96,8 +96,13 @@ export default {
    gap: 12px;
    height: 100%;
    max-height: 700px;
-   overflow-y: scroll;
+   overflow-y: auto;
    margin: 14px;
+   scrollbar-width: none;
+}
+
+.list-group::-webkit-scrollbar {
+   width: 0;
 }
 
 .ghost-card {
