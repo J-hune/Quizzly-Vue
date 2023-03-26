@@ -27,7 +27,7 @@
               @end="drag = false"
             >
                <template #item="{ element }">
-                  <question-card :question="element" />
+                  <question-card style="min-height: 169px" :question="element" />
                </template>
             </draggable>
          </div>
@@ -45,7 +45,7 @@
            @end="drag = false"
          >
             <template #item="{ element }">
-               <question-card :question="element" />
+               <question-card style="min-height: 169px" :question="element" />
             </template>
          </draggable>
       </div>
@@ -87,7 +87,6 @@ export default {
 .card-list {
    background-color: #eeebf3;
    border-radius: 10px;
-   padding: 14px;
    min-height: 50px;
 }
 
@@ -96,6 +95,9 @@ export default {
    flex-direction: column;
    gap: 12px;
    height: 100%;
+   max-height: 700px;
+   overflow-y: scroll;
+   margin: 14px;
 }
 
 .ghost-card {
