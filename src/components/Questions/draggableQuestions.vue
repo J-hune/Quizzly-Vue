@@ -95,7 +95,7 @@ export default {
    flex-direction: column;
    gap: 12px;
    height: 100%;
-   max-height: 700px;
+   max-height: 532px;
    overflow-y: auto;
    margin: 14px;
    scrollbar-width: none;
