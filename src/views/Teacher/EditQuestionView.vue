@@ -20,13 +20,14 @@
             <hr class="mb-8" />
             <!-- Switch entre Réponse unique et Réponses Multiples -->
             <!-- On utilise data: uniqueResponse -->
-            <switch-button class="mb-6" :unique-response="!!question.type" @update="onChildUpdate" />
+            <switch-button class="mb-6" :response-type="question.type" @update="onChildUpdate" />
 
 
             <!-- Titre et Liste d'inputs (Réponses) -->
             <div class="mb-6">
-               <multiple-responses v-if="!question.type" :responses="question.reponses" />
-               <unique-response v-else v-model="question.numerique" />
+               <multiple-responses v-if="question.type === 0" :responses="question.reponses" />
+               <unique-response v-else-if="question.type === 1" v-model="question.numerique" />
+               <open-ended-response v-else />
             </div>
 
             <h2 class="text-xl font-medium text-gray-900 mb-2">Associer des étiquettes :</h2>
@@ -103,10 +104,11 @@ import MultipleResponses from "@/components/Questions/multipleResponses.vue";
 import UniqueResponse from "@/components/Questions/uniqueResponse.vue";
 import router from "@/router";
 import { getContrast } from "@/functions/profile";
+import OpenEndedResponse from "@/components/Questions/openEndedResponse.vue";
 
 export default {
    name: "EditQuestion",
-   components: { UniqueResponse, MultipleResponses, SwitchButton, AddLabelsComponent, ModalComponent, RedirectBack },
+   components: { OpenEndedResponse, UniqueResponse, MultipleResponses, SwitchButton, AddLabelsComponent, ModalComponent, RedirectBack },
    data: function() {
       return {
          question: Object,
@@ -164,8 +166,8 @@ export default {
 
          if (!Question.enonce || !Question.etiquettes.length) return false;
          if (!Question.type && !Question.reponses.find(e => e.reponse)) return false;
-         if (!!Question.type && (!Question.numerique || isNaN(parseInt(Question.numerique)))) return false;
-         if (!!Question.type && !regex.test(Question.numerique)) return false;
+         if (Question.type === 1 && (!Question.numerique || isNaN(parseInt(Question.numerique)))) return false;
+         if (Question.type === 1 && !regex.test(Question.numerique)) return false;
          return true;
       },
 
@@ -209,7 +211,7 @@ export default {
        * @param {Boolean} newValue - La nouvelle valeur du type.
        */
       onChildUpdate: function(newValue) {
-         this.question.type = !newValue ? 0 : 1;
+         this.question.type = newValue;
       }
    },
    watch: {

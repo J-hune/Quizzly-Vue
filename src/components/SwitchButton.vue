@@ -1,14 +1,19 @@
 <template>
    <div class="flex gap-1.5">
       <button
-        :class="!uniqueResponse ? 'switch-button' : 'switch-button-activated'" @click.prevent="updateParent(true)"
+        :class="responseType === 1 ? 'switch-button' : 'switch-button-activated'" @click.prevent="updateParent(1)"
         class="font-semibold py-2 px-4 border rounded">
          Réponse unique
       </button>
       <button
-        :class="uniqueResponse ? 'switch-button' : 'switch-button-activated'" @click.prevent="updateParent(false)"
+        :class="responseType === 0 ? 'switch-button' : 'switch-button-activated'" @click.prevent="updateParent(0)"
         class="font-semibold py-2 px-4 border rounded">
          Réponses multiples
+      </button>
+      <button
+        :class="responseType === 2 ? 'switch-button' : 'switch-button-activated'" @click.prevent="updateParent(2)"
+        class="font-semibold py-2 px-4 border rounded">
+         Réponse libre
       </button>
    </div>
 </template>
@@ -16,11 +21,11 @@
 <script>
 export default {
    name: "SwitchButton",
-   props: { uniqueResponse: Boolean },
+   props: { responseType: Number },
    methods: {
       /**
        * Met à jour la valeur de la propriété parente en émettant un événement.
-       * @param {Boolean} newValue La nouvelle valeur à affecter à la propriété parente.
+       * @param {number} newValue La nouvelle valeur à affecter à la propriété parente.
        */
       updateParent: function(newValue) {
          this.$emit("update", newValue);

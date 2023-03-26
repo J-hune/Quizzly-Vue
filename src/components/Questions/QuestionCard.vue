@@ -18,7 +18,8 @@
 
       <!-- Information supplémentaires -->
       <p v-if="question.type === 1" class="text-xs text-gray-500 mt-3 text-right">réponse numérique</p>
-      <p v-else class="text-xs text-gray-500 mt-3 text-right">{{ question.reponses.length }} réponse(s)</p>
+      <p v-else-if="question.type === 0" class="text-xs text-gray-500 mt-3 text-right">{{ question.reponses.length }} réponse(s)</p>
+      <p v-if="question.type === 2" class="text-xs text-gray-500 mt-3 text-right">réponse ouverte</p>
    </div>
 </template>
 

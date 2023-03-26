@@ -20,12 +20,13 @@
             <hr class="mb-8" />
             <!-- Switch entre Réponse unique et Réponses Multiples -->
             <!-- On utilise data: type -->
-            <switch-button class="mb-6" :unique-response="!!question.type" @update="onChildUpdate" />
+            <switch-button class="mb-6" :response-type="question.type" @update="onChildUpdate" />
 
             <!-- Titre et Liste d'inputs (Réponses) -->
             <div class="mb-6">
-               <multiple-responses v-if="!question.type" :responses="question.reponses" />
-               <unique-response v-else v-model="question.numerique" />
+               <multiple-responses v-if="question.type === 0" :responses="question.reponses" />
+               <unique-response v-else-if="question.type === 1" v-model="question.numerique" />
+               <open-ended-response v-else />
             </div>
 
             <h2 class="text-xl font-medium text-gray-900 mb-2">Associer des étiquettes :</h2>
@@ -84,10 +85,19 @@ import MultipleResponses from "@/components/Questions/multipleResponses.vue";
 import UniqueResponse from "@/components/Questions/uniqueResponse.vue";
 import { getContrast } from "@/functions/profile";
 import router from "@/router";
+import OpenEndedResponse from "@/components/Questions/openEndedResponse.vue";
 
 export default {
    name: "AddQuestion",
-   components: { UniqueResponse, MultipleResponses, SwitchButton, AddLabels, ModalComponent, RedirectBack },
+   components: {
+      OpenEndedResponse,
+      UniqueResponse,
+      MultipleResponses,
+      SwitchButton,
+      AddLabels,
+      ModalComponent,
+      RedirectBack
+   },
    data: function() {
       return {
          question: {
@@ -152,8 +162,8 @@ export default {
 
          if (!Question.enonce || !Question.etiquettes.length) return false;
          if (!Question.type && !Question.reponses.find(e => e.reponse)) return false;
-         if (!!Question.type && (!Question.numerique || isNaN(parseInt(Question.numerique)))) return false;
-         if (!!Question.type && !regex.test(Question.numerique)) return false;
+         if (Question.type === 1 && (!Question.numerique || isNaN(parseInt(Question.numerique)))) return false;
+         if (Question.type === 1 && !regex.test(Question.numerique)) return false;
          return true;
       },
 
@@ -165,8 +175,7 @@ export default {
             if (data.success) {
                this.toast.success("La question a été ajoutée");
                router.push("/");
-            }
-            else this.toast.error("Une erreur a eu lieu lors de l'ajout de la question");
+            } else this.toast.error("Une erreur a eu lieu lors de l'ajout de la question");
          });
       },
 
@@ -175,7 +184,7 @@ export default {
        * @param {boolean} newValue La nouvelle valeur du type de la question
        */
       onChildUpdate: function(newValue) {
-         this.question.type = !newValue ? 0 : 1;
+         this.question.type = newValue;
       }
    },
    watch: {
