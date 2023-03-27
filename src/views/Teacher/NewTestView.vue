@@ -42,7 +42,8 @@
 
       <!-- Dans le cas où c'est un Contrôle -->
       <test-settings v-else class="mt-6 mb-10" :labels="testLabels" :questions="allQuestions"
-                     @updateLabels="(labels) => this.testLabels = labels" />
+                     @updateLabels="(labels) => this.testLabels = labels" :size="testSize"
+                     @updateSize="(size) => this.testSize = size" />
    </div>
 
    <!-- Bouton Impression -->
@@ -50,8 +51,8 @@
       <button
         class="relative ml-auto mt-5 mr-6 mb-5 bg-blue-500 hover:bg-blue-600 text-white
         font-bold py-2 px-7 rounded-lg disabled:opacity-40 right-0" @click="print"
-        :disabled="!title || selectedQuestions.length <= 0">
-         Imprimer le QCM
+        :disabled="!canSave()">
+         Imprimer l'évaluation
       </button>
    </div>
 
@@ -70,6 +71,7 @@ import RenderQuestions from "@/components/Questions/RenderQuestions.vue";
 import ModalComponent from "@/components/ModalComponent.vue";
 import SwitchButton from "@/components/SwitchButton.vue";
 import TestSettings from "@/components/Tests/TestSettings.vue";
+import { toRaw } from "vue";
 
 export default {
    name: "NewTest",
@@ -78,6 +80,7 @@ export default {
       return {
          title: "",
          testType: 1,
+         testSize: 1,
          testLabels: [],
          selectedQuestions: [],
          allQuestions: [],
@@ -91,10 +94,14 @@ export default {
        * Affiche les questions sélectionnées et le titre dans la vue d'impression.
        */
       print: function() {
-         if (!this.title || this.selectedQuestions.length <= 0) return;
-         this.show = true;
-         this.renderQuestions = this.selectedQuestions;
-         this.renderTitle = this.title;
+         if (this.testType === 0) {
+            this.show = true;
+            this.renderQuestions = this.selectedQuestions;
+            this.renderTitle = this.title;
+
+         } else {
+            console.log({ size: this.testSize, labels: toRaw(this.testLabels) });
+         }
       },
 
       /**
@@ -117,6 +124,15 @@ export default {
 
          // Ouvrir une nouvelle fenêtre avec l'URL aléatoire
          window.open(links[side][randomIndex], "_blank");
+      },
+
+      /**
+       * Vérifie si l'évaluation peut être imprimée
+       * @returns {boolean} Vrai si l'évaluation peut être imprimée, faux sinon
+       */
+      canSave: function() {
+         if (this.testType === 0) return !!this.title && this.selectedQuestions.length > 0;
+         else return !isNaN(this.testSize) && !!this.title && this.testLabels.length > 0;
       }
    },
    async created() {
