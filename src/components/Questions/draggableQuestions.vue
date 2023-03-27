@@ -14,7 +14,7 @@
 
          <!-- Questions Disponibles -->
          <div class="w-full h-full card-list">
-            <div v-if="searchQuestions.length ===0">
+            <div class="m-3" v-if="searchQuestions.length ===0">
                Aucune Question ne correspond à votre recherche
             </div>
             <draggable
