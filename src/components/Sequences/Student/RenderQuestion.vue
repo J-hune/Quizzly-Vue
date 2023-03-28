@@ -12,9 +12,7 @@
       <div class="question-statement">
 
          <!-- Énoncé de la question (rendu html) -->
-         <div v-for="(htmlElement, index) in TextToHtml(question.enonce)" :key="index">
-            <div v-html="htmlElement" />
-         </div>
+         <div v-html="renderMarkdown(question.enonce)" />
       </div>
 
       <!-- Affichage des réponses possibles (cas QCM) -->
@@ -28,10 +26,7 @@
                  'valid': correction && correction.includes(response.id) === answer.includes(response.id),
                  'invalid': correction && correction.includes(response.id) !== answer.includes(response.id)
               }">
-            <div v-for="(htmlResponse, indexRH) in TextToHtmMarkdownOnly(response.reponse)"
-                 :key="indexRH">
-               <div class="html-response" v-html="htmlResponse" />
-            </div>
+            <div class="html-response" v-html="renderLightMarkdown(response.reponse)" />
          </div>
       </div>
 
@@ -73,7 +68,7 @@
 import Swal from "sweetalert2";
 import router from "@/router";
 import { useToast } from "vue-toastification";
-import { TextToHtml, TextToHtmMarkdownOnly } from "@/functions/textTohtml";
+import { renderLightMarkdown, renderMarkdown } from "@/functions/textTohtml";
 import SocketioService from "@/services/socketio.service";
 
 export default {
@@ -101,8 +96,8 @@ export default {
       SocketioService.socket.on("renderQuestion", () => this.correction = null);
    },
    methods: {
-      TextToHtmMarkdownOnly,
-      TextToHtml,
+      renderLightMarkdown,
+      renderMarkdown,
 
       /**
        * Affiche une boîte de dialogue demandant confirmation avant de quitter le quiz.

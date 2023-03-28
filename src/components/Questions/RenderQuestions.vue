@@ -4,9 +4,7 @@
       <div v-for="(question, index) in questions" :key="index" class="mt-6">
 
          <!-- Énoncé de la question (rendu html) -->
-         <div v-for="(htmlElement, index) in TextToHtml(question.enonce)" :key="index">
-            <div v-html="htmlElement" />
-         </div>
+         <div v-html="renderMarkdown(question.enonce)" />
 
          <!-- Réponses de la question -->
          <div class="mt-3 mb-5 grid w-full grid-cols-2">
@@ -14,9 +12,7 @@
             <div v-for="(response, indexR) in question.reponses" :key="indexR">
                <div class="w-full flex pb-1" v-if="response.reponse">
                   <input type="checkbox" class="mr-2">
-                  <div v-for="(htmlResponse, indexRH) in TextToHtmMarkdownOnly(response.reponse)" :key="indexRH">
-                     <div class="html-response" v-html="htmlResponse" />
-                  </div>
+                  <div class="html-response" v-html="renderMarkdown(response.reponse)"/>
                </div>
             </div>
          </div>
@@ -29,13 +25,12 @@
 
 <script>
 
-import { TextToHtml, TextToHtmMarkdownOnly } from "@/functions/textTohtml";
+import { renderMarkdown } from "@/functions/textTohtml";
 
 export default {
    name: "RenderQuestions",
    methods: {
-      TextToHtmMarkdownOnly,
-      TextToHtml
+      renderMarkdown
    },
    props: { title: String, questions: Object },
    data: function() {
@@ -45,21 +40,26 @@ export default {
    },
    watch: {
       selectedQuestions: function() {
-         this.html = this.selectedQuestions.map(e => TextToHtml(e.enonce));
+         this.html = this.selectedQuestions.map(e => renderMarkdown(e.enonce));
       }
    }
 }
 ;
 </script>
 
-<style >
-.save {
+<style>
+.markdown-body {
    width: 100%;
-   display: inline-flex;
-   border-top: solid 1px #eaeaea;
+   border: none;
+   padding: 0 48px 48px 48px;
 }
 
 .markdown-body .html-response p {
    margin: 5px 0 5px 0;
+}
+
+.markdown-body .qcm-title {
+   text-align: center;
+   margin-top: 12px;
 }
 </style>

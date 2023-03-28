@@ -4,10 +4,7 @@
 
       <!-- Affichage des réponses avec du markdown -->
       <div class="flex items-baseline">
-         <div v-for="(htmlResponse, indexRH) in TextToHtmMarkdownOnly(responses.find(e => e.id === answer.id).reponse)"
-              :key="indexRH">
-            <div class="html-response" v-html="htmlResponse" />
-         </div>
+         <div class="html-response" v-html="renderLightMarkdown(responses.find(e => e.id === answer.id).reponse)" />
 
          <!-- On affiche le nombre d'étudiants qui ont répondu cette réponse (avec accords) -->
          <span class="ml-2 text-sm">({{ answer.count }} {{ answer.count > 1 ? "étudiants" : "étudiant" }})</span>
@@ -28,7 +25,7 @@
 </template>
 
 <script>
-import { TextToHtmMarkdownOnly } from "@/functions/textTohtml";
+import { renderLightMarkdown } from "@/functions/textTohtml";
 import SocketioService from "@/services/socketio.service";
 
 export default {
@@ -70,7 +67,7 @@ export default {
       SocketioService.socket.on("renderCorrection", this.onRenderCorrection);
    },
    methods: {
-      TextToHtmMarkdownOnly,
+      renderLightMarkdown,
       // Fonction appelée lors de la réception de la demande de correction des réponses
       onRenderCorrection: function(correction) {
          this.correction = correction;

@@ -54,9 +54,7 @@
 
          <!-- Rendu html de l'énonce -->
          <div class="w-full xl:w-1/2 pl-10 markdown-body">
-            <div v-for="(objectToRender, key) in html" :key="key">
-               <div v-html="objectToRender" />
-            </div>
+            <div v-html="html"/>
          </div>
 
       </div>
@@ -95,7 +93,7 @@ import mermaid from "mermaid";
 import { useToast } from "vue-toastification";
 
 import { fetchData } from "@/functions/fetch";
-import { TextToHtml } from "@/functions/textTohtml";
+import { renderMarkdown } from "@/functions/textTohtml";
 import { editQuestion, removeQuestion } from "@/functions/questions";
 
 import RedirectBack from "@/components/redirectBack";
@@ -124,7 +122,7 @@ export default {
          question: Object,
          labels: [],
          show: false,
-         html: []
+         html: ""
       };
    },
    mounted() {
@@ -230,7 +228,7 @@ export default {
          handler: function(newQuestion) {
 
             // On met à jour html
-            this.html = TextToHtml(newQuestion.enonce);
+            this.html = renderMarkdown(newQuestion.enonce);
 
             // Si aucun contenu de réponse n'est vide
             if (!newQuestion?.reponses.find(e => !e.reponse.trim())) {

@@ -64,21 +64,20 @@
     padding-left: 1em;
 }
 
-.markdown-body pre .hljs {
-    padding: 16px;
-    overflow: auto;
-    font-size: 85% !important;
-    line-height: 1.45;
-    background-color: #f6f8fa;
-    border-radius: 6px;
-    margin: 1em 0;
-    white-space: pre;
-}
-
-
 .markdown-body .mermaid-error {
     background-color: #ffc7c7;
     padding: 15px;
     border-radius: 10px;
     margin: 12px 0
+}
+
+.hljs {
+    padding: 16px !important;
+    overflow: auto;
+    font-size: 85% !important;
+    line-height: 1.45;
+    background-color: #f6f8fa !important;
+    border-radius: 6px;
+    margin: 1em 0;
+    white-space: pre;
 }

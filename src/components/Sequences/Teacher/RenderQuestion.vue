@@ -12,9 +12,7 @@
       <div v-if="displayQuestion" class="question-statement">
 
          <!-- Énoncé de la question (rendu html) -->
-         <div v-for="(htmlElement, index) in TextToHtml(question.enonce)" :key="index">
-            <div v-html="htmlElement" />
-         </div>
+         <div v-html="renderMarkdown(question.enonce)" />
       </div>
 
       <!-- Affichage de la ou des réponse(s) -->
@@ -71,7 +69,7 @@
 </template>
 
 <script>
-import { TextToHtml } from "@/functions/textTohtml";
+import { renderMarkdown } from "@/functions/textTohtml";
 import MultipleResponses from "@/components/Sequences/Teacher/Responses/MultipleResponses.vue";
 import Swal from "sweetalert2";
 import router from "@/router";
@@ -102,7 +100,7 @@ export default {
       return { toast };
    },
    methods: {
-      TextToHtml,
+      renderMarkdown,
 
       /**
        * Affiche une boîte de dialogue demandant confirmation avant de quitter le quiz.
