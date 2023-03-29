@@ -43,7 +43,8 @@
       <!-- Dans le cas où c'est un Contrôle -->
       <test-settings v-else class="mt-6 mb-10" :labels="testLabels" :questions="allQuestions"
                      @updateLabels="(labels) => this.testLabels = labels" :size="testSize"
-                     @updateSize="(size) => this.testSize = size" />
+                     @updateSize="(size) => this.testSize = size"
+                     @update-question-size="size => this.testQuestionSize = size" :question-size="testQuestionSize"/>
    </div>
 
    <!-- Bouton Impression -->
@@ -71,16 +72,22 @@ import RenderQuestions from "@/components/Questions/RenderQuestions.vue";
 import ModalComponent from "@/components/ModalComponent.vue";
 import SwitchButton from "@/components/SwitchButton.vue";
 import TestSettings from "@/components/Tests/TestSettings.vue";
-import { toRaw } from "vue";
+import {toRaw} from "vue";
+import {useToast} from "vue-toastification";
 
 export default {
    name: "NewTest",
-   components: { TestSettings, SwitchButton, ModalComponent, RenderQuestions, DraggableQuestions },
+   components: {TestSettings, SwitchButton, ModalComponent, RenderQuestions, DraggableQuestions},
+   setup() {
+      const toast = useToast();
+      return {toast};
+   },
    data() {
       return {
          title: "",
          testType: 1,
          testSize: 1,
+         testQuestionSize: 1,
          testLabels: [],
          selectedQuestions: [],
          allQuestions: [],
@@ -100,7 +107,18 @@ export default {
             this.renderTitle = this.title;
 
          } else {
-            console.log({ size: this.testSize, labels: toRaw(this.testLabels) });
+            console.log({size: this.testSize, labels: toRaw(this.testLabels)});
+
+            const rangeQuestions = this.testLabels.reduce((accumulator, currentValue) => {
+               return [
+                  accumulator[0] + currentValue.range.value[0],
+                  accumulator[1] + currentValue.range.value[1]
+               ]
+            }, [0, 0])
+
+            if (this.testQuestionSize < rangeQuestions[0] || this.testQuestionSize > rangeQuestions[1]) {
+               this.toast.error("Le nombre de questions dans le sujet doit être entre " + rangeQuestions[0] + " et " + rangeQuestions[1])
+            }
          }
       },
 

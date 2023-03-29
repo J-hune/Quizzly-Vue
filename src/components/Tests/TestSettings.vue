@@ -1,6 +1,6 @@
 <template>
    <div class="mt-6">
-      <div class="sm:flex mb-6">
+      <div class="sm:flex mb-4">
 
          <h2 class="mb-2 mr-0 sm:mr-4 sm:mb-0 text-xl font-medium text-gray-900">Nombre de sujets à générer :</h2>
          <input type="number" :value="size" @input="updateSize"
@@ -8,6 +8,16 @@
                    focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
                    px-3 leading-8 transition-colors duration-150 ease-in-out"
                 placeholder="Nombre de sujets..."/>
+      </div>
+
+      <div class="sm:flex mb-6">
+         <h2 class="mb-2 mr-0 sm:mr-4 sm:mb-0 text-xl font-medium text-gray-900">Nombre de questions dans le sujet
+            :</h2>
+         <input type="number" :value="questionSize" @input="updateQuestionSize"
+                class="w-full sm:w-fit text-gray-700 bg-gray-50 rounded-lg border border-gray-300
+                   focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
+                   px-3 leading-8 transition-colors duration-150 ease-in-out"
+                placeholder="Nombre de questions..."/>
       </div>
       <hr class="mb-6">
 
@@ -92,9 +102,22 @@ export default {
          this.$emit("updateLabels", this.labels.filter(e => e.id !== label));
       },
 
-
-      updateSize: function(event) {
+      /**
+       * Modification du nombre de sujets à générer
+       *
+       * @param event
+       */
+      updateSize: function (event) {
          this.$emit("updateSize", parseInt(event.target.value));
+      },
+
+      /**
+       * Modification du nombre de questions dans le sujet
+       *
+       * @param event
+       */
+      updateQuestionSize: function (event) {
+         this.$emit("updateQuestionSize", parseInt(event.target.value));
       }
    }
 };
