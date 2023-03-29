@@ -98,11 +98,28 @@ export default {
    max-height: 532px;
    overflow-y: auto;
    margin: 14px;
-   scrollbar-width: none;
+   padding-right: 6px;
+   scrollbar-width: thin;
+   scrollbar-color: #CDCDCD #f9f9f9;
 }
 
 .list-group::-webkit-scrollbar {
-   width: 0;
+   width: 8px;
+}
+
+/* Track */
+.list-group::-webkit-scrollbar-track {
+   background: #f9f9f9;
+}
+
+/* Handle */
+.list-group::-webkit-scrollbar-thumb {
+   background: #CDCDCD;
+}
+
+/* Handle on hover */
+.list-group::-webkit-scrollbar-thumb:hover {
+   background: #A6A6A6;
 }
 
 .ghost-card {
