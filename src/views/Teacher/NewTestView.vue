@@ -59,6 +59,7 @@
 
    <!-- "Popup" qui apparait uniquement si on print -->
    <render-qcm v-if="testType === 0" :title="renderTitle" :questions="renderQuestions" />
+   <render-test v-else :type="testType" :title="renderTitle" :questions="renderQuestions"/>
 </template>
 
 <script>
@@ -68,15 +69,12 @@ import RenderQcm from "@/components/Tests/RenderQcm.vue";
 import SwitchButton from "@/components/SwitchButton.vue";
 import TestSettings from "@/components/Tests/TestSettings.vue";
 import { nextTick, toRaw } from "vue";
+import RenderTest from "@/components/Tests/RenderTest.vue";
 import {useToast} from "vue-toastification";
 
 export default {
    name: "NewTest",
-   components: {TestSettings, SwitchButton, RenderQcm, DraggableQuestions},
-   setup() {
-      const toast = useToast();
-      return {toast};
-   },
+   components: { RenderTest, TestSettings, SwitchButton, RenderQcm, DraggableQuestions },
    setup() {
       const toast = useToast();
       return {toast};
@@ -100,7 +98,6 @@ export default {
        */
       print: function() {
          if (this.testType === 0) {
-            this.show = true;
             this.renderQuestions = this.selectedQuestions;
             this.renderTitle = this.title;
 
@@ -109,7 +106,10 @@ export default {
                window.print();
             });
          } else {
-            console.log({size: this.testSize, labels: toRaw(this.testLabels)});
+            //TODO supprimer les trois lignes suivantes pour ajouter le fetch
+            console.log({ size: this.testSize, labels: toRaw(this.testLabels) });
+            this.renderQuestions = this.selectedQuestions;
+            this.renderTitle = this.title;
 
             const rangeQuestions = this.testLabels.reduce((accumulator, currentValue) => {
                return [
@@ -119,8 +119,13 @@ export default {
             }, [0, 0])
 
             if (this.testQuestionSize < rangeQuestions[0] || this.testQuestionSize > rangeQuestions[1]) {
-               this.toast.error("Le nombre de questions dans le sujet doit être entre " + rangeQuestions[0] + " et " + rangeQuestions[1])
+               return this.toast.error("Le nombre de questions dans le sujet doit être entre " + rangeQuestions[0] + " et " + rangeQuestions[1])
             }
+
+            // On attend le tick suivant pour que renderQuestions et renderTitle = soient à jour
+            nextTick(() => {
+               window.print();
+            });
          }
       },
 

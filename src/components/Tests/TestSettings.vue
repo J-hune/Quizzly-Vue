@@ -1,28 +1,8 @@
 <template>
    <div class="mt-6">
-      <div class="sm:flex mb-4">
-
-         <h2 class="mb-2 mr-0 sm:mr-4 sm:mb-0 text-xl font-medium text-gray-900">Nombre de sujets à générer :</h2>
-         <input type="number" :value="size" @input="updateSize"
-                class="w-full sm:w-fit text-gray-700 bg-gray-50 rounded-lg border border-gray-300
-                   focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
-                   px-3 leading-8 transition-colors duration-150 ease-in-out"
-                placeholder="Nombre de sujets..."/>
-      </div>
-
-      <div class="sm:flex mb-6">
-         <h2 class="mb-2 mr-0 sm:mr-4 sm:mb-0 text-xl font-medium text-gray-900">Nombre de questions dans le sujet
-            :</h2>
-         <input type="number" :value="questionSize" @input="updateQuestionSize"
-                class="w-full sm:w-fit text-gray-700 bg-gray-50 rounded-lg border border-gray-300
-                   focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
-                   px-3 leading-8 transition-colors duration-150 ease-in-out"
-                placeholder="Nombre de questions..."/>
-      </div>
-      <hr class="mb-6">
 
       <!-- Pour chaque etiquette sélectionnée -->
-      <div class="label-container mt-2 mb-5 sm:w-3/4" v-for="label in labels" :key="label.id">
+      <div class="label-container mb-5 sm:w-3/4" v-for="label in labels" :key="label.id">
 
          <!-- Etiquette avec nom et couleur -->
          <a @click="removeLabel(label.id)"
@@ -37,7 +17,76 @@
       </div>
 
       <!-- Bouton pour ajouter de nouvelles étiquettes -->
-      <a class="px-4 py-1 rounded-md add-label cursor-pointer" @click="show = true">Ajouter une étiquette au sujet</a>
+      <a class="px-4 py-1 rounded-md add-label cursor-pointer" @click="show = true">
+         Ajouter une étiquette au sujet
+      </a>
+
+
+      <hr class="my-8">
+
+      <!-- Paramètres du sujet -->
+      <div class="2xl:flex lg:gap-8">
+         <div>
+            <!-- Paramètre: Mélange des questions dans le sujet -->
+            <div class="flex flex-row mb-2">
+               <div class="self-center mr-3">
+                  <label class="relative inline-flex align-middle cursor-pointer">
+                     <input type="checkbox" value="" class="sr-only peer outline-none"
+                            v-model="groupQuestions">
+                     <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-['']
+                             after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5
+                             after:transition-all peer-checked:bg-blue-600" />
+                  </label>
+               </div>
+
+               <h2 class="text-lg">Les questions sont regroupées par étiquettes</h2>
+            </div>
+
+            <!-- Paramètre: Conservation de l'ordre des étiquettes -->
+            <div v-if="groupQuestions" class="flex flex-row mb-2">
+               <div class="self-center mr-3">
+                  <label class="relative inline-flex align-middle cursor-pointer">
+                     <input type="checkbox" value="" class="sr-only peer outline-none"
+                            v-model="keepLabelsOrder">
+                     <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-['']
+                             after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5
+                             after:transition-all peer-checked:bg-blue-600" />
+                  </label>
+               </div>
+
+               <h2 class="text-lg">L'ordre des étiquettes est conservé</h2>
+            </div>
+         </div>
+
+
+         <hr class="mt-8 mb-8">
+
+         <div>
+            <!-- Paramètre: Nombre de sujets à créer -->
+            <div class="sm:flex mb-4">
+
+               <h2 class="mb-2 mr-0 sm:mr-4 sm:mb-0 text-lg">Nombre de sujets à générer :</h2>
+               <input type="number" :value="size" @input="updateSize"
+                      class="w-full sm:w-fit text-gray-700 bg-gray-50 rounded-lg border border-gray-300
+                   focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
+                   px-3 leading-8 transition-colors duration-150 ease-in-out"
+                      placeholder="Nombre de sujets..." />
+            </div>
+
+
+            <!-- Paramètre: Nombre de questions dans chaque sujet -->
+            <div class="sm:flex mb-6">
+               <h2 class="mb-2 mr-0 sm:mr-4 sm:mb-0 text-lg">Nombre de questions dans le sujet
+                  :</h2>
+               <input type="number" :value="questionSize" @input="updateQuestionSize"
+                      class="w-full sm:w-fit text-gray-700 bg-gray-50 rounded-lg border border-gray-300
+                   focus:ring-indigo-200 focus:border-indigo-200 focus:ring-2 outline-none
+                   px-3 leading-8 transition-colors duration-150 ease-in-out"
+                      placeholder="Nombre de questions..." />
+            </div>
+
+         </div>
+      </div>
 
       <!-- "Popup" Modal permettant de selectionner et de créer des étiquettes -->
       <modal-component v-model="show">
@@ -58,11 +107,13 @@ import Slider from "@vueform/slider";
 export default {
    name: "TestSettings",
    components: { ModalComponent, AddLabels, Slider },
-   emits: ["updateLabels", "updateSize"],
-   props: { labels: Array, size: Number, questions: Array },
+   emits: ["updateLabels", "updateSize", "updateQuestionSize"],
+   props: { labels: Array, size: Number, questions: Array, questionSize: Number },
    data: function() {
       return {
-         show: false
+         show: false,
+         keepLabelsOrder: false,
+         groupQuestions: true
       };
    },
    setup() {
@@ -107,7 +158,7 @@ export default {
        *
        * @param event
        */
-      updateSize: function (event) {
+      updateSize: function(event) {
          this.$emit("updateSize", parseInt(event.target.value));
       },
 
@@ -116,7 +167,7 @@ export default {
        *
        * @param event
        */
-      updateQuestionSize: function (event) {
+      updateQuestionSize: function(event) {
          this.$emit("updateQuestionSize", parseInt(event.target.value));
       }
    }
