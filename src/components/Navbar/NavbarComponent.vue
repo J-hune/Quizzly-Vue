@@ -152,6 +152,12 @@ export default {
    height: 84px;
 }
 
+@media print {
+   .custom-nav {
+      display: none;
+   }
+}
+
 .navbar-burger {
    margin-right: 10px;
 }

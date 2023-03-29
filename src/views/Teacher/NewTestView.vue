@@ -1,6 +1,6 @@
 <template>
    <!-- Block Principal -->
-   <div class="px-7 md:px-16 pt-10 w-full">
+   <div class="page-print px-7 md:px-16 pt-10 w-full">
       <div class="mb-6">
 
          <!-- Titre de la page -->
@@ -57,27 +57,26 @@
       </button>
    </div>
 
-   <!-- "Popup" Modal permettant de selectionner et de créer des étiquettes -->
-   <modal-component v-model="show" classes="w-10/12 md:w-5/6 lg:w-2/3 xl:w-1/2">
-      <template v-slot:content>
-         <render-questions :title="renderTitle" :questions="renderQuestions" />
-      </template>
-   </modal-component>
+   <!-- "Popup" qui apparait uniquement si on print -->
+   <render-qcm v-if="testType === 0" :title="renderTitle" :questions="renderQuestions" />
 </template>
 
 <script>
 import DraggableQuestions from "@/components/Questions/draggableQuestions.vue";
 import { fetchData } from "@/functions/fetch";
-import RenderQuestions from "@/components/Questions/RenderQuestions.vue";
-import ModalComponent from "@/components/ModalComponent.vue";
+import RenderQcm from "@/components/Tests/RenderQcm.vue";
 import SwitchButton from "@/components/SwitchButton.vue";
 import TestSettings from "@/components/Tests/TestSettings.vue";
-import {toRaw} from "vue";
+import { nextTick, toRaw } from "vue";
 import {useToast} from "vue-toastification";
 
 export default {
    name: "NewTest",
-   components: {TestSettings, SwitchButton, ModalComponent, RenderQuestions, DraggableQuestions},
+   components: {TestSettings, SwitchButton, RenderQcm, DraggableQuestions},
+   setup() {
+      const toast = useToast();
+      return {toast};
+   },
    setup() {
       const toast = useToast();
       return {toast};
@@ -91,7 +90,6 @@ export default {
          testLabels: [],
          selectedQuestions: [],
          allQuestions: [],
-         show: false,
          renderTitle: "",
          renderQuestions: []
       };
@@ -106,6 +104,10 @@ export default {
             this.renderQuestions = this.selectedQuestions;
             this.renderTitle = this.title;
 
+            // On attend le tick suivant pour que renderQuestions et renderTitle = soient à jour
+            nextTick(() => {
+               window.print();
+            });
          } else {
             console.log({size: this.testSize, labels: toRaw(this.testLabels)});
 
@@ -159,6 +161,14 @@ export default {
    }
 };
 </script>
+
+<style scoped>
+@media print {
+   .page-print {
+      display: none;
+   }
+}
+</style>
 
 <style>
 .markdown-body {
