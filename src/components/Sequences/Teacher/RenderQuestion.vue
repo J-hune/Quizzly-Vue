@@ -37,18 +37,25 @@
    <!-- Boutons -->
    <div class="sequence-buttons mt-10 text-right sm:flex">
 
-      <!-- Affichage -->
+      <!-- Affichage et son -->
       <div class="flex gap-2 sm:gap-3">
          <button
-           class="relative w-full sm:w-auto bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-7 rounded-lg right-0"
+           class="relative w-full sm:w-auto bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-6 sm:px-7 rounded-lg right-0"
            :class="!displayQuestion && 'bg-cyan-800'" @click="displayQuestion = !displayQuestion">
             Question
          </button>
          <button
-           class="relative w-full sm:w-auto bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-7 rounded-lg right-0"
+           class="relative w-full sm:w-auto bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-6 sm:px-7 rounded-lg right-0"
            :class="!displayResponses && 'bg-cyan-800'" @click="displayResponses = !displayResponses">
             Réponses
          </button>
+         <div class="flex items-center">
+            <button
+              class="relative flex items-center justify-center h-full w-full sm:w-auto bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-3 rounded-lg right-0"
+              @click="toggleSound">
+               <vue-feather size="20" class="w-max" :type="sound ? 'volume-x': 'volume-2'" />
+            </button>
+         </div>
       </div>
 
       <!-- Autres boutons -->
@@ -77,6 +84,10 @@ import SocketioService from "@/services/socketio.service";
 import NumericResponses from "@/components/Sequences/Teacher/Responses/NumericResponses.vue";
 import { useToast } from "vue-toastification";
 import OpenEndedResponses from "@/components/Sequences/Teacher/Responses/OpenEndedResponses.vue";
+import teacher_answer_stop from "@/assets/sounds/teacher_answer_stop.mp3";
+import teacher_waiting_start from "@/assets/sounds/teacher_waiting_start.mp3";
+import teacher_waiting_loop from "@/assets/sounds/teacher_waiting_loop.mp3";
+import { Gapless5 } from "@regosen/gapless-5";
 
 export default {
    name: "RenderQuestion",
@@ -92,12 +103,23 @@ export default {
    data: function() {
       return {
          displayQuestion: true,
-         displayResponses: true
+         displayResponses: true,
+
+         gapless: null,
+         gaplessLoop: null,
+         sound: true
       };
    },
    setup() {
       const toast = useToast();
       return { toast };
+   },
+   mounted() {
+      this.startLoop();
+   },
+   unmounted() {
+      if (this.gapless) this.gapless.stop();
+      if (this.gaplessLoop) this.gaplessLoop.stop();
    },
    methods: {
       renderMarkdown,
@@ -127,16 +149,39 @@ export default {
        * Demande au service Socket.io de demander la correction de la question en cours.
        */
       askCorrection() {
+         // On prépare le son, quand il sera joué, il coupera tous les autres
+         const teacherAnswerStop = new Gapless5({
+            exclusive: true,
+            volume: this.sound ? 0.5 : 0
+         });
+         teacherAnswerStop.addTrack(teacher_answer_stop);
+
          if (this.question.type === 2) return;
          SocketioService.askCorrection();
+
+         // On joue le son
+         teacherAnswerStop.play();
+         this.gapless = teacherAnswerStop;
+
       },
 
       /**
        * Demande au service Socket.io de stopper les réponses et affiche une notification.
        */
       askStopResponses() {
+         // On prépare le son, quand il sera joué, il coupera tous les autres
+         const teacherAnswerStop = new Gapless5({
+            exclusive: true,
+            volume: this.sound ? 0.5 : 0
+         });
+         teacherAnswerStop.addTrack(teacher_answer_stop);
+
          SocketioService.askStopResponses();
          this.toast.info("Aucune nouvelle réponse ne sera acceptée");
+
+         // On joue le son
+         teacherAnswerStop.play();
+         this.gapless = teacherAnswerStop;
       },
 
       /**
@@ -154,6 +199,7 @@ export default {
        */
       nextQuestion() {
          SocketioService.nextQuestion();
+         this.startLoop();
       },
 
       /**
@@ -164,6 +210,57 @@ export default {
          SocketioService.disconnect();
          router.push("/sequences");
          this.toast.info("La séquence #" + this.sequenceId + " est terminée");
+      },
+
+
+      /**
+       * Cette méthode permet de basculer le son ON/OFF.
+       * Si le son est désactivé, le volume de la boucle audio actuelle (s'il y en a une) est réduit à 0.
+       * Si le son est réactivé, le volume de la boucle audio actuelle (s'il y en a une) est remis à 0.5.
+       *
+       */
+      toggleSound() {
+         // On désactive le lancement de nouveaux sons
+         this.sound = !this.sound;
+
+         // Si la loop est en cours, on réduit son volume
+
+         if (!this.sound) {
+            if (this.gaplessLoop) this.gaplessLoop.setVolume(0);
+            if (this.gapless) this.gapless.setVolume(0);
+         } else {
+            if (this.gaplessLoop) this.gaplessLoop.setVolume(0.5);
+            if (this.gapless) this.gapless.setVolume(0.5);
+         }
+      },
+
+
+      /**
+       * Cette méthode arrête la boucle audio en cours (s'il y en a une) et prépare une nouvelle boucle audio
+       * Le son est en deux parties, la première partie est jouée une seule fois et la deuxième parti est jouée en boucle.
+       *
+       */
+      startLoop() {
+         // On stoppe la loop actuelle
+         if (this.gaplessLoop) this.gaplessLoop.stop();
+
+         // On prépare la nouvelle loop
+         const teacherWaitingStart = new Gapless5({ volume: this.sound ? 0.5 : 0 });
+         const teacherWaitingLoop = new Gapless5({ loop: true, volume: this.sound ? 0.5 : 0 });
+
+         teacherWaitingStart.addTrack(teacher_waiting_start);
+         teacherWaitingLoop.addTrack(teacher_waiting_loop);
+
+         // On lance la première partie du son
+         teacherWaitingStart.play();
+         this.gapless = teacherWaitingStart;
+
+         // Dès que la première partie du son est finie on lance la deuxième en boucle
+         // On garde aussi l'objet pour pouvoir le stopper (unmounted)
+         teacherWaitingStart.onfinishedall = () => {
+            teacherWaitingLoop.play();
+            this.gaplessLoop = teacherWaitingLoop;
+         };
       }
    }
 };
