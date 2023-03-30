@@ -49,6 +49,9 @@
 <script>
 import Swal from "sweetalert2";
 import router from "@/router";
+import { Gapless5 } from "@regosen/gapless-5";
+import tlmvpsp_easter_egg from "@/assets/sounds/tlmvpsp_easter_egg.mp3";
+import { useToast } from "vue-toastification";
 
 export default {
    name: "WaitStudents",
@@ -57,7 +60,29 @@ export default {
       students: {},
       mode: String
    },
+   data: function() {
+      return {
+         keyInput: "",
+         gapless: null,
+         keyupListener: null
+      };
+   },
    emits: ["startSequence"],
+   setup() {
+      const toast = useToast();
+      return { toast };
+   },
+   mounted() {
+      this.keyupListener = this.handleKeyUp.bind(this);
+      window.addEventListener("keyup", this.keyupListener);
+   },
+   beforeUnmount() {
+      if (this.gapless) this.gapless.stop();
+      this.gapless = null;
+
+      // On supprime l'event keyup
+      window.removeEventListener("keyup", this.keyupListener);
+   },
    methods: {
       /**
        * Affiche une boîte de dialogue demandant confirmation avant de quitter le quiz.
@@ -78,6 +103,33 @@ export default {
                await router.push(this.mode === "sequence" ? "/sequences" : "/");
             }
          });
+      },
+
+
+      /**
+       * Gère l'événement keyup et ajoute la touche appuyée à la chaîne keyInput.
+       * Si la chaîne keyInput contient la chaîne "tlmvpsp", on lance un 'ce dont on ne doit pas prononcer le nom'.
+       *
+       * @param {KeyboardEvent} event - L'événement keyup.
+       */
+      handleKeyUp: function(event) {
+         this.keyInput += (event.key);
+
+         // Ce don't on ne doit pas prononcer le nom
+         if (this.keyInput.toLowerCase().includes("tlmvpsp")) {
+            const tlmvpspJingle = new Gapless5({
+               exclusive: true,
+               volume: 0.5
+            });
+
+            tlmvpspJingle.addTrack(tlmvpsp_easter_egg);
+            this.toast.info("Tout le monde veut prendre sa place!");
+
+            // On joue le son
+            tlmvpspJingle.play();
+            this.gapless = tlmvpspJingle;
+            this.keyInput = "";
+         }
       }
    }
 };
