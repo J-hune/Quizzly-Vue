@@ -38,6 +38,7 @@
              focus:border-indigo-200 focus:ring-2 outline-none py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
              placeholder="Entrez votre réponse..." :disabled="!canSubmit" />
 
+      <!-- Affichage d'un input type text (cas Réponse ouverte) -->
       <p v-if="question.type === 2" class="mt-6 mb-3">Veuillez entrer votre réponse puis l'envoyer.</p>
       <input v-if="question.type === 2" type="text" v-model="answer" @keyup.enter="handleClick"
              class="w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-indigo-200 answer-input
@@ -48,7 +49,20 @@
 
    <!-- Boutons -->
    <div class="sequence-buttons mt-10 text-right sm:flex">
-      <div class="sm:flex ml-auto">
+
+      <!-- Son -->
+      <div class="flex gap-2 sm:gap-3">
+         <div class="flex items-center">
+            <button
+              class="relative flex items-center justify-center h-full w-full sm:w-auto bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-3 rounded-lg right-0"
+              @click="toggleSound">
+               <vue-feather size="20" class="w-max" :type="sound ? 'volume-x': 'volume-2'" />
+            </button>
+         </div>
+      </div>
+
+      <!-- Autres boutons -->
+      <div class="mt-8 sm:mt-0 sm:flex ml-auto">
          <button
            class="relative w-full sm:w-auto sm:mr-3 bg-red-500 hover:bg-red-600 text-white
         font-bold py-2 px-7 rounded-lg disabled:opacity-40 right-0" @click="quitSequence">
@@ -70,13 +84,23 @@ import router from "@/router";
 import { useToast } from "vue-toastification";
 import { renderLightMarkdown, renderMarkdown } from "@/functions/textTohtml";
 import SocketioService from "@/services/socketio.service";
+import student_waiting_start from "@/assets/sounds/student_waiting_start.mp3";
+import student_waiting_loop from "@/assets/sounds/student_waiting_loop.mp3";
+import student_answer_sent from "@/assets/sounds/student_answer_sent.mp3";
+import student_answer_valid from "@/assets/sounds/student_answer_valid.mp3";
+import student_answer_invalid from "@/assets/sounds/student_answer_invalid.mp3";
+import { Gapless5 } from "@regosen/gapless-5";
 
 export default {
    name: "RenderQuestion",
    data: function() {
       return {
          answer: this.question.type === 0 ? [] : "",
-         correction: null
+         correction: null,
+
+         gapless: null,
+         gaplessLoop: null,
+         sound: true
       };
    },
    props: {
@@ -94,6 +118,13 @@ export default {
       // Ajout des événements SocketIO
       SocketioService.socket.on("renderCorrection", this.onRenderCorrection);
       SocketioService.socket.on("renderQuestion", () => this.correction = null);
+   },
+   mounted() {
+      this.startLoop();
+   },
+   unmounted() {
+      if (this.gapless) this.gapless.stop();
+      if (this.gaplessLoop) this.gaplessLoop.stop();
    },
    methods: {
       renderLightMarkdown,
@@ -124,7 +155,18 @@ export default {
        * Soumet la réponse de l'utilisateur à l'aide du service Socket.io.
        */
       handleClick: function() {
+
+         // On prépare le son, quand il sera joué, il coupera tous les autres
+         const studentAnswerSent = new Gapless5({
+            exclusive: true,
+            volume: this.sound ? 0.5 : 0
+         });
+         studentAnswerSent.addTrack(student_answer_sent);
+
          SocketioService.submitAnswer(this.answer);
+
+         // On joue le son
+         studentAnswerSent.play();
       },
 
       /**
@@ -144,7 +186,84 @@ export default {
        * @param {object} correction - Les données de la correction.
        */
       onRenderCorrection: function(correction) {
+         const studentAnswerCheck = new Gapless5({
+            exclusive: true,
+            volume: this.sound ? 0.5 : 0
+         });
+
+         // Si c'était une question numérique
+         if (this.question.type === 1) {
+            if (correction?.trim() === this.answer.toString()) {
+               studentAnswerCheck.addTrack(student_answer_valid);
+            } else {
+               studentAnswerCheck.addTrack(student_answer_invalid);
+            }
+         }
+
+         // Si c'était une question à choix multiples
+         else if (this.question.type === 0) {
+            if (JSON.stringify(this.answer) === JSON.stringify(correction)) {
+               studentAnswerCheck.addTrack(student_answer_valid);
+            } else {
+               studentAnswerCheck.addTrack(student_answer_invalid);
+            }
+         }
+
          this.correction = correction;
+         studentAnswerCheck.play();
+      },
+
+
+      /**
+       * Cette méthode arrête la boucle audio en cours (s'il y en a une) et prépare une nouvelle boucle audio
+       * Le son est en deux parties, la première partie est jouée une seule fois et la deuxième parti est jouée en boucle.
+       *
+       */
+      startLoop() {
+         // On stoppe la loop actuelle
+         if (this.gaplessLoop) this.gaplessLoop.stop();
+
+         // On prépare la nouvelle loop
+         const studentWaitingStart = new Gapless5({ volume: this.sound ? 0.5 : 0 });
+         const studentWaitingLoop = new Gapless5({
+            loop: true,
+            volume: this.sound ? 0.5 : 0
+         });
+
+         studentWaitingStart.addTrack(student_waiting_start);
+         studentWaitingLoop.addTrack(student_waiting_loop);
+
+         // On lance la première partie du son
+         studentWaitingStart.play();
+         this.gapless = studentWaitingStart;
+
+         // Dès que la première partie du son est finie on lance la deuxième en boucle
+         // On garde aussi l'objet pour pouvoir le stopper (unmounted)
+         studentWaitingStart.onfinishedall = () => {
+            studentWaitingLoop.play();
+            this.gaplessLoop = studentWaitingLoop;
+         };
+      },
+
+      /**
+       * Cette méthode permet de basculer le son ON/OFF.
+       * Si le son est désactivé, le volume de la boucle audio actuelle (s'il y en a une) est réduit à 0.
+       * Si le son est réactivé, le volume de la boucle audio actuelle (s'il y en a une) est remis à 0.5.
+       *
+       */
+      toggleSound() {
+         // On désactive le lancement de nouveaux sons
+         this.sound = !this.sound;
+
+         // Si la loop est en cours, on réduit son volume
+
+         if (!this.sound) {
+            if (this.gaplessLoop) this.gaplessLoop.setVolume(0);
+            if (this.gapless) this.gapless.setVolume(0);
+         } else {
+            if (this.gaplessLoop) this.gaplessLoop.setVolume(0.5);
+            if (this.gapless) this.gapless.setVolume(0.5);
+         }
       }
    },
    watch: {
@@ -157,6 +276,7 @@ export default {
       question() {
          // On met à jour `answer` quand on passe à la question suivante
          this.answer = this.question.type === 0 ? [] : "";
+         this.startLoop();
       }
    }
 };
