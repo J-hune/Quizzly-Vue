@@ -53,7 +53,7 @@
             <button
               class="relative flex items-center justify-center h-full w-full sm:w-auto bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-3 rounded-lg right-0"
               @click="toggleSound">
-               <vue-feather size="20" class="w-max" :type="sound ? 'volume-x': 'volume-2'" />
+               <vue-feather size="20" class="w-max" :type="sound === true ? 'volume-x': 'volume-2'" />
             </button>
          </div>
       </div>
@@ -107,7 +107,7 @@ export default {
 
          gapless: null,
          gaplessLoop: null,
-         sound: true
+         sound: localStorage.getItem("soundTLMVPSP") !== null ? JSON.parse(localStorage.soundTLMVPSP) : true
       };
    },
    setup() {
@@ -212,7 +212,6 @@ export default {
          this.toast.info("La séquence #" + this.sequenceId + " est terminée");
       },
 
-
       /**
        * Cette méthode permet de basculer le son ON/OFF.
        * Si le son est désactivé, le volume de la boucle audio actuelle (s'il y en a une) est réduit à 0.
@@ -222,9 +221,9 @@ export default {
       toggleSound() {
          // On désactive le lancement de nouveaux sons
          this.sound = !this.sound;
+         localStorage.soundTLMVPSP = this.sound;
 
          // Si la loop est en cours, on réduit son volume
-
          if (!this.sound) {
             if (this.gaplessLoop) this.gaplessLoop.setVolume(0);
             if (this.gapless) this.gapless.setVolume(0);
@@ -233,7 +232,6 @@ export default {
             if (this.gapless) this.gapless.setVolume(0.5);
          }
       },
-
 
       /**
        * Cette méthode arrête la boucle audio en cours (s'il y en a une) et prépare une nouvelle boucle audio
@@ -246,10 +244,7 @@ export default {
 
          // On prépare la nouvelle loop
          const teacherWaitingStart = new Gapless5({ volume: this.sound ? 0.5 : 0 });
-         const teacherWaitingLoop = new Gapless5({ loop: true, volume: this.sound ? 0.5 : 0 });
-
          teacherWaitingStart.addTrack(teacher_waiting_start);
-         teacherWaitingLoop.addTrack(teacher_waiting_loop);
 
          // On lance la première partie du son
          teacherWaitingStart.play();
@@ -258,6 +253,11 @@ export default {
          // Dès que la première partie du son est finie on lance la deuxième en boucle
          // On garde aussi l'objet pour pouvoir le stopper (unmounted)
          teacherWaitingStart.onfinishedall = () => {
+
+            // On lance la deuxième partie du son
+            const teacherWaitingLoop = new Gapless5({ loop: true, volume: this.sound ? 0.5 : 0 });
+            teacherWaitingLoop.addTrack(teacher_waiting_loop);
+
             teacherWaitingLoop.play();
             this.gaplessLoop = teacherWaitingLoop;
          };

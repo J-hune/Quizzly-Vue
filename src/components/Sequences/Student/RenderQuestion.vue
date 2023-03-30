@@ -100,7 +100,7 @@ export default {
 
          gapless: null,
          gaplessLoop: null,
-         sound: true
+         sound: localStorage.getItem("soundTLMVPSP") !== null ? JSON.parse(localStorage.soundTLMVPSP) : true
       };
    },
    props: {
@@ -213,7 +213,6 @@ export default {
          studentAnswerCheck.play();
       },
 
-
       /**
        * Cette méthode arrête la boucle audio en cours (s'il y en a une) et prépare une nouvelle boucle audio
        * Le son est en deux parties, la première partie est jouée une seule fois et la deuxième parti est jouée en boucle.
@@ -225,13 +224,7 @@ export default {
 
          // On prépare la nouvelle loop
          const studentWaitingStart = new Gapless5({ volume: this.sound ? 0.5 : 0 });
-         const studentWaitingLoop = new Gapless5({
-            loop: true,
-            volume: this.sound ? 0.5 : 0
-         });
-
          studentWaitingStart.addTrack(student_waiting_start);
-         studentWaitingLoop.addTrack(student_waiting_loop);
 
          // On lance la première partie du son
          studentWaitingStart.play();
@@ -240,6 +233,11 @@ export default {
          // Dès que la première partie du son est finie on lance la deuxième en boucle
          // On garde aussi l'objet pour pouvoir le stopper (unmounted)
          studentWaitingStart.onfinishedall = () => {
+
+            // On lance la deuxième partie du son
+            const studentWaitingLoop = new Gapless5({ loop: true, volume: this.sound ? 0.5 : 0 });
+            studentWaitingLoop.addTrack(student_waiting_loop);
+
             studentWaitingLoop.play();
             this.gaplessLoop = studentWaitingLoop;
          };
@@ -254,9 +252,9 @@ export default {
       toggleSound() {
          // On désactive le lancement de nouveaux sons
          this.sound = !this.sound;
+         localStorage.soundTLMVPSP = this.sound;
 
          // Si la loop est en cours, on réduit son volume
-
          if (!this.sound) {
             if (this.gaplessLoop) this.gaplessLoop.setVolume(0);
             if (this.gapless) this.gapless.setVolume(0);
