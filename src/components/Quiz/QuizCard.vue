@@ -13,16 +13,10 @@
             <div class="text-xl font-semibold">{{ quiz.participants || quiz.participantCount }}</div>
          </div>
          <div class="w-1/2 px-1">
-            <div class="text-sm text-gray-600 mb-1">Bonnes réponses (en %)</div>
-            <div class="text-xl font-semibold">{{
-                  quiz.pourcentage !== undefined
-                    ? quiz.pourcentage % 1 !== 0
-                      ? quiz.pourcentage.toFixed(2)
-                      : quiz.pourcentage
-                    : quiz.percentCorrect % 1 !== 0
-                      ? quiz.percentCorrect.toFixed(2)
-                      : quiz.percentCorrect
-               }}%</div>
+            <div class="text-sm text-gray-600 mb-1">
+               {{ percent.type === 0 ? "Bonnes réponses (en %)" : "Réponse majoritaire" }}
+            </div>
+            <div class="text-xl font-semibold">{{ percent.type === 0 ? percent.value + "%" : percent.value }}</div>
          </div>
       </div>
    </div>
@@ -30,6 +24,7 @@
 
 <script>
 import moment from "moment/moment";
+import { findMostFrequentWord,  } from "@/functions/worlds";
 
 export default {
    name: "QuizCard",
@@ -45,6 +40,28 @@ export default {
 
          // Pour avoir la 1ère lettre du jour en majuscule
          return momentDate.charAt(0).toUpperCase() + momentDate.slice(1);
+      }
+   },
+   computed: {
+      percent() {
+         if (this.quiz.pourcentage !== undefined) {
+            return {
+               type: 0,
+               value: this.quiz.pourcentage % 1 !== 0 ? this.quiz.pourcentage.toFixed(2) : this.quiz.pourcentage
+            };
+         }
+
+         if (this.quiz.percentCorrect !== undefined) {
+            return {
+               type: 0,
+               value: this.quiz.percentCorrect % 1 !== 0 ? this.quiz.percentCorrect.toFixed(2) : this.quiz.percentCorrect
+            };
+         }
+
+         return {
+            type: 1,
+            value: this.quiz.reponsesOuvertes.length ? findMostFrequentWord(this.quiz.reponsesOuvertes) : "Valeur non pertinente"
+         };
       }
    }
 };

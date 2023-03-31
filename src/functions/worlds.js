@@ -49,6 +49,49 @@ export function findInArray(word, array) {
 
 
 /**
+ * Trouve le mot le plus présent dans un tableau en utilisant la distance de Levenshtein pour gérer les erreurs de frappe.
+ * La fonction détermine si le mot le plus présent est au singulier ou au pluriel en fonction de ce qui est le plus fréquent dans le tableau.
+ *
+ * @param {Array<string>} array - Le tableau dans lequel chercher le mot le plus présent.
+ * @returns {string | null} Le mot le plus présent au singulier ou au pluriel, ou null si le tableau est vide.
+ */
+export function findMostFrequentWord(array) {
+   const wordCount = {};
+   let maxCount = 0;
+   let mostFrequentWord = "";
+
+   // On parcourt chaque mot du tableau
+   array.forEach((word) => {
+
+      // On incrémente le nombre de fois que le mot a été rencontré
+      let count = (wordCount[word] || 0) + 1;
+      wordCount[word] = count;
+
+      // Si le mot courant a été rencontré plus de fois que le mot le plus fréquent précédent,
+      if (count > maxCount) {
+         maxCount = count;
+         mostFrequentWord = word;
+      }
+
+      // Si le mot courant a été rencontré le même nombre de fois que le mot le plus fréquent précédent,
+      else if (count === maxCount && levenshteinDistance(word, mostFrequentWord) < 2) {
+         mostFrequentWord = word;
+      }
+   });
+
+   // On détermine si le mot le plus fréquent est au singulier ou au pluriel
+   const isPlural = mostFrequentWord.endsWith("s");
+
+   // On utilise la fonction de pluralisation appropriée en fonction de si le mot le plus fréquent est au singulier ou au pluriel
+   if (isPlural) {
+      return pluralize(mostFrequentWord);
+   } else {
+      return mostFrequentWord.toLowerCase();
+   }
+}
+
+
+/**
  * Calcule la distance de Levenshtein entre deux chaînes de caractères.
  * @param {string} a - La première chaîne de caractères.
  * @param {string} b - La seconde chaîne de caractères.
