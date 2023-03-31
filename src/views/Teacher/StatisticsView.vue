@@ -40,7 +40,7 @@
 
    <!-- Affichage des quiz -->
    <div class="w-full px-2 sm:px-4 md:p-0 mb-8">
-      <div class="quiz-container w-full px-2 sm:px-4 md:p-0 mb-8">
+      <div class="quiz-container w-full px-2 sm:px-4 md:p-0">
          <div v-if="archives.length && displayedArchives.length"
               class="w-full grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-4">
             <quiz-card class="cursor-pointer" :quiz="archive" v-for="archive in displayedArchives"
@@ -88,6 +88,8 @@
          </nav>
       </div>
    </div>
+
+   <manage-stats @re-fetch="reFetchData" />
 </template>
 
 <script>
@@ -99,10 +101,11 @@ import QuizCard from "@/components/Quiz/QuizCard.vue";
 import { removeQuizStatistics } from "@/functions/quiz";
 import { useToast } from "vue-toastification";
 import { fetchData } from "@/functions/fetch";
+import ManageStats from "@/components/Statistics/manageStats.vue";
 
 export default {
    name: "StatisticsView",
-   components: { QuizCard, ApexChartSuccess, ApexChartParticipation, SearchStudentStats, StatsCards },
+   components: { ManageStats, QuizCard, ApexChartSuccess, ApexChartParticipation, SearchStudentStats, StatsCards },
    setup() {
       const toast = useToast();
       return { toast };
@@ -123,7 +126,7 @@ export default {
       };
    },
    async created() {
-      await this.reFetchData()
+      await this.reFetchData();
    },
    computed: {
       matchingArchives() {
@@ -152,7 +155,7 @@ export default {
             if (data.success) {
                this.archives = this.archives.filter(e => e.archiveId !== quiz.archiveId);
                this.toast.success("Les statistiques du quiz " + quiz.id + " ont été supprimées");
-               this.reFetchData()
+               this.reFetchData();
             } else {
                this.toast.error("La diffusion n'a pas pu être supprimée");
             }
