@@ -26,6 +26,7 @@ export default {
          displaySeries: ["Sequences", "Questions"],
          chartOptions: {
             chart: {
+               id: "participationChart",
                type: "area",
                toolbar: {
                   show: false

@@ -24,6 +24,7 @@ export default {
       return {
          chartOptions: {
             chart: {
+               id: "successChart",
                type: "area",
                toolbar: {
                   show: false

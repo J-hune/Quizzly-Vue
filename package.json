@@ -11,7 +11,7 @@
     "@regosen/gapless-5": "^1.4.1",
     "@vueform/slider": "^2.1.7",
     "@vueuse/core": "^9.11.0",
-    "apexcharts": "^3.37.1",
+    "apexcharts": "^3.37.2",
     "autoprefixer": "^10",
     "camelcase-css": "^2.0.1",
     "core-js": "^3.8.3",
@@ -40,7 +40,8 @@
     "vue3-apexcharts": "^1.4.1",
     "vue3-carousel": "^0.2.12",
     "vuedraggable": "^4.1.0",
-    "vuex": "^4.1.0"
+    "vuex": "^4.1.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.2/xlsx-0.19.2.tgz"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
