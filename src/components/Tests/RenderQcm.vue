@@ -74,6 +74,7 @@ export default {
       left: 0;
       width: 100%;
       min-height: 100% !important;
+      print-color-adjust: exact;
       z-index: 9999;
    }
 

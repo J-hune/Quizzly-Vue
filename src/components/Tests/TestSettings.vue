@@ -17,7 +17,7 @@
       </div>
 
       <!-- Bouton pour ajouter de nouvelles étiquettes -->
-      <a class="px-4 py-1 rounded-md add-label cursor-pointer" @click="show = true">
+      <a class="px-4 py-1 rounded-md add-label cursor-pointer select-none" @click="show = true">
          Ajouter une étiquette au sujet
       </a>
 

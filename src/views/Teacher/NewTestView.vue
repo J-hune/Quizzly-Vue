@@ -44,7 +44,7 @@
       <test-settings v-else class="mt-6 mb-10" :labels="testLabels" :questions="allQuestions"
                      @updateLabels="(labels) => this.testLabels = labels" :size="testSize"
                      @updateSize="(size) => this.testSize = size"
-                     @update-question-size="size => this.testQuestionSize = size" :question-size="testQuestionSize"/>
+                     @update-question-size="size => this.testQuestionSize = size" :question-size="testQuestionSize" />
    </div>
 
    <!-- Bouton Impression -->
@@ -59,7 +59,7 @@
 
    <!-- "Popup" qui apparait uniquement si on print -->
    <render-qcm v-if="testType === 0" :title="renderTitle" :questions="renderQuestions" />
-   <render-test v-else :type="testType" :title="renderTitle" :questions="renderQuestions"/>
+   <render-test v-else :type="testType" :title="renderTitle" :tests="renderTests" />
 </template>
 
 <script>
@@ -70,14 +70,14 @@ import SwitchButton from "@/components/SwitchButton.vue";
 import TestSettings from "@/components/Tests/TestSettings.vue";
 import { nextTick, toRaw } from "vue";
 import RenderTest from "@/components/Tests/RenderTest.vue";
-import {useToast} from "vue-toastification";
+import { useToast } from "vue-toastification";
 
 export default {
    name: "NewTest",
    components: { RenderTest, TestSettings, SwitchButton, RenderQcm, DraggableQuestions },
    setup() {
       const toast = useToast();
-      return {toast};
+      return { toast };
    },
    data() {
       return {
@@ -89,7 +89,8 @@ export default {
          selectedQuestions: [],
          allQuestions: [],
          renderTitle: "",
-         renderQuestions: []
+         renderQuestions: [],
+         renderTests: []
       };
    },
    methods: {
@@ -108,18 +109,21 @@ export default {
          } else {
             //TODO supprimer les trois lignes suivantes pour ajouter le fetch
             console.log({ size: this.testSize, labels: toRaw(this.testLabels) });
-            this.renderQuestions = this.selectedQuestions;
+
+            const result = [[6, 18, 21, 61, 62], [21, 61, 62, 6, 18], [61, 62], [62, 21, 6, 18, 61]];
+
+            this.renderTests = result.map(e => e.map(f => this.allQuestions.find(g => g.id === f)))
             this.renderTitle = this.title;
 
             const rangeQuestions = this.testLabels.reduce((accumulator, currentValue) => {
                return [
                   accumulator[0] + currentValue.range.value[0],
                   accumulator[1] + currentValue.range.value[1]
-               ]
-            }, [0, 0])
+               ];
+            }, [0, 0]);
 
             if (this.testQuestionSize < rangeQuestions[0] || this.testQuestionSize > rangeQuestions[1]) {
-               return this.toast.error("Le nombre de questions dans le sujet doit être entre " + rangeQuestions[0] + " et " + rangeQuestions[1])
+               return this.toast.error("Le nombre de questions dans le sujet doit être entre " + rangeQuestions[0] + " et " + rangeQuestions[1]);
             }
 
             // On attend le tick suivant pour que renderQuestions et renderTitle = soient à jour
