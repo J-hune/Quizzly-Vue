@@ -59,7 +59,7 @@ export function renderMarkdown(markdown) {
    let html = markdown.replace(/```mermaid([\s\S]*?)```/gi, function(match, mermaidCode) {
       try {
          // Rendu du diagramme Mermaid en SVG
-         return mermaid.render("mermaid-svg", mermaidCode);
+         return mermaid.render("mermaid-svg" + Math.floor(Math.random() * 1000), mermaidCode);
       } catch (error) {
          // En cas d'erreur, afficher un message d'erreur
          return "<div class='mermaid-error'>" + error + "</div>";
