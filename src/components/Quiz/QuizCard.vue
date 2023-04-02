@@ -24,7 +24,7 @@
 
 <script>
 import moment from "moment/moment";
-import { findMostFrequentWord,  } from "@/functions/worlds";
+import { findMostFrequentWord } from "@/functions/worlds";
 
 export default {
    name: "QuizCard",

@@ -46,7 +46,7 @@
       <div class="quiz-container w-full px-2 sm:px-4 md:p-0 mb-8">
          <div v-if="archives.length && displayedArchives.length"
               class="w-full grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-4">
-            <quiz-card :quiz="archive" v-for="archive in displayedArchives" :key="archive.archiveId" />
+            <student-quiz-card :quiz="archive" v-for="archive in displayedArchives" :key="archive.archiveId" />
          </div>
 
          <p v-else-if="archives.length && !displayedArchives.length">
@@ -98,13 +98,13 @@ import RedirectBack from "@/components/redirectBack.vue";
 import StudentStatsCards from "@/components/StudentStatistics/studentStatsCards.vue";
 import image from "@/assets/img/f2.png";
 import ApexStudentChartSuccess from "@/components/StudentStatistics/apexStudentChartSuccess.vue";
-import QuizCard from "@/components/Quiz/QuizCard.vue";
 import { fetchData } from "@/functions/fetch";
 import router from "@/router";
+import StudentQuizCard from "@/components/Quiz/StudentQuizCard.vue";
 
 export default {
    name: "StudentStatisticsView.vue",
-   components: { QuizCard, ApexStudentChartSuccess, StudentStatsCards, RedirectBack },
+   components: { StudentQuizCard, ApexStudentChartSuccess, StudentStatsCards, RedirectBack },
    setup() {
       const toast = useToast();
       return { toast };
