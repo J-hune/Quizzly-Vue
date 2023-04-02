@@ -208,7 +208,7 @@ export default {
        */
       endOfSequence() {
          SocketioService.disconnect();
-         router.push("/sequences");
+         router.push(this.mode === "sequence" ? "/sequences" : "/");
          this.toast.info("La séquence #" + this.sequenceId + " est terminée");
       },
 
