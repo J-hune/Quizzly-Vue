@@ -133,7 +133,7 @@ export default {
          // On filtre toutes les archives correspondant à la recherche
          return this.archives.filter(e => {
             if (e.title.toLowerCase().includes(this.search.toLowerCase().trim())) return e;
-            if (e.id.toLowerCase().includes(this.search.toLowerCase().trim())) return e;
+            if (e.code.toLowerCase().includes(this.search.toLowerCase().trim())) return e;
          });
       },
       pages() {

@@ -110,7 +110,19 @@ export default {
             await nextTick();
             window.print();
          } else {
-            const response = await fetch(process.env.VUE_APP_API_URL + "/api/evaluations/generateEvaluations", {
+
+            const rangeQuestions = this.testLabels.reduce((accumulator, currentValue) => {
+               return [
+                  accumulator[0] + currentValue.range.value[0],
+                  accumulator[1] + currentValue.range.value[1]
+               ];
+            }, [0, 0]);
+
+            if (this.testQuestionSize < rangeQuestions[0] || this.testQuestionSize > rangeQuestions[1]) {
+               return this.toast.error("Le nombre de questions dans le sujet doit être entre " + rangeQuestions[0] + " et " + rangeQuestions[1]);
+            }
+
+            const response = await fetch(process.env.VUE_APP_API_URL + "/evaluations/generateEvaluations", {
                method: "POST",
                mode: "cors",
                credentials: "include",
@@ -129,24 +141,16 @@ export default {
 
             const data = await response.json();
 
-            this.renderTests = data.map(e => e.map(f => this.allQuestions.find(g => g.id === f)));
-            this.renderTitle = this.title;
+            if (data.success) {
+               this.renderTests = data.value.map(e => e.map(f => this.allQuestions.find(g => g.id === f)));
+               this.renderTitle = this.title;
 
-            const rangeQuestions = this.testLabels.reduce((accumulator, currentValue) => {
-               return [
-                  accumulator[0] + currentValue.range.value[0],
-                  accumulator[1] + currentValue.range.value[1]
-               ];
-            }, [0, 0]);
-
-            if (this.testQuestionSize < rangeQuestions[0] || this.testQuestionSize > rangeQuestions[1]) {
-               return this.toast.error("Le nombre de questions dans le sujet doit être entre " + rangeQuestions[0] + " et " + rangeQuestions[1]);
-            }
-
-            // On attend le tick suivant pour que renderQuestions et renderTitle = soient à jour
-            nextTick(() => {
+               // On attend le tick suivant pour que renderQuestions et renderTitle = soient à jour
+               await nextTick();
                window.print();
-            });
+            } else {
+               this.toast.error(data.value);
+            }
          }
       },
 

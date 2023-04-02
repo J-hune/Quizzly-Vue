@@ -10,7 +10,7 @@ import { fetchData } from "@/functions/fetch";
 export async function removeQuizStatistics(quiz, callback) {
    Swal.fire({
       title: "Confirmer la suppression ?",
-      text: `Voulez vous supprimer les statistiques du quiz #${quiz.id} ?`,
+      text: `Voulez vous supprimer les statistiques du quiz #${quiz.code} ?`,
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -21,7 +21,7 @@ export async function removeQuizStatistics(quiz, callback) {
       if (result.isConfirmed) {
 
          // On fetch l'API pour supprimer la diffusion
-         const { data } = await fetchData("/statistics/teachers/removeDiffusion/" + quiz.archiveId);
+         const { data } = await fetchData("/statistics/teachers/removeDiffusion/" + quiz.id);
          callback(data);
       }
    });
