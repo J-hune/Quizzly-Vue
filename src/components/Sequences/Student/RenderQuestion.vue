@@ -56,7 +56,7 @@
             <button
               class="relative flex items-center justify-center h-full w-full sm:w-auto bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-3 rounded-lg right-0"
               @click="toggleSound">
-               <vue-feather size="20" class="w-max" :type="sound ? 'volume-x': 'volume-2'" />
+               <vue-feather size="20" class="w-max" :type="!sound ? 'volume-x': 'volume-2'" />
             </button>
          </div>
       </div>
