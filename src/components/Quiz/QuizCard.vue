@@ -16,7 +16,7 @@
             <div class="text-sm text-gray-600 mb-1">
                {{ percent.type === 0 ? "Bonnes réponses (en %)" : "Réponse majoritaire" }}
             </div>
-            <div class="text-xl font-semibold">{{ percent.type === 0 ? percent.value + "%" : percent.value }}</div>
+            <div class="text-xl text-ellipsis whitespace-nowrap overflow-clip font-semibold">{{ percent.type === 0 ? percent.value + "%" : percent.value }}</div>
          </div>
       </div>
    </div>

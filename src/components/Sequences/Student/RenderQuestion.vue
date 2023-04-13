@@ -43,7 +43,7 @@
       <input v-if="question.type === 2" type="text" v-model="answer" @keyup.enter="handleClick"
              class="w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-indigo-200 answer-input
              focus:border-indigo-200 focus:ring-2 outline-none py-1 px-3 leading-8 transition-colors duration-150 ease-in-out"
-             placeholder="Entrez votre réponse..." :disabled="!canSubmit" />
+             placeholder="Entrez votre réponse..." :disabled="!canSubmit" maxlength="100" />
 
    </div>
 
@@ -71,7 +71,7 @@
          <button
            class="relative w-full sm:w-auto mt-2 sm:mt-0 bg-blue-500 hover:bg-blue-600 text-white
         font-bold py-2 px-7 rounded-lg disabled:opacity-40 right-0"
-           @click="handleClick" :disabled="!canSubmit">
+           @click="handleClick" :disabled="!canSubmit || !answer">
             Envoyer la réponse
          </button>
       </div>
@@ -90,6 +90,14 @@ import student_answer_sent from "@/assets/sounds/student_answer_sent.mp3";
 import student_answer_valid from "@/assets/sounds/student_answer_valid.mp3";
 import student_answer_invalid from "@/assets/sounds/student_answer_invalid.mp3";
 import { Gapless5 } from "@regosen/gapless-5";
+
+function reduceTexte(text) {
+   if (text.length <= 100) {
+      return text; // Retourne le texte tel quel s'il est déjà inférieur ou égal à 100 caractères
+   } else {
+      return text.slice(0, 97) + "..."; // Retourne les 97 premiers caractères suivis de "..." pour atteindre un total de 100 caractères
+   }
+}
 
 export default {
    name: "RenderQuestion",
@@ -163,7 +171,7 @@ export default {
          });
          studentAnswerSent.addTrack(student_answer_sent);
 
-         SocketioService.submitAnswer(this.answer);
+         SocketioService.submitAnswer(reduceTexte(this.answer));
 
          // On joue le son
          studentAnswerSent.play();
