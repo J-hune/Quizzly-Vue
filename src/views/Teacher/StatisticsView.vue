@@ -153,8 +153,7 @@ export default {
 
             // Si la diffusion a été supprimée avec succès
             if (data.success) {
-               this.archives = this.archives.filter(e => e.archiveId !== quiz.archiveId);
-               this.toast.success("Les statistiques du quiz " + quiz.id + " ont été supprimées");
+               this.toast.success("Les statistiques du quiz " + quiz.code + " ont été supprimées");
                this.reFetchData();
             } else {
                this.toast.error("La diffusion n'a pas pu être supprimée");
