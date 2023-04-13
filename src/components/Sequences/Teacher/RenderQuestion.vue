@@ -18,8 +18,8 @@
       <!-- Affichage de la ou des réponse(s) -->
       <div v-if="displayResponses" class="question-responses">
          <multiple-responses v-if="question.type === 0" :responses="question.reponses"
-                             :students="students.length" :studentsAnswers="statements" />
-         <numeric-responses v-else-if="question.type === 1" :students="students.length" :studentsAnswers="statements" />
+                             :students="maxStudentsCount" :studentsAnswers="statements" />
+         <numeric-responses v-else-if="question.type === 1" :students="maxStudentsCount" :studentsAnswers="statements" />
          <open-ended-responses v-else-if="question.type === 2" :studentsAnswers="statements" />
       </div>
 
@@ -97,6 +97,7 @@ export default {
       question: Object,
       statements: Array,
       students: Array,
+      maxStudentsCount: Number,
       lastQuestion: Boolean,
       mode: String
    },

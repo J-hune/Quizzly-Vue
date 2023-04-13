@@ -4,7 +4,7 @@
 
    <!-- Si le quiz est démarré, la question est affichée -->
    <render-question v-if="question" :students="students" :question="question" :statements="statements"
-                    :sequence-id="questionId" :lastQuestion="lastQuestion" :mode="mode" />
+                    :sequence-id="questionId" :lastQuestion="lastQuestion" :mode="mode" :maxStudentsCount="maxStudentsCount"/>
 </template>
 
 <script>
@@ -24,6 +24,7 @@ export default {
          questionId: null,
          question: null,
          students: [],
+         maxStudentsCount: 0,
          statements: [],
          lastQuestion: false,
          mode: "question"
@@ -88,6 +89,7 @@ export default {
        */
       onRenderStudentList(studentList) {
          this.students = studentList.map(e => e.nom);
+         this.maxStudentsCount = Math.max(this.maxStudentsCount, this.students.length)
       },
 
       /**
