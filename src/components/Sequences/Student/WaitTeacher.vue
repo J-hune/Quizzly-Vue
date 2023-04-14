@@ -32,7 +32,7 @@
    </div>
 
    <!-- "Popup" Modal permettant de selectionner et de créer des étiquettes -->
-   <modal-component v-model="showMemoryGame" classes="p-3 sm:p-6 w-full max-w-3xl bg-slate-700">
+   <modal-component v-model="showMemoryGame" classes="p-3 sm:p-6 w-full max-w-3xl bg-slate-700 memory-container">
       <template v-slot:content>
          <memory-game />
       </template>
@@ -141,5 +141,11 @@ export default {
 
 .custom-container {
    max-width: 100px;
+}
+</style>
+
+<style>
+.memory-container {
+   background-color: #212a46 !important;
 }
 </style>
