@@ -26,6 +26,7 @@ export async function removeAllStudents(toast, callback) {
             toast.success("Tous les étudiants ont été supprimés");
             callback();
          } else {
+            if (data.status === 501) return toast.error(data.reason)
             toast.error("Les étudiants n'ont pas pu être supprimés");
          }
       }
@@ -58,6 +59,7 @@ export async function removeStudent(student, toast, callback) {
             toast.success(`L'étudiant ${student.id}: ${student.prenom} ${student.nom} a été supprimé`);
             callback();
          } else {
+            if (data.status === 501) return toast.error(data.reason)
             toast.error("L'étudiant n'a pas pu être supprimé");
          }
       }

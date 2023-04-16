@@ -29,6 +29,7 @@ export async function addStudentsFromCSV(csv, toast) {
    if (responseData.success) {
       toast.success(responseData.result + " étudiants ont été ajoutés");
    } else {
+      if (responseData.status === 501) return toast.error(responseData.reason)
       toast.error("Une erreur a eu lieu lors de l'ajout des étudiants");
    }
 }
